@@ -1,6 +1,6 @@
 # Ingeniería de Requisitos — Entrega 1
  
-## Equipo
+## Equipo 4
 - Bruno Mora
 - Cristobal Cartagena
 - Jesús Cortés
