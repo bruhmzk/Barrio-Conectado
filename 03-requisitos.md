@@ -18,7 +18,7 @@ Las actividades del TO-BE citadas en la última columna corresponden a la tabla 
 | RP-10 | Solo el personal municipal autenticado y con rol de administrador debe poder ver el panel de gestión y modificar estados de reportes. | No funcional (seguridad) | Actualiza estado en la app |
 | RP-11 | La notificación de un cambio de estado debe llegar al vecino en un máximo de [X] minutos desde que el administrador lo registra. | No funcional (rendimiento) | Notifica al vecino el descarte / el estado resuelto |
 
-Los valores entre corchetes ([3] pasos, [X] minutos) son propuestas iniciales: ajústenlos según lo que levanten en la elicitación o lo que acuerden como equipo.
+Los valores entre corchetes ([3] pasos, [X] minutos) son propuestas iniciales.
 
 ## Requisitos de proyecto
 
