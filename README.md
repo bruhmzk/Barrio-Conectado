@@ -23,11 +23,11 @@ A continuación se presenta la documentación técnica estructurada del proyecto
 
 | # | Documento | 
 | :-: | :--- |
-| **01** | [01-propuesta-proyecto.md](./01-proceso-as-is.md) |
-| **02** | [02-requerimientos.md](./02-resideno-to-be.md) | 
-| **03** | [03-casos-de-uso.md](./03-requisitos.md) | 
-| **04** | [04-arquitectura.md](./04-historias-usuario.md) |
-| **05** | [05-modelo-datos.md](./05-elicitacion.md) | 
+| **01** | [01-proceso-as-is.md](./01-proceso-as-is.md) |
+| **02** | [02-rediseno-to-be.md](./02-rediseno-to-be.md) | 
+| **03** | [03-requisitos.md](./03-requisitos.md) | 
+| **04** | [04-historias-usuario.md](./04-historias-usuario.md) |
+| **05** | [05-elicitacion.md](./05-elicitacion.md) | 
 | **06** | [06-atributos-calidad.md](./06-atributos-calidad.md) | 
 
 ---
