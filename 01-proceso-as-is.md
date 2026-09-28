@@ -19,8 +19,8 @@ Canalizar los reportes de los vecinos sobre problemas en la vía pública (lumin
 
 ## Diagrama AS-IS
 
-![Proceso AS-IS](./Diagramas/Diagrama BPMN AS-IS.drawio.png)
-Archivo fuente: [`./Diagramas/Diagrama BPMN AS-IS.drawio.png`](.Diagramas/Diagrama BPMN AS-IS.drawio.png)
+![Proceso AS-IS](./diagramas/as-is.png)
+Archivo fuente: [`./diagramas/as-is.bpmn`](./diagramas/as-is.bpmn)
 
 El diagrama distingue tareas manuales (anotar en cuaderno, llenar formulario en papel, ejecutar en terreno) de una tarea de usuario (registrar la solicitud en una planilla o sistema interno), reflejando que hoy casi todo el proceso es manual y sin apoyo tecnológico.
 
