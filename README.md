@@ -1,6 +1,6 @@
-# Barrio Seguro — Sistema de Alerta y Coordinación Vecinal
+# Barrio Conectado — Sistema de Alerta y Coordinación Vecinal
 
-**Barrio Seguro** es una plataforma de gestión comunitaria orientada a fortalecer la seguridad de los vecindarios mediante la emisión, recepción y seguimiento de alertas en tiempo real. El proyecto busca canalizar incidentes (robos, emergencias médicas, sospechas, botones de pánico) y coordinar la respuesta rápida entre vecinos, administradores de cuadrante y entidades de apoyo.
+**Barrio Conectado** es una plataforma de gestión comunitaria orientada a fortalecer la seguridad de los vecindarios mediante la emisión, recepción y seguimiento de alertas en tiempo real. El proyecto busca canalizar incidentes (robos, emergencias médicas, sospechas, botones de pánico) y coordinar la respuesta rápida entre vecinos, administradores de cuadrante y entidades de apoyo.
 
 ---
 
@@ -55,5 +55,5 @@ El proyecto se rige por tres pilares de calidad fundamentales especificados deta
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone [https://github.com/bruhmzk/Barrio-Seguro.git](https://github.com/bruhmzk/Barrio-Seguro.git)
-   cd Barrio-Seguro
+   git clone [https://github.com/bruhmzk/Barrio-Conectado.git](https://github.com/bruhmzk/Barrio-Conectado.git)
+   cd Barrio-Conectado
