@@ -36,7 +36,7 @@
 
 ![Proceso TO-BE](./diagramas/to-be.drawio.png)
 
-Archivo fuente: [`./diagramas/to-be.bpmn`](./diagramas/to-be.drawio.png)
+Archivo fuente: [`./diagramas/to-be.drawio`](./diagramas/to-be.drawio.png)
 
 El diagrama incorpora la lane "Plataforma BarrioConectado", que concentra las tareas de servicio (registro, priorización, asignación y notificación automáticas), reemplazando gran parte del trabajo manual del AS-IS. La ejecución física de la reparación en terreno se mantiene como tarea manual, ya que sigue requiriendo intervención humana.
 
