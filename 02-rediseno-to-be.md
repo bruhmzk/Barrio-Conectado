@@ -46,5 +46,7 @@ El diagrama incorpora la lane "Plataforma BarrioConectado", que concentra las ta
 | Recibe y anota el reclamo (Junta) / Recibe formulario en papel (Municipio) | Registra el reporte automáticamente | Elimina duplicación de canales y de registro manual |
 | Revisa y prioriza reclamos acumulados (criterio propio) | Prioriza automáticamente según urgencia e impacto | Priorización objetiva y basada en datos |
 | Sin actividad equivalente | Notifica al vecino el descarte / Notifica al vecino el estado resuelto | Trazabilidad y visibilidad para el vecino |
+| Revisa y prioriza reclamos acumulados (sin asignación formal) | Asigna al departamento correspondiente / Revisa y confirma la asignación | Asignación por categoría con confirmación del administrador |
+| Descarta o posterga el reclamo / Ejecuta la reparación sin registro del cierre | Actualiza estado: descartado / Actualiza estado en la app: resuelto | Cierre registrado con nota y visible para el vecino |
 
 Esta tabla es la que se usa en `03-requisitos.md` y `04-historias-usuario.md` para asociar cada requisito e historia a la actividad que cambia.
