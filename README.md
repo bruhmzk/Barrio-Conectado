@@ -29,9 +29,6 @@ A continuación se presenta la documentación técnica estructurada del proyecto
 | **04** | [04-arquitectura.md](./04-arquitectura.md) | Vistas arquitectónicas, patrones de diseño aplicados (Clean Architecture / MVC) y tecnologías utilizadas. |
 | **05** | [05-modelo-datos.md](./05-modelo-datos.md) | Esquema de la base de datos, diagrama Entidad-Relación y diccionario de datos. |
 | **06** | [06-atributos-calidad.md](./06-atributos-calidad.md) | Priorización de atributos según el estándar **ISO/IEC 25010:2023** y métricas cuantitativas. |
-| **07** | [07-plan-pruebas.md](./07-plan-pruebas.md) | Estrategia de testing (pruebas unitarias, de integración, seguridad y usabilidad). |
-
-*(Nota: Si alguno de los archivos numerados aún no ha sido creado en el repositorio, los enlaces quedarán activos automáticamente una vez subas cada documento).*
 
 ---
 
