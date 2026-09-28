@@ -1,0 +1,142 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="KHg51RZTv4re5OKeWs7c">
+    <mxGraphModel dx="1715" dy="878" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="laneVecino" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#f5f5f5;html=1;" value="Vecino" vertex="1">
+          <mxGeometry height="150" width="2100" as="geometry" />
+        </mxCell>
+        <mxCell id="t_reporta" parent="laneVecino" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=manual;" value="Reporta el problema&#xa;(llamada, WhatsApp,&#xa;redes sociales o presencial)" vertex="1">
+          <mxGeometry height="80" width="170" x="130" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="gw1" parent="laneVecino" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Via junta o&#xa;directo al municipio?" vertex="1">
+          <mxGeometry height="80" width="80" x="330" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="laneVecino" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_reporta">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="110" y="75" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="laneVecino" source="t_reporta" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="gw1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="laneJunta" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#e8f4f8;html=1;" value="Junta de Vecinos" vertex="1">
+          <mxGeometry height="150" width="2100" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="t_junta" parent="laneJunta" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=manual;" value="Recibe y anota el reclamo&#xa;(cuaderno o planilla)" vertex="1">
+          <mxGeometry height="80" width="140" x="490" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="t_consolida" parent="laneJunta" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=manual;" value="Consolida reclamos&#xa;del sector" vertex="1">
+          <mxGeometry height="80" width="140" x="670" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="laneJunta" source="t_junta" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_consolida">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="laneMuni" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#fff0e6;html=1;" value="Municipio&lt;div&gt;&amp;nbsp;(Oficina de Partes)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="2100" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="t_oficina" parent="laneMuni" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=manual;" value="Recibe reclamo en&#xa;oficina de partes&#xa;(formulario en papel)" vertex="1">
+          <mxGeometry height="80" width="140" x="490" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="t_registra" parent="laneMuni" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=user;" value="Registra la solicitud&#xa;(planilla o sistema interno)" vertex="1">
+          <mxGeometry height="80" width="140" x="850" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="laneMuni" source="t_oficina" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_registra">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="laneDepto" parent="1" style="swimlane;horizontal=0;startSize=110;fillColor=#e8f5e9;html=1;" value="Departamento Tecnico&lt;div&gt;&amp;nbsp;Municipal&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="2100" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="t_revisa" parent="laneDepto" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=manual;" value="Revisa y prioriza reclamos&#xa;acumulados (criterio propio)" vertex="1">
+          <mxGeometry height="80" width="140" x="1030" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="gw2" parent="laneDepto" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Amerita&#xa;reparacion?" vertex="1">
+          <mxGeometry height="80" width="80" x="1220" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="t_descarta" parent="laneDepto" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=manual;" value="Descarta o posterga&#xa;el reclamo" vertex="1">
+          <mxGeometry height="80" width="140" x="1350" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="end_no" parent="laneDepto" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="1540" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="t_agenda" parent="laneDepto" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=manual;" value="Agenda la reparacion" vertex="1">
+          <mxGeometry height="80" width="140" x="1620" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="t_ejecuta" parent="laneDepto" style="points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];shape=mxgraph.bpmn.task2;whiteSpace=wrap;rectStyle=rounded;size=10;html=1;container=1;expand=0;collapsible=0;taskMarker=manual;" value="Ejecuta la reparacion&#xa;en terreno" vertex="1">
+          <mxGeometry height="80" width="140" x="1800" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="end_ok" parent="laneDepto" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="40" width="40" x="1990" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="laneDepto" source="t_revisa" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="gw2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="laneDepto" source="gw2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_descarta" value="No">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="laneDepto" source="t_descarta" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="end_no">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="laneDepto" source="gw2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_agenda" value="Si">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="19" />
+              <mxPoint x="1690" y="19" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="laneDepto" source="t_agenda" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_ejecuta">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="laneDepto" source="t_ejecuta" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="end_ok">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="gw1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_junta" value="Via junta">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="75" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="gw1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_oficina" value="Directo">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="375" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="t_consolida" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_registra">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920" y="225" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="t_registra" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;libavoidRouting=1;orthogonalLoop=1;jettySize=auto;" target="t_revisa">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1100" y="375" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
