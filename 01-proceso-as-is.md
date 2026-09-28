@@ -2,11 +2,11 @@
 
 ## Macro-proceso y proceso específico
 
-[Macro-proceso] → [Proceso específico que se modela]
+Gestión municipal de infraestructura urbana → Recepción, priorización y resolución de reportes ciudadanos de problemas en la vía pública [ajustar si la comuna real usa otro nombre de macro-proceso]
 
 ## Objetivo de negocio del proceso
 
-[Descripción]
+Canalizar los reportes de los vecinos sobre problemas en la vía pública (luminarias rotas, microbasurales, baches) hacia el municipio, para que este los priorice, asigne a un departamento técnico y ejecute la reparación correspondiente.
 
 ## Participantes y sus objetivos
 
