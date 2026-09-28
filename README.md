@@ -1,26 +1,23 @@
-# 🛡️ Barrio Seguro — Sistema de Alerta y Coordinación Vecinal
-
-[![Estado del Proyecto](https://img.shields.io/badge/Estado-En_Desarrollo-yellow)](https://github.com/bruhmzk/Barrio-Seguro)
-[![Documentación](https://img.shields.io/badge/ISO%2FIEC-25010%3A2023-blue)](./06-atributos-calidad.md)
+# Barrio Seguro — Sistema de Alerta y Coordinación Vecinal
 
 **Barrio Seguro** es una plataforma de gestión comunitaria orientada a fortalecer la seguridad de los vecindarios mediante la emisión, recepción y seguimiento de alertas en tiempo real. El proyecto busca canalizar incidentes (robos, emergencias médicas, sospechas, botones de pánico) y coordinar la respuesta rápida entre vecinos, administradores de cuadrante y entidades de apoyo.
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción del Proyecto
 
 El sistema combina el uso de servicios de geolocalización, notificaciones *push* de alta prioridad y mapas interactivos para ofrecer un canal directo de comunicación comunitaria. Su diseño prioriza la **simplicidad táctil**, la **fiabilidad del canal de notificaciones** y el **resguardo de los datos sensibles** de los ciudadanos.
 
 ### Características Principales
-* 🚨 **Botón de pánico y emisión rápida de alertas** en menos de 2 toques.
-* 📍 **Geolocalización en tiempo real** para la delimitación espacial de incidentes por cuadrante o barrio.
-* 👥 **Gestión de roles:** Vecinos, Moderadores de Barrio y Administradores.
-* 🔔 **Notificaciones críticas** de baja latencia mediante Firebase Cloud Messaging (FCM).
-* 🛡️ **Seguridad y privacidad:** Cifrado de extremo a extremo en tráfico y hashing de credenciales.
+* **Botón de pánico y emisión rápida de alertas** en menos de 2 toques.
+* **Geolocalización en tiempo real** para la delimitación espacial de incidentes por cuadrante o barrio.
+* **Gestión de roles:** Vecinos, Moderadores de Barrio y Administradores.
+* **Notificaciones críticas** de baja latencia mediante Firebase Cloud Messaging (FCM).
+* **Seguridad y privacidad:** Cifrado de extremo a extremo en tráfico y hashing de credenciales.
 
 ---
 
-## 📚 Índice de Documentación del Proyecto
+## Índice de Documentación del Proyecto
 
 A continuación se presenta la documentación técnica estructurada del proyecto, ordenada según las fases de ingeniería de software y arquitectura:
 
@@ -38,7 +35,7 @@ A continuación se presenta la documentación técnica estructurada del proyecto
 
 ---
 
-## 🏗️ Atributos de Calidad Destacados (ISO/IEC 25010)
+## Atributos de Calidad Destacados (ISO/IEC 25010)
 
 El proyecto se rige por tres pilares de calidad fundamentales especificados detalladamente en el archivo [06-atributos-calidad.md](./06-atributos-calidad.md):
 
@@ -48,7 +45,7 @@ El proyecto se rige por tres pilares de calidad fundamentales especificados deta
 
 ---
 
-## 🛠️ Stack Tecnológico Sugerido
+## Stack Tecnológico Sugerido
 
 * **Frontend / Mobile:** Flutter / React Native / Android Native.
 * **Backend:** Node.js (Express / NestJS) o Python (FastAPI).
@@ -57,7 +54,7 @@ El proyecto se rige por tres pilares de calidad fundamentales especificados deta
 
 ---
 
-## 🚀 Instalación y Configuración Local
+## Instalación y Configuración Local
 
 1. **Clonar el repositorio:**
    ```bash
