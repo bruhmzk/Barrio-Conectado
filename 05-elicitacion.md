@@ -9,9 +9,9 @@ Se aplicaron dos técnicas: una entrevista a una dirigente vecinal y una revisi�
 
 ### Documentos revisados
 
-1. Artículo de La Voz (Córdoba, Argentina) sobre la gestión de reclamos de alumbrado y bacheo mediante la app "Ciudadana": [enlace](https://grupoclarin-la-voz-prod.cdn.arcpublishing.com/politica/cambiaron-gestion-del-alumbrado-y-ahora-apuntan-al-bacheo)
-2. Trámite "Atención de solicitud de fallas en el servicio de alumbrado público" de la empresa eléctrica EERSA (Ecuador), en gob.ec: [enlace](https://www.gob.ec/eersa/tramites/atencion-solicitud-fallas-servicio-alumbrado-publico)
-3. Resolución del Síndic de Greuges de la Comunitat Valenciana (España) sobre la falta de respuesta a reclamos de alumbrado público: [enlace](https://www.elsindic.com/resoluciones/expedientes/2025/202504882/12437922.pdf)
+1. Artículo de La Voz (Córdoba, Argentina) sobre la gestión de reclamos de alumbrado y bacheo mediante la app "Ciudadana": [link](https://www.lavoz.com.ar/politica/cambiaron-gestion-del-alumbrado-y-ahora-apuntan-al-bacheo/)
+2. Trámite "Atención de solicitud de fallas en el servicio de alumbrado público" de la empresa eléctrica EERSA (Ecuador), en gob.ec: [link](https://www.gob.ec/eersa/tramites/atencion-solicitud-fallas-servicio-alumbrado-publico)
+3. Resolución del Síndic de Greuges de la Comunitat Valenciana (España) sobre la falta de respuesta a reclamos de alumbrado público: [link](https://www.elsindic.com/resoluciones/expedientes/2025/202504882/12437922.pdf)
 
 ### Hallazgos principales
 
