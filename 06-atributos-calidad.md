@@ -1,6 +1,6 @@
 # 06. Atributos de Calidad (ISO/IEC 25010:2023)
 
-Este documento especifica los atributos de calidad (requerimientos no funcionales) para la plataforma **Barrio Seguro**, estructurados según la actualización del estándar **ISO/IEC 25010:2023**.
+Este documento especifica los atributos de calidad (requerimientos no funcionales) para la plataforma **Barrio Conectado**, estructurados según la actualización del estándar **ISO/IEC 25010:2023**.
 
 Las características están priorizadas según el impacto directo en la seguridad de los vecinos y la efectividad en la emisión de alertas comunitarias en tiempo real.
 
@@ -8,7 +8,7 @@ Las características están priorizadas según el impacto directo en la segurida
 
 ## Priorización de Atributos de Calidad
 
-| Prioridad | Atributo (ISO/IEC 25010) | Justificación para Barrio Seguro |
+| Prioridad | Atributo (ISO/IEC 25010) | Justificación para Barrio Conectado |
 | :---: | :--- | :--- |
 | **1** | **Fiabilidad / Confiabilidad (Reliability)** | **Crítico:** La app gestiona emergencias comunitarias. Si el sistema falla o cae en una situación de pánico o delito, la plataforma pierde su valor fundamental. |
 | **2** | **Seguridad (Security)** | **Crítico:** Se manejan datos sensibles de geolocalización, identidades de vecinos y alertas de incidentes que no deben filtrarse ni manipularse. |
@@ -26,7 +26,7 @@ Las características están priorizadas según el impacto directo en la segurida
 
 ### 1. Fiabilidad (Reliability)
 
-Dada la naturaleza crítica del sistema, **Barrio Seguro** debe permanecer operativo, libre de fallos graves y con capacidad de recuperación ante incidentes de red o servidores.
+Dada la naturaleza crítica del sistema, **Barrio Conectado** debe permanecer operativo, libre de fallos graves y con capacidad de recuperación ante incidentes de red o servidores.
 
 * **Métrica 1.1 - Disponibilidad del Servicio (Availability):**
   * **Objetivo:** $\ge 99.5\%$ de *uptime* mensual en servicios backend y APIs de alertas.
