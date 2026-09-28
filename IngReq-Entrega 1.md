@@ -7,7 +7,7 @@
 - Gabriel Del Castillo
  
 ## Proyecto
-Barrio Seguro - Sistema de Gestión de Reportes Comunitarios Concepto: Una plataforma donde los vecinos pueden reportar problemas en la vía pública (luminarias rotas, microbasurales, baches) y el municipio o la junta de vecinos puede priorizar, asignar y actualizar el estado del servicio.
+Barrio Seguro -- Sistema de Gestión de Reportes Comunitarios Concepto: Una plataforma donde los vecinos pueden reportar problemas en la vía pública (luminarias rotas, microbasurales, baches) y el municipio o la junta de vecinos puede priorizar, asignar y actualizar el estado del servicio.
  
 ## Índice de documentos
 1. [Proceso AS-IS](./01-proceso-as-is.md)
