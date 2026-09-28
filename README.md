@@ -21,14 +21,14 @@ El sistema combina el uso de servicios de geolocalización, notificaciones *push
 
 A continuación se presenta la documentación técnica estructurada del proyecto, ordenada según las fases de ingeniería de software y arquitectura:
 
-| # | Documento | Descripción / Alcance |
-| :-: | :--- | :--- |
-| **01** | [01-propuesta-proyecto.md](./01-propuesta-proyecto.md) | Definición del problema, alcance del sistema, objetivos generales/específicos y propuesta de valor. |
-| **02** | [02-requerimientos.md](./02-requerimientos.md) | Levantamiento de Requerimientos Funcionales (RF) y Requerimientos No Funcionales (RNF). |
-| **03** | [03-casos-de-uso.md](./03-casos-de-uso.md) | Diagramas y especificaciones de Casos de Uso por actor (Vecino, Administrador, Sistema). |
-| **04** | [04-arquitectura.md](./04-arquitectura.md) | Vistas arquitectónicas, patrones de diseño aplicados (Clean Architecture / MVC) y tecnologías utilizadas. |
-| **05** | [05-modelo-datos.md](./05-modelo-datos.md) | Esquema de la base de datos, diagrama Entidad-Relación y diccionario de datos. |
-| **06** | [06-atributos-calidad.md](./06-atributos-calidad.md) | Priorización de atributos según el estándar **ISO/IEC 25010:2023** y métricas cuantitativas. |
+| # | Documento | 
+| :-: | :--- |
+| **01** | [01-propuesta-proyecto.md](./01-proceso-as-is.md) |
+| **02** | [02-requerimientos.md](./02-resideno-to-be.md) | 
+| **03** | [03-casos-de-uso.md](./03-requisitos.md) | 
+| **04** | [04-arquitectura.md](./04-historias-usuario.md) |
+| **05** | [05-modelo-datos.md](./05-elicitacion.md) | 
+| **06** | [06-atributos-calidad.md](./06-atributos-calidad.md) | 
 
 ---
 
