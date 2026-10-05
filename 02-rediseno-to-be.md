@@ -16,14 +16,14 @@
 - Actividad(es) del AS-IS que afecta: "Reporta el problema (llamada, WhatsApp, redes sociales o presencial)"
 - Heurística aplicada: eliminación de canales redundantes / integración de tareas
 - Objetivo o mejora que resuelve: canal único y estandarizado para el vecino
-- Efecto esperado (tiempo/costo/calidad/flexibilidad): [cuantificar con datos de elicitación, ej. reducción del tiempo entre la ocurrencia del problema y su registro formal]
+- Efecto esperado (tiempo/costo/calidad/flexibilidad): 
 
 ### Iniciativa 2 — Registro y priorización automática
 
 - Actividad(es) del AS-IS que afecta: "Recibe y anota el reclamo" / "Registra la solicitud" / "Revisa y prioriza reclamos acumulados"
 - Heurística aplicada: automatización de tareas (paso de tarea manual a tarea de servicio)
 - Objetivo o mejora que resuelve: priorización objetiva y sin reprocesos de registro
-- Efecto esperado (tiempo/costo/calidad/flexibilidad): [cuantificar, ej. reducción del tiempo de espera antes de que un reclamo sea revisado]
+- Efecto esperado (tiempo/costo/calidad/flexibilidad):
 
 ### Iniciativa 3 — Notificación de estado al vecino
 
