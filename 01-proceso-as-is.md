@@ -31,4 +31,3 @@ El diagrama distingue tareas manuales (anotar en cuaderno, llenar formulario en 
 - La priorización de reclamos depende del criterio subjetivo de quien revisa en el departamento técnico, sin datos objetivos de urgencia o impacto.
 - No existe notificación de cambio de estado: el vecino no sabe si su reclamo fue recibido, descartado o resuelto.
 - Reclamos duplicados de distintos vecinos sobre el mismo problema no se detectan ni se consolidan.
-- [Agregar aquí cualquier problema adicional que surja de la elicitación real con un dirigente vecinal o funcionario municipal]
