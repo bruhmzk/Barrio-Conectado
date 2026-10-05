@@ -2,7 +2,7 @@
 
 ## Macro-proceso y proceso específico
 
-Gestión municipal de infraestructura urbana → Recepción, priorización y resolución de reportes ciudadanos de problemas en la vía pública [ajustar si la comuna real usa otro nombre de macro-proceso]
+Gestión municipal de infraestructura urbana → Recepción, priorización y resolución de reportes ciudadanos de problemas en la vía pública
 
 ## Objetivo de negocio del proceso
 
