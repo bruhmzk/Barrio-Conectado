@@ -5,7 +5,7 @@
 | Participante | Objetivo | Problema | Mejora deseada |
 |---|---|---|---|
 | Vecino | Que el problema se solucione rápido | No hay canal único de reporte ni trazabilidad | Reportar desde una sola app y ver el estado en todo momento |
-| Junta de vecinos | Sentirse escuchado por el municipio | No recibe notificación del estado de su reclamo | Recibir notificaciones automáticas de cambio de estado |
+| Junta de vecinos / dirigente | Sentirse escuchado por el municipio | No recibe notificación del estado de su reclamo | Recibir notificaciones automáticas de cambio de estado |
 | Departamento Técnico Municipal | Priorizar con criterios objetivos | Priorización subjetiva, sin datos | Priorización automática según urgencia e impacto |
 | Municipio — Oficina de Partes | Registrar la solicitud sin errores ni reprocesos | Registro manual en papel o planillas dispersas | Registro automático de cada reporte apenas se envía |
 
