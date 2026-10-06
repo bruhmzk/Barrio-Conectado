@@ -1,6 +1,6 @@
 # Elicitación de requisitos
 
-Se aplicaron dos técnicas: una entrevista a una dirigente vecinal y una revisión documental de sistemas de reclamos de otros municipios. Ambas sirvieron para contrastar el flujo AS-IS modelado en [01-proceso-as-is.md](./01-proceso-as-is.md) y para respaldar los requisitos de [03-requisitos.md](./03-requisitos.md).
+Se aplicó una técnica: una revisión documental de sistemas de reclamos de otros municipios. Ambas sirvieron para contrastar el flujo AS-IS modelado en [01-proceso-as-is.md](./01-proceso-as-is.md) y para respaldar los requisitos de [03-requisitos.md](./03-requisitos.md).
 
 ## Técnica: Revisión documental
 
