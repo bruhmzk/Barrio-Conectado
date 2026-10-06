@@ -5,7 +5,7 @@
 | Participante | Objetivo | Problema | Mejora deseada |
 |---|---|---|---|
 | Vecino | Que el problema se solucione rápido | No hay canal único de reporte ni trazabilidad | Reportar desde una sola app y ver el estado en todo momento |
-| Vecino | Sentirse escuchado por el municipio | No recibe notificación del estado de su reclamo | Recibir notificaciones automáticas de cambio de estado |
+| Junta de vecinos | Sentirse escuchado por el municipio | No recibe notificación del estado de su reclamo | Recibir notificaciones automáticas de cambio de estado |
 | Departamento Técnico Municipal | Priorizar con criterios objetivos | Priorización subjetiva, sin datos | Priorización automática según urgencia e impacto |
 | Municipio — Oficina de Partes | Registrar la solicitud sin errores ni reprocesos | Registro manual en papel o planillas dispersas | Registro automático de cada reporte apenas se envía |
 
@@ -16,21 +16,21 @@
 - Actividad(es) del AS-IS que afecta: "Reporta el problema (llamada, WhatsApp, redes sociales o presencial)"
 - Heurística aplicada: eliminación de canales redundantes / integración de tareas
 - Objetivo o mejora que resuelve: canal único y estandarizado para el vecino
-- Efecto esperado (tiempo/costo/calidad/flexibilidad): 
+- Efecto esperado (tiempo/costo/calidad/flexibilidad): Simplicar procesos que constan de varios actores, a su vez optimizando pasos.
 
 ### Iniciativa 2 — Registro y priorización automática
 
 - Actividad(es) del AS-IS que afecta: "Recibe y anota el reclamo" / "Registra la solicitud" / "Revisa y prioriza reclamos acumulados"
 - Heurística aplicada: automatización de tareas (paso de tarea manual a tarea de servicio)
 - Objetivo o mejora que resuelve: priorización objetiva y sin reprocesos de registro
-- Efecto esperado (tiempo/costo/calidad/flexibilidad):
+- Efecto esperado (tiempo/costo/calidad/flexibilidad): Garantiza al usuario una respuesta directa y el estado del reclamo.
 
 ### Iniciativa 3 — Notificación de estado al vecino
 
 - Actividad(es) del AS-IS que afecta: ausencia de retroalimentación al vecino tras reportar
 - Heurística aplicada: incorporación de control (visibilidad del estado del proceso para el cliente)
 - Objetivo o mejora que resuelve: el vecino se entera del estado de su reclamo sin tener que volver a consultar
-- Efecto esperado (tiempo/costo/calidad/flexibilidad): mejora en la percepción de calidad del servicio municipal
+- Efecto esperado (tiempo/costo/calidad/flexibilidad): Mejora en la percepción de calidad del servicio municipal.
 
 ## Diagrama TO-BE
 
