@@ -9,11 +9,10 @@
 El sistema combina el uso de servicios de geolocalización, notificaciones *push* de alta prioridad y mapas interactivos para ofrecer un canal directo de comunicación comunitaria. Su diseño prioriza la **simplicidad táctil**, la **fiabilidad del canal de notificaciones** y el **resguardo de los datos sensibles** de los ciudadanos.
 
 ### Características Principales
-* **Botón de pánico y emisión rápida de alertas** en menos de 2 toques.
+* **Emisión de reportes comunitarios y reclamos** en menos de 2 toques.
 * **Geolocalización en tiempo real** para la delimitación espacial de incidentes por cuadrante o barrio.
 * **Gestión de roles:** Vecinos, Moderadores de Barrio y Administradores.
-* **Notificaciones críticas** de baja latencia mediante Firebase Cloud Messaging (FCM).
-* **Seguridad y privacidad:** Cifrado de extremo a extremo en tráfico y hashing de credenciales.
+* **Seguridad y privacidad:** Cifrado de extremo a extremo en tráfico de información de los usuarios y reportes.
 
 ---
 
