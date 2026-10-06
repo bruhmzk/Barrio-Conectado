@@ -1,6 +1,6 @@
 # Barrio Conectado — Sistema de Alerta y Coordinación Vecinal
 
-**Barrio Conectado** es una plataforma de gestión comunitaria orientada a fortalecer la seguridad de los vecindarios mediante la emisión, recepción y seguimiento de alertas en tiempo real. El proyecto busca canalizar incidentes (robos, emergencias médicas, sospechas, botones de pánico) y coordinar la respuesta rápida entre vecinos, administradores de cuadrante y entidades de apoyo.
+**Barrio Conectado** es una plataforma de gestión comunitaria orientada a fortalecer la seguridad de los vecindarios mediante la emisión, recepción y seguimiento de problema de infraestructura y alertas en tiempo real. El proyecto busca canalizar y procesar la solicitud directa a la municipalidad de reparaciones, además de notificar incidentes (robos, emergencias médicas, etc.) y coordinar la respuesta rápida entre vecinos, administradores de cuadrante y entidades de apoyo.
 
 ---
 
