@@ -5,19 +5,20 @@
 Historia: Como vecino, quiero registrar un reporte adjuntando una foto, mi ubicación y una descripción, para informar a las autoridades de un problema de mi barrio de forma rápida y bien documentada.
 
 ```gherkin
-Característica: [Nombre de la funcionalidad]
+Característica: Registro de reportes de incidentes
 
-  Escenario: [Escenario principal]
-    Dado [contexto inicial, en lenguaje del negocio]
-    Y [otro dato del contexto, si hace falta]
-    Cuando [acción del rol]
-    Entonces [resultado observable]
-    Y [otro resultado observable, si hace falta]
+  Escenario: Registro exitoso de un reporte con todos los datos
+    Dado que un vecino autenticado se encuentra en la plataforma 
+    Y dispone de una fotografia, ubicacion valida y descripcion del problema
+    Cuando envia el reporte del incidente
+    Entonces el sistema registra el reporte con estado "Ingresado"
+    Y asigna un numero de folio unico para el seguimiento del vecino
 
-  Escenario: [Escenario alternativo o de error]
-    Dado [contexto]
-    Cuando [acción]
-    Entonces [resultado esperado]
+  Escenario: Intento de registro con datos incompletos
+    Dado que un vecuno esta redactando un reporte de incidente
+    Cuando intenta enviar el reporte sin adjuntar una descripcion o ubicacion valida
+    Entonces el sistema rechaza el registro 
+    Y solicita que se completen los datos obligatorios antes de continuar
 ```
 
 ## HU-02 — Consultar mis reportes
@@ -43,17 +44,19 @@ Característica: [Nombre de la funcionalidad]
 Historia: Como administrador municipal, quiero filtrar los reportes por categoría y prioridad, para asignar personal a la reparación empezando por los casos más críticos.
 
 ```gherkin
-Característica: [Nombre de la funcionalidad]
+Característica: Filtrado y priorizacion de reportes 
 
-  Escenario: [Escenario principal]
-    Dado [contexto]
-    Cuando [acción]
-    Entonces [resultado observable]
+  Escenario: Filtrado de reportes por alta priorizacion 
+    Dado que el administrador municipal revisa la lista general de incidentes
+    Cuando aplica un filtro por categoria especifica y prioridad alta
+    Entonces el sistema muestra unicamente los reportes que coinciden con esos criterios
+    Y los ordena mostrando primero los mas urgentes.
 
-  Escenario: [Escenario alternativo o de error]
-    Dado [contexto]
-    Cuando [acción]
-    Entonces [resultado esperado]
+  Escenario: Filtrado sin resultados coincidentes 
+    Dado que el administrador municipal revisa la lista de incidentes
+    Cuando aplica un filtro para una categoria que no tiene reportes activos
+    Entonces el sistema indica que no hay resultados
+    Y mantiene la opcion de cambiar los criterios de busqueda
 ```
 
 ## HU-04 — Completar un reporte con nota de resolución
