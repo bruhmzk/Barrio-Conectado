@@ -26,17 +26,19 @@ Característica: Registro de reportes de incidentes
 Historia: Como vecino, quiero consultar el historial y el estado de mis reportes enviados, para saber en qué etapa está cada uno sin tener que llamar ni ir al municipio.
 
 ```gherkin
-Característica: [Nombre de la funcionalidad]
+Característica: Consulta de historial de reportes
 
-  Escenario: [Escenario principal]
-    Dado [contexto]
-    Cuando [acción]
-    Entonces [resultado observable]
+  Escenario: Visualización exitosa del historial de reportes activos
+    Dado que un vecino ha registrado uno o más reportes previamente
+    Cuando solicita consultar el historial de sus solicitudes
+    Entonces el sistema despliega la lista de todos sus incidentes reportados
+    Y muestra el estado actualizado de cada uno de ellos.
 
-  Escenario: [Escenario alternativo o de error]
-    Dado [contexto]
-    Cuando [acción]
-    Entonces [resultado esperado]
+Escenario: Escenario: Consulta de historial por un vecino sin reportes previos
+    Dado que un vecino nunca ha registrado un reporte de incidente
+    Cuando solicita consultar el historial de sus solicitudes
+    Entonces el sistema muestra una lista vacía
+    Y le notifica que no existen reportes asociados a su cuenta.
 ```
 
 ## HU-03 — Filtrar reportes para asignar personal
@@ -64,15 +66,17 @@ Característica: Filtrado y priorizacion de reportes
 Historia: Como administrador municipal, quiero cambiar el estado de un reporte a "Completado" y añadir una nota de resolución, para dejar constancia del trabajo realizado y que el vecino pueda verlo.
 
 ```gherkin
-Característica: [Nombre de la funcionalidad]
+Característica: Resolución de reportes de incidentes
 
-  Escenario: [Escenario principal]
-    Dado [contexto]
-    Cuando [acción]
-    Entonces [resultado observable]
+  Escenario: Escenario: Cierre exitoso de un reporte con justificación
+    Dado que un reporte se encuentra en estado de revisión o en proceso
+    Cuando el administrador municipal cambia el estado a "Completado" y adjunta una nota de resolución
+    Entonces el sistema actualiza definitivamente el estado del reporte
+    Y notifica al vecino creador que su incidente ha sido resuelto junto con la nota adjunta.
 
-  Escenario: [Escenario alternativo o de error]
-    Dado [contexto]
-    Cuando [acción]
-    Entonces [resultado esperado]
+  Escenario: Escenario: Intento de cierre de reporte sin nota de resolución
+    Dado que un reporte se encuentra en proceso de atención
+    Cuando el administrador municipal intenta cambiar el estado a "Completado" dejando la nota de resolución en blanco
+    Entonces el sistema impide la actualización del estado
+    Y requiere que se ingrese obligatoriamente la constancia del trabajo realizado.
 ```
