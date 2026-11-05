@@ -28,6 +28,12 @@ A continuación se presenta la documentación técnica estructurada del proyecto
 | **04** | [04-historias-usuario.md](./04-historias-usuario.md) |
 | **05** | [05-elicitacion.md](./05-elicitacion.md) | 
 | **06** | [06-atributos-calidad.md](./06-atributos-calidad.md) | 
+| **07** | [07-criterios-aceptacion.md](./07-criterios-aceptacion.md) | 
+| **08** | [08-modelo-dominio.md](./08-modelo-dominio.md) | 
+| **09** | [09-casos-de-uso.md](./09-casos-de-uso.md) | 
+| **10** | [10-diagramas-secuencia.md](./10-diagramas-secuencia.md) | 
+| **11** | [11-diagramas-estado.md](./11-diagramas-estado.md) |
+| **12** | [12-trazabilidad.md](./12.trazabilidad.md) | 
 
 ---
 
