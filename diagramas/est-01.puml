@@ -1,0 +1,26 @@
+@startuml est-01
+title EST-01 — Ciclo de vida de Reporte
+hide empty description
+skinparam shadowing false
+skinparam state {
+  BackgroundColor White
+}
+
+state "Recibido" as Recibido
+state "En revisión" as EnRevision
+state "Completado" as Completado
+state "Descartado" as Descartado
+
+[*] --> Recibido : Registrar reporte\n[datos completos y ubicación válida]\n/ asignar número de seguimiento,\nprioridad y departamento
+
+Recibido --> EnRevision : Iniciar revisión\n/ registrar cambio de estado y\nsolicitar aviso al vecino
+
+Recibido --> Descartado : Descartar reporte\n[motivo de descarte ingresado]\n/ registrar cambio de estado y\nsolicitar aviso al vecino
+
+EnRevision --> Completado : Completar reporte\n[nota de resolución ingresada]\n/ registrar cambio de estado y\nsolicitar aviso al vecino
+
+EnRevision --> Descartado : Descartar reporte\n[motivo de descarte ingresado]\n/ registrar cambio de estado y\nsolicitar aviso al vecino
+
+Completado --> [*]
+Descartado --> [*]
+@enduml

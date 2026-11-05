@@ -1,0 +1,26 @@
+@startuml dss-02
+title DSS-02 — Completar reporte con nota de resolución (CU-04, HU-04)
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+
+actor Admin as "Administrador\nmunicipal"
+participant Sistema as "Sistema\nBarrio Conectado"
+participant Notif as "Servicio de\nnotificaciones" <<sistema externo>>
+
+note over Admin, Sistema : Precondición: administrador autenticado y\nreporte en estado "En revisión"
+
+Admin -> Sistema : Completar reporte indicando número\nde seguimiento y nota de resolución
+
+alt falta la nota de resolución
+  Sistema --> Admin : Rechazar cambio y exigir la nota de resolución
+else nota de resolución ingresada
+  Sistema -> Notif : Solicitar aviso de cambio de estado al vecino
+  alt aviso aceptado por el servicio
+    Notif --> Sistema : Confirmar envío de aviso
+    Sistema --> Admin : Confirmar reporte completado
+  else servicio de notificaciones no disponible
+    Notif --> Sistema : Informar servicio no disponible
+    Sistema --> Admin : Confirmar reporte completado e\ninformar aviso pendiente de envío
+  end
+end
+@enduml

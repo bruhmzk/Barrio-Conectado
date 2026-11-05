@@ -1,0 +1,37 @@
+@startuml casos-de-uso
+title Casos de uso — Barrio Conectado
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor Vecino
+actor Admin as "Administrador\nmunicipal"
+actor Mapas as "Servicio de mapas y\ngeolocalización" <<sistema externo>>
+actor Notif as "Servicio de\nnotificaciones" <<sistema externo>>
+
+rectangle "Barrio Conectado" {
+  usecase CU01 as "CU-01\nRegistrar reporte\nde un problema"
+  usecase CU02 as "CU-02\nConsultar mis reportes"
+  usecase CU03 as "CU-03\nFiltrar reportes\npor categoría y prioridad"
+  usecase CU04 as "CU-04\nCompletar reporte\ncon nota de resolución"
+  usecase CU05 as "CU-05\nRecibir notificación de\ncambio de estado"
+  usecase CU06 as "CU-06\nAjustar prioridad\nde un reporte"
+  usecase CU07 as "CU-07\nDescartar reporte\nindicando el motivo"
+  usecase CU08 as "CU-08\nReasignar reporte\na otro departamento"
+}
+
+Vecino -- CU01
+Vecino -- CU02
+Vecino -- CU05
+Admin -- CU03
+Admin -- CU04
+Admin -- CU06
+Admin -- CU07
+Admin -- CU08
+
+CU01 -- Mapas
+CU05 -- Notif
+
+CU04 ..> CU05 : <<include>>
+CU07 ..> CU05 : <<include>>
+@enduml

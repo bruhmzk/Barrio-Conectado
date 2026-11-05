@@ -1,0 +1,72 @@
+@startuml modelo-dominio
+title Modelo de dominio — Barrio Conectado
+hide circle
+hide methods
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam nodesep 60
+skinparam ranksep 60
+
+class Usuario {
+  nombre
+  medioContacto
+}
+
+class Reporte {
+  numeroSeguimiento
+  descripcion
+  fechaHoraRegistro
+  estado
+  prioridad
+}
+
+class Categoria as "Categoría" {
+  nombre
+  urgenciaBase
+}
+
+class Departamento {
+  nombre
+}
+
+class Ubicacion as "Ubicación" {
+  latitud
+  longitud
+  referencia
+}
+
+class Fotografia as "Fotografía" {
+  archivoImagen
+}
+
+class CambioEstado {
+  fechaHora
+  estadoAnterior
+  estadoNuevo
+  nota
+}
+
+class Asignacion as "Asignación" {
+  fechaHora
+}
+
+class Notificacion as "Notificación" {
+  fechaHoraEnvio
+  mensaje
+  estado
+}
+
+Usuario "1" -- "0..*" Reporte : reporta >
+Reporte "0..*" -- "1" Categoria : se clasifica en >
+Categoria "1..*" -- "1" Departamento : corresponde a >
+Usuario "0..*" -- "0..1" Departamento : trabaja en >
+Reporte "1" *-- "1" Ubicacion : ocurre en >
+Reporte "1" *-- "1..*" Fotografia : se documenta con >
+Reporte "1" *-- "0..*" CambioEstado : registra >
+Reporte "1" *-- "1..*" Asignacion : se asigna mediante >
+Asignacion "0..*" -- "1" Departamento : dirigida a >
+Asignacion "0..*" -- "0..1" Usuario : realizada por >
+CambioEstado "0..*" -- "1" Usuario : realizado por >
+CambioEstado "1" -- "1" Notificacion : genera >
+Notificacion "0..*" -- "1" Usuario : dirigida a >
+@enduml

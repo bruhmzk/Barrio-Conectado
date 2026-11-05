@@ -1,0 +1,26 @@
+@startuml dss-01
+title DSS-01 — Registrar reporte de un problema (CU-01, HU-01)
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+
+actor Vecino
+participant Sistema as "Sistema\nBarrio Conectado"
+participant Mapas as "Servicio de mapas y\ngeolocalización" <<sistema externo>>
+
+note over Vecino, Sistema : Precondición: el vecino está autenticado
+
+Vecino -> Sistema : Registrar reporte con categoría,\ndescripción, fotografía y ubicación
+
+alt faltan datos obligatorios
+  Sistema --> Vecino : Rechazar registro e indicar los datos faltantes
+else datos completos
+  Sistema -> Mapas : Validar ubicación del problema
+  alt ubicación válida
+    Mapas --> Sistema : Informar ubicación válida con su referencia
+    Sistema --> Vecino : Confirmar registro con número de seguimiento
+  else ubicación no válida
+    Mapas --> Sistema : Informar ubicación no válida
+    Sistema --> Vecino : Rechazar registro y solicitar nueva ubicación
+  end
+end
+@enduml

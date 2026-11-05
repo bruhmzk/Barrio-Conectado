@@ -1,0 +1,23 @@
+@startuml est-02
+title EST-02 — Ciclo de vida de Notificación
+hide empty description
+skinparam shadowing false
+skinparam state {
+  BackgroundColor White
+}
+
+state "Pendiente de envío" as Pendiente
+state "Enviada" as Enviada
+state "No entregada" as NoEntregada
+
+[*] --> Pendiente : Solicitar aviso de cambio de estado\n/ crear aviso con número de seguimiento\ny nuevo estado
+
+Pendiente --> Enviada : Confirmar envío de aviso\n/ registrar fecha y hora de envío
+
+Pendiente --> Pendiente : Informar servicio no disponible\n[plazo máximo de entrega vigente]\n/ programar reintento de envío
+
+Pendiente --> NoEntregada : Informar servicio no disponible\n[plazo máximo de entrega vencido]\n/ registrar falla de entrega
+
+Enviada --> [*]
+NoEntregada --> [*]
+@enduml
