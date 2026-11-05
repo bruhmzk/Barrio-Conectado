@@ -4,17 +4,17 @@
 
 | Requisito (Entrega 1) | Historia | Caso de uso | Secuencia | Estado | Clases del dominio |
 |---|---|---|---|---|---|
-| RP-01 | HU-01 | [CU-01] | [DSS-01] | [EST-01] | [Usuario, Reporte, Categoría, Ubicación, Fotografía] |
-| RP-02 | HU-01 | [CU-01] | [DSS-01] | [EST-01] | [Usuario, Reporte, Fotografía] |
-| RP-03 | HU-02 | [CU-02] | [---] | [EST-01] | [Usuario, Reporte, CambioEstado] |
-| RP-04 | HU-06 | [---] | [---] | [---] | [Reporte] |
-| RP-05 | HU-08 | [---] | [---] | [---] | [Reporte, Asignación, Departamento, Usuario] |
-| RP-06 | HU-03 | [CU-03] | [---] | [---] | [Usuario, Reporte, Categoría, Departamento] |
-| RP-07 | HU-04, HU-07 | [CU-04] | [DSS-02] | [EST-01] | [Usuario, Reporte, CambioEstado] |
-| RP-08 | HU-05, HU-07 | [CU-04] | [DSS-02] | [EST-02] | [CambioEstado, Notificación, Usuario] |
-| RP-09 | HU-01 | [CU-01] | [DSS-01] | [EST-01] | [Usuario, Reporte] |
-| RP-10 | HU-03, HU-04 | [CU-03, CU-04] | [DSS-02] | [EST-01] | [Usuario, Reporte, Categoría] |
-| RP-11 | HU-05 | [---] | [---] | [EST-02] | [Notificación, Usuario] |
+| RP-01 | HU-01 | [CU-01] | [DSS-01] | [EST-01] | Usuario, Reporte, Categoría, Ubicación, Fotografía |
+| RP-02 | HU-01 | [CU-01] | [DSS-01] | [EST-01] | Usuario, Reporte, Fotografía |
+| RP-03 | HU-02 | [CU-02] | [---] | [EST-01] | Usuario, Reporte, CambioEstado |
+| RP-04 | HU-06 | [---] | [---] | [---] | Reporte |
+| RP-05 | HU-08 | [---] | [---] | [---] | Reporte, Asignación, Departamento, Usuario |
+| RP-06 | HU-03 | [CU-03] | [---] | [---] | Usuario, Reporte, Categoría, Departamento |
+| RP-07 | HU-04, HU-07 | [CU-04] | [DSS-02] | [EST-01] | Usuario, Reporte, CambioEstado |
+| RP-08 | HU-05, HU-07 | [CU-04] | [DSS-02] | [EST-02] | CambioEstado, Notificación, Usuario |
+| RP-09 | HU-01 | [CU-01] | [DSS-01] | [EST-01] | Usuario, Reporte |
+| RP-10 | HU-03, HU-04 | [CU-03, CU-04] | [DSS-02] | [EST-01] | Usuario, Reporte, Categoría |
+| RP-11 | HU-05 | [---] | [---] | [EST-02] | Notificación, Usuario |
 | RP-12 | --- | --- | --- | --- | --- |
 
 ## Observaciones
