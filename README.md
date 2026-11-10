@@ -33,7 +33,7 @@ A continuación se presenta la documentación técnica estructurada del proyecto
 | **09** | [09-casos-de-uso.md](./09-casos-de-uso.md) | 
 | **10** | [10-diagramas-secuencia.md](./10-diagramas-secuencia.md) | 
 | **11** | [11-diagramas-estado.md](./11-diagramas-estado.md) |
-| **12** | [12-trazabilidad.md](./12.trazabilidad.md) | 
+| **12** | [12-trazabilidad.md](./12-trazabilidad.md) | 
 
 ---
 

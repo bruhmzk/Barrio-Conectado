@@ -18,20 +18,30 @@ rectangle "Barrio Conectado" {
   usecase CU06 as "CU-06\nAjustar prioridad\nde un reporte"
   usecase CU07 as "CU-07\nDescartar reporte\nindicando el motivo"
   usecase CU08 as "CU-08\nReasignar reporte\na otro departamento"
+  usecase CU09 as "CU-09\nIniciar sesión /\nRegistrarse"
 }
 
 Vecino -- CU01
 Vecino -- CU02
 Vecino -- CU05
+Vecino -- CU09
 Admin -- CU03
 Admin -- CU04
 Admin -- CU06
 Admin -- CU07
 Admin -- CU08
+Admin -- CU09
 
 CU01 -- Mapas
 CU05 -- Notif
 
 CU04 ..> CU05 : <<include>>
 CU07 ..> CU05 : <<include>>
+CU01 ..> CU09 : <<include>>
+CU02 ..> CU09 : <<include>>
+CU03 ..> CU09 : <<include>>
+CU04 ..> CU09 : <<include>>
+CU06 ..> CU09 : <<include>>
+CU07 ..> CU09 : <<include>>
+CU08 ..> CU09 : <<include>>
 @enduml

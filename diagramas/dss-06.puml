@@ -1,0 +1,46 @@
+@startuml dss-06
+title DSS-06 — Autenticación: Registro e Inicio de sesión (CU-09, RP-12)
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+
+actor Usuario
+participant Sistema as "Sistema\nBarrio Conectado"
+
+note over Usuario, Sistema : Precondición: app instalada, sin sesión activa
+
+alt Registrarse
+  Usuario -> Sistema : Registrarse con nombre, medio de contacto\n(email/teléfono), contraseña
+  alt medio de contacto ya registrado
+    Sistema --> Usuario : Error: "Ya existe una cuenta con este contacto"
+  else medio de contacto disponible
+    alt contraseña no cumple política de fortaleza
+      Sistema --> Usuario : Error: "Contraseña debe tener 8+ chars, mayúscula, número, símbolo"
+    else contraseña válida
+      Sistema -> Sistema : Hashear contraseña (Argon2/Bcrypt)
+      Sistema -> Sistema : Crear usuario (rol = "vecino", hashContraseña, medioContacto)
+      Sistema -> Sistema : Generar token JWT (expiración 24h, claims: userId, rol)
+      Sistema --> Usuario : Token de sesión + redirigir a pantalla principal
+    end
+  end
+else Iniciar sesión
+  Usuario -> Sistema : Iniciar sesión con medio de contacto y contraseña
+  Sistema -> Sistema : Buscar usuario por medio de contacto
+  alt usuario no existe
+    Sistema --> Usuario : Error: "Credenciales inválidas"
+  else usuario existe
+    alt contraseña incorrecta (verificar hash)
+      Sistema -> Sistema : Incrementar contador de intentos fallidos
+      alt intentos >= 5
+        Sistema -> Sistema : Bloquear cuenta temporalmente (15 min)
+        Sistema --> Usuario : Error: "Cuenta bloqueada temporalmente. Intente en 15 minutos"
+      else intentos < 5
+        Sistema --> Usuario : Error: "Credenciales inválidas"
+      end
+    else contraseña correcta
+      Sistema -> Sistema : Resetear contador de intentos fallidos
+      Sistema -> Sistema : Generar token JWT (expiración 24h, claims: userId, rol)
+      Sistema --> Usuario : Token de sesión + redirigir a pantalla principal
+    end
+  end
+end
+@enduml

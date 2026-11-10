@@ -10,15 +10,16 @@ Archivo fuente: [`./diagramas/modelo-dominio.puml`](./diagramas/modelo-dominio.p
 
 | Clase | Qué representa en el negocio | Atributos |
 |---|---|---|
-| Usuario | Persona registrada en la plataforma. Puede ser un vecino que reporta problemas o un funcionario municipal que los gestiona. | nombre, medioContacto |
-| Reporte | Aviso de un problema en la vía pública hecho por un vecino. Avanza por distintos estados hasta quedar completado o descartado. | numeroSeguimiento, descripcion, fechaHoraRegistro, estado, prioridad |
-| Categoría | Tipo de problema que se puede reportar (luminaria, microbasural, bache u otro) y su urgencia habitual. | nombre, urgenciaBase |
+| Usuario | Persona registrada en la plataforma. Puede ser un vecino que reporta problemas o un funcionario municipal que los gestiona. | nombre, medioContacto, rol (vecino/admin), hashContraseña, tokenSesion, fechaUltimoAcceso |
+| Reporte | Aviso de un problema en la vía pública hecho por un vecino. Avanza por distintos estados hasta quedar completado o descartado. | numeroSeguimiento, descripcion, fechaHoraRegistro, estado, prioridad, urgente (bool) |
+| Categoría | Tipo de problema que se puede reportar (luminaria, microbasural, bache u otro) y su urgencia habitual. | nombre, urgenciaBase, departamentoPorDefecto |
 | Departamento | Unidad del municipio responsable de atender cierto tipo de problemas (por ejemplo alumbrado, obras o aseo). | nombre |
 | Ubicación | Lugar de la vía pública donde ocurre el problema. | latitud, longitud, referencia |
 | Fotografía | Imagen que muestra el problema reportado. | archivoImagen |
 | CambioEstado | Registro de cada vez que cambia el estado de un reporte, con la nota de resolución o el motivo del descarte. | fechaHora, estadoAnterior, estadoNuevo, nota |
-| Asignación | Registro de a qué departamento se asignó un reporte y cuándo, incluidas las reasignaciones. | fechaHora |
-| Notificación | Aviso que recibe el vecino cuando cambia el estado de su reporte. | fechaHoraEnvio, mensaje |
+| Asignación | Registro de a qué departamento se asignó un reporte y cuándo, incluidas las reasignaciones. | fechaHora, departamentoOrigen, departamentoDestino |
+| Notificación | Aviso que recibe el vecino cuando cambia el estado de su reporte. | fechaHoraEnvio, mensaje, estado (pendiente/enviada/no entregada) |
+| Sesion | Registro de autenticación activa de un usuario. | token, fechaCreacion, fechaExpiracion, dispositivo |
 
 ## Asociaciones
 
@@ -37,6 +38,7 @@ Archivo fuente: [`./diagramas/modelo-dominio.puml`](./diagramas/modelo-dominio.p
 | realizado por | CambioEstado – Usuario | 0..* a 1 | Todo cambio de estado lo registra un funcionario (HU-04, HU-07). |
 | genera | CambioEstado – Notificación | 1 a 1 | Cada cambio de estado produce una notificación al vecino (RP-08, HU-05). |
 | dirigida a | Notificación – Usuario | 0..* a 1 | Cada notificación tiene un único destinatario, que es el vecino autor del reporte. |
+| autentica | Usuario – Sesion | 1 a 0..* | Un usuario puede tener múltiples sesiones activas (múltiples dispositivos); cada sesión pertenece a un usuario (RP-12). |
 
 ## Decisiones de modelado
 

@@ -1,0 +1,22 @@
+@startuml dss-05
+title DSS-05 — Ajuste de prioridad y reasignación (CU-06, CU-08, HU-06, HU-08)
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+
+actor Admin as "Administrador\nmunicipal"
+participant Sistema as "Sistema\nBarrio Conectado"
+
+note over Admin, Sistema : Precondición: administrador autenticado
+
+group Ajustar prioridad (CU-06)
+  Admin -> Sistema : Modificar prioridad de reporte\n(número de seguimiento, nueva prioridad: Alta/Media/Baja)
+  Sistema -> Sistema : Registrar cambio de prioridad\n(fecha, hora, usuario, prioridad anterior, prioridad nueva)
+  Sistema --> Admin : Confirmar prioridad actualizada
+end
+
+group Reasignar departamento (CU-08)
+  Admin -> Sistema : Reasignar reporte a otro departamento\n(número de seguimiento, nuevo departamento)
+  Sistema -> Sistema : Registrar reasignación\n(fecha, hora, usuario, departamento origen, departamento destino)
+  Sistema --> Admin : Confirmar reasignación completada
+end
+@enduml

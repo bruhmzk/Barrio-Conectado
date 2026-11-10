@@ -11,16 +11,31 @@ state "En revisión" as EnRevision
 state "Completado" as Completado
 state "Descartado" as Descartado
 
-[*] --> Recibido : Registrar reporte\n[datos completos y ubicación válida]\n/ asignar número de seguimiento,\nprioridad y departamento
+[*] --> Recibido : registrarReporte()\n[coordenadasValidas == true]\n/ crearRegistroYAsignarDeptoYPrioridad()
 
-Recibido --> EnRevision : Iniciar revisión\n/ registrar cambio de estado y\nsolicitar aviso al vecino
+Recibido --> EnRevision : tomarConocimiento()\n/ registrarCambioEstado()
 
-Recibido --> Descartado : Descartar reporte\n[motivo de descarte ingresado]\n/ registrar cambio de estado y\nsolicitar aviso al vecino
+Recibido --> Descartado : descartarReporte()\n[motivoDescarte != vacío]\n/ registrarMotivoYGenerarNotificacion()
 
-EnRevision --> Completado : Completar reporte\n[nota de resolución ingresada]\n/ registrar cambio de estado y\nsolicitar aviso al vecino
+EnRevision --> Completado : completarReporte()\n[notaResolucion != vacía]\n/ registrarNotaYGenerarNotificacion()
 
-EnRevision --> Descartado : Descartar reporte\n[motivo de descarte ingresado]\n/ registrar cambio de estado y\nsolicitar aviso al vecino
+EnRevision --> Descartado : descartarReporte()\n[motivoDescarte != vacío]\n/ registrarMotivoYGenerarNotificacion()
+
+EnRevision --> Recibido : reabrirReporte()\n[usuarioConRolAdmin]\n/ registrarCambioEstado(nota: "Reabierto por administrador")
+
+Completado --> EnRevision : reabrirReporte()\n[usuarioConRolAdmin && reclamoVecino]\n/ registrarCambioEstado(nota: "Reabierto por reclamo del vecino")
 
 Completado --> [*]
 Descartado --> [*]
+
+note right of Recibido
+  Al entrar: se asigna prioridad automática
+  según categoría (+ "Urgente" sube 1 nivel)
+  y departamento por defecto según categoría.
+end note
+
+note right of EnRevision
+  Prioridad manual del admin prevalece
+  sobre la automática (trazada en CambioEstado).
+end note
 @enduml

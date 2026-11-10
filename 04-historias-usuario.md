@@ -72,8 +72,8 @@ Como administrador municipal, quiero que cada reporte llegue ya priorizado segú
 **Criterios de aceptación:**
 
 - CA1: Al registrarse un reporte, el sistema le asigna una prioridad (alta, media o baja) sin intervención del administrador.
-- CA2: Los criterios de priorización están definidos y documentados. [definirlos con el equipo o con la elicitación]
-- CA3: El administrador puede ajustar la prioridad manualmente y el cambio queda registrado.
+- CA2: Los criterios de priorización son: **Luminaria → Alta**, **Microbasural → Media**, **Bache → Alta**, **Otra → Media**; si el vecino marca "Urgente" en el formulario, la prioridad sube un nivel (tope: Alta). El mapeo categoría-departamento es: Luminaria → Alumbrado Público, Microbasural → Aseo y Ornato, Bache → Obras Públicas, Otra → Derivar según criterio del administrador.
+- CA3: El administrador puede ajustar la prioridad manualmente y el cambio queda registrado con fecha, hora y usuario.
 
 ## HU-07 — Descartar un reporte indicando el motivo
 

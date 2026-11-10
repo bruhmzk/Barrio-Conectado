@@ -1,0 +1,26 @@
+@startuml dss-03
+title DSS-03 — Descartar reporte con notificación (CU-07, HU-07)
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+
+actor Admin as "Administrador\nmunicipal"
+participant Sistema as "Sistema\nBarrio Conectado"
+participant Notif as "Servicio de\nnotificaciones" <<sistema externo>>
+
+note over Admin, Sistema : Precondición: administrador autenticado y\nreporte en estado "Recibido" o "En revisión"
+
+Admin -> Sistema : Descartar reporte indicando número\nde seguimiento y motivo de descarte
+
+alt falta el motivo de descarte
+  Sistema --> Admin : Rechazar cambio y exigir el motivo de descarte
+else motivo de descarte ingresado
+  Sistema -> Notif : Solicitar aviso de descarte al vecino
+  alt aviso aceptado por el servicio
+    Notif --> Sistema : Confirmar envío de aviso
+    Sistema --> Admin : Confirmar reporte descartado
+  else servicio de notificaciones no disponible
+    Notif --> Sistema : Informar servicio no disponible
+    Sistema --> Admin : Confirmar reporte descartado e\ninformar aviso pendiente de envío
+  end
+end
+@enduml

@@ -80,3 +80,155 @@ Característica: Resolución de reportes de incidentes
     Entonces el sistema impide la actualización del estado
     Y requiere que se ingrese obligatoriamente la constancia del trabajo realizado.
 ```
+
+## HU-05 — Recibir notificaciones de cambio de estado
+
+Historia: Como vecino, quiero recibir una notificación cuando cambie el estado de mi reporte, para enterarme del avance sin tener que revisar la aplicación.
+
+**Actividad TO-BE asociada:** Notifica al vecino el descarte / el estado resuelto
+
+```gherkin
+Característica: Notificación de cambios de estado
+
+  Escenario: Notificación al completar un reporte
+    Dado que un vecino tiene un reporte en estado "En revisión"
+    Cuando el administrador cambia el estado a "Completado" con nota de resolución
+    Entonces el sistema envía una notificación push al dispositivo del vecino
+    Y la notificación incluye el número de seguimiento y el nuevo estado "Completado"
+    Y la notificación llega en un máximo de 5 minutos.
+
+  Escenario: Notificación al descartar un reporte
+    Dado que un vecino tiene un reporte en estado "En revisión"
+    Cuando el administrador cambia el estado a "Descartado" con motivo de descarte
+    Entonces el sistema envía una notificación push al dispositivo del vecino
+    Y la notificación incluye el número de seguimiento, el nuevo estado "Descartado" y el motivo del descarte.
+
+  Escenario: Notificación al iniciar revisión
+    Dado que un vecino tiene un reporte en estado "Recibido"
+    Cuando el administrador cambia el estado a "En revisión"
+    Entonces el sistema envía una notificación push al dispositivo del vecino
+    Y la notificación incluye el número de seguimiento y el nuevo estado "En revisión".
+
+  Escenario: Fallo en el servicio de notificaciones con reintento
+    Dado que el servicio de notificaciones está temporalmente no disponible
+    Cuando ocurre un cambio de estado en un reporte
+    Entonces el sistema programa un reintento de envío
+    Y registra la notificación como "Pendiente de envío" hasta que el servicio recupere disponibilidad.
+```
+
+## HU-06 — Recibir reportes ya priorizados
+
+Historia: Como administrador municipal, quiero que cada reporte llegue ya priorizado según su categoría y urgencia, para atender primero lo más crítico sin tener que evaluar cada reclamo a mano.
+
+**Actividad TO-BE asociada:** Prioriza automáticamente según urgencia e impacto
+
+```gherkin
+Característica: Priorización automática de reportes
+
+  Escenario: Prioridad Alta para luminaria
+    Dado que un vecino registra un reporte de categoría "Luminaria"
+    Cuando el reporte se guarda en el sistema
+    Entonces el sistema asigna prioridad "Alta" al reporte automáticamente.
+
+  Escenario: Prioridad Media para microbasural
+    Dado que un vecino registra un reporte de categoría "Microbasural"
+    Cuando el reporte se guarda en el sistema
+    Entonces el sistema asigna prioridad "Media" al reporte automáticamente.
+
+  Escenario: Prioridad Alta para bache
+    Dado que un vecino registra un reporte de categoría "Bache"
+    Cuando el reporte se guarda en el sistema
+    Entonces el sistema asigna prioridad "Alta" al reporte automáticamente.
+
+  Escenario: Prioridad Media para categoría "Otra"
+    Dado que un vecino registra un reporte de categoría "Otra"
+    Cuando el reporte se guarda en el sistema
+    Entonces el sistema asigna prioridad "Media" al reporte automáticamente.
+
+  Escenario: Escalamiento de prioridad por marca "Urgente"
+    Dado que un vecino registra un reporte de categoría "Microbasural" y marca la casilla "Urgente"
+    Cuando el reporte se guarda en el sistema
+    Entonces el sistema asigna prioridad "Alta" (sube de Media a Alta).
+
+  Escenario: Tope de prioridad en "Alta"
+    Dado que un vecino registra un reporte de categoría "Luminaria" y marca la casilla "Urgente"
+    Cuando el reporte se guarda en el sistema
+    Entonces el sistema mantiene prioridad "Alta" (no existe nivel superior).
+
+  Escenario: Ajuste manual de prioridad por administrador
+    Dado que un reporte tiene prioridad "Media" asignada automáticamente
+    Cuando el administrador cambia la prioridad a "Alta"
+    Entonces el sistema registra el cambio con fecha, hora y usuario que lo realizó
+    Y la nueva prioridad prevalece sobre la automática.
+```
+
+## HU-07 — Descartar un reporte indicando el motivo
+
+Historia: Como administrador municipal, quiero descartar un reporte indicando el motivo, para que el vecino entienda por qué no se ejecutará una reparación.
+
+**Actividad TO-BE asociada:** Actualiza estado: descartado
+
+```gherkin
+Característica: Descarte de reportes con motivo
+
+  Escenario: Descarte exitoso con motivo
+    Dado que un reporte se encuentra en estado "En revisión"
+    Cuando el administrador cambia el estado a "Descartado" e ingresa el motivo "No corresponde a competencia municipal"
+    Entonces el sistema actualiza el estado a "Descartado"
+    Y registra la fecha, hora, usuario y motivo del descarte
+    Y envía notificación al vecino con el número de seguimiento, estado "Descartado" y el motivo.
+
+  Escenario: Intento de descarte sin motivo
+    Dado que un reporte se encuentra en estado "En revisión"
+    Cuando el administrador intenta cambiar el estado a "Descartado" dejando el motivo en blanco
+    Entonces el sistema impide la actualización del estado
+    Y requiere que se ingrese obligatoriamente el motivo del descarte.
+
+  Escenario: Descarte directo desde "Recibido"
+    Dado que un reporte se encuentra en estado "Recibido" (sin pasar por "En revisión")
+    Cuando el administrador cambia el estado a "Descartado" con motivo "Duplicado de reporte #12345"
+    Entonces el sistema actualiza el estado a "Descartado"
+    Y registra la fecha, hora, usuario y motivo
+    Y envía notificación al vecino con el motivo.
+```
+
+## HU-08 — Asignar y reasignar reportes por departamento
+
+Historia: Como administrador municipal, quiero que el sistema asigne cada reporte al departamento que corresponde según su categoría y poder reasignarlo si hace falta, para evitar derivaciones manuales entre oficinas.
+
+**Actividad TO-BE asociada:** Asigna al departamento correspondiente / Revisa y confirma la asignación
+
+```gherkin
+Característica: Asignación y reasignación de reportes por departamento
+
+  Escenario: Asignación automática por categoría Luminaria
+    Dado que se registra un reporte de categoría "Luminaria"
+    Cuando el reporte se guarda
+    Entonces el sistema asigna automáticamente el departamento "Alumbrado Público".
+
+  Escenario: Asignación automática por categoría Microbasural
+    Dado que se registra un reporte de categoría "Microbasural"
+    Cuando el reporte se guarda
+    Entonces el sistema asigna automáticamente el departamento "Aseo y Ornato".
+
+  Escenario: Asignación automática por categoría Bache
+    Dado que se registra un reporte de categoría "Bache"
+    Cuando el reporte se guarda
+    Entonces el sistema asigna automáticamente el departamento "Obras Públicas".
+
+  Escenario: Asignación "Otra" queda pendiente de derivación
+    Dado que se registra un reporte de categoría "Otra"
+    Cuando el reporte se guarda
+    Entonces el sistema asigna departamento "Sin asignar" y requiere derivación manual del administrador.
+
+  Escenario: Reasignación de reporte por administrador
+    Dado que un reporte está asignado a "Alumbrado Público"
+    Cuando el administrador cambia la asignación a "Obras Públicas"
+    Entonces el sistema registra la reasignación con fecha, hora y usuario
+    Y el reporte queda asignado al nuevo departamento.
+
+  Escenario: Historial de asignaciones
+    Dado que un reporte ha sido reasignado dos veces
+    Cuando el administrador consulta el historial del reporte
+    Entonces el sistema muestra ambas asignaciones con fecha, hora, usuario, departamento origen y destino.
+```

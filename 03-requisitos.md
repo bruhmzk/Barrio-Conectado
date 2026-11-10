@@ -9,14 +9,14 @@ Las actividades del TO-BE citadas en la última columna corresponden a la tabla 
 | RP-01 | El sistema debe permitir al vecino crear un reporte adjuntando foto, ubicación georreferenciada, descripción y categoría (luminaria, microbasural, bache u otra). | Funcional | Reporta el problema en la app |
 | RP-02 | El sistema debe registrar automáticamente cada reporte con un identificador único, fecha y hora, y estado inicial "Recibido". | Funcional | Registra el reporte automáticamente |
 | RP-03 | El sistema debe permitir al vecino consultar el historial y el estado actual de los reportes que ha enviado. | Funcional | Notifica al vecino el descarte / el estado resuelto (trazabilidad) |
-| RP-04 | El sistema debe asignar a cada reporte una prioridad (alta, media o baja) según su categoría y urgencia, sin intervención manual. | Funcional | Prioriza automáticamente según urgencia e impacto |
-| RP-05 | El sistema debe asignar cada reporte al departamento municipal que corresponde según su categoría, y permitir al administrador reasignarlo. | Funcional | Asigna al departamento correspondiente |
+| RP-04 | El sistema debe asignar a cada reporte una prioridad (alta, media o baja) según su categoría y urgencia, sin intervención manual. La regla de priorización es: **Luminaria → Alta**, **Microbasural → Media**, **Bache → Alta**, **Otra → Media**; si el vecino marca "Urgente" en el formulario, la prioridad sube un nivel (tope: Alta). | Funcional | Prioriza automáticamente según urgencia e impacto |
+| RP-05 | El sistema debe asignar cada reporte al departamento municipal que corresponde según su categoría, y permitir al administrador reasignarlo. Mapeo por defecto: Luminaria → Alumbrado Público, Microbasural → Aseo y Ornato, Bache → Obras Públicas, Otra → Derivar según criterio del administrador. | Funcional | Asigna al departamento correspondiente |
 | RP-06 | El sistema debe permitir al administrador municipal filtrar y ordenar los reportes por categoría, prioridad y estado. | Funcional | Revisa y confirma la asignación |
 | RP-07 | El sistema debe permitir al administrador cambiar el estado de un reporte (en revisión, descartado, completado) y registrar una nota de resolución o el motivo del descarte. | Funcional | Actualiza estado: descartado / Actualiza estado en la app: resuelto |
 | RP-08 | El sistema debe notificar al vecino cada vez que cambie el estado de uno de sus reportes. | Funcional | Notifica al vecino el descarte / el estado resuelto |
 | RP-09 | Un vecino sin capacitación previa debe poder completar un reporte en un máximo de [3] pasos desde la pantalla principal. | No funcional (usabilidad) | Reporta el problema en la app |
 | RP-10 | Solo el personal municipal autenticado y con rol de administrador debe poder ver el panel de gestión y modificar estados de reportes. | No funcional (seguridad) | Actualiza estado en la app |
-| RP-11 | La notificación de un cambio de estado debe llegar al vecino en un máximo de [X] minutos desde que el administrador lo registra. | No funcional (rendimiento) | Notifica al vecino el descarte / el estado resuelto |
+| RP-11 | La notificación de un cambio de estado debe llegar al vecino en un máximo de **5 minutos** desde que el administrador lo registra. | No funcional (rendimiento) | Notifica al vecino el descarte / el estado resuelto |
 
 Los valores entre corchetes ([3] pasos, [X] minutos) son propuestas iniciales.
 

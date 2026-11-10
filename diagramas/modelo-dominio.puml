@@ -10,6 +10,10 @@ skinparam ranksep 60
 class Usuario {
   nombre
   medioContacto
+  rol
+  hashContraseña
+  tokenSesion
+  fechaUltimoAcceso
 }
 
 class Reporte {
@@ -18,11 +22,13 @@ class Reporte {
   fechaHoraRegistro
   estado
   prioridad
+  urgente
 }
 
 class Categoria as "Categoría" {
   nombre
   urgenciaBase
+  departamentoPorDefecto
 }
 
 class Departamento {
@@ -48,12 +54,21 @@ class CambioEstado {
 
 class Asignacion as "Asignación" {
   fechaHora
+  departamentoOrigen
+  departamentoDestino
 }
 
 class Notificacion as "Notificación" {
   fechaHoraEnvio
   mensaje
   estado
+}
+
+class Sesion {
+  token
+  fechaCreacion
+  fechaExpiracion
+  dispositivo
 }
 
 Usuario "1" -- "0..*" Reporte : reporta >
@@ -69,4 +84,5 @@ Asignacion "0..*" -- "0..1" Usuario : realizada por >
 CambioEstado "0..*" -- "1" Usuario : realizado por >
 CambioEstado "1" -- "1" Notificacion : genera >
 Notificacion "0..*" -- "1" Usuario : dirigida a >
+Usuario "1" -- "0..*" Sesion : autentica >
 @enduml
