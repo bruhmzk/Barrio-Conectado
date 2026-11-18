@@ -1,0 +1,164 @@
+@startuml mer
+title MER — Barrio Conectado (PostgreSQL + PostGIS)
+skinparam shadowing false
+skinparam linetype ortho
+
+entity "usuarios" as u {
+    * id : UUID <<PK>>
+    --
+    * email : VARCHAR(255) <<UK>>
+    * nombre : VARCHAR(150)
+    * telefono : VARCHAR(30)
+    * rol : usuario_rol_enum <<vecino, admin, moderador>>
+    * password_hash : TEXT
+    * proveedor_oauth : VARCHAR(50) <<google, microsoft, claveunica, local>>
+    * proveedor_sub : VARCHAR(255)
+    * avatar_url : TEXT
+    * activo : BOOLEAN <<DEFAULT true>>
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+    * actualizado_en : TIMESTAMPTZ <<DEFAULT now()>>
+    * ultimo_login : TIMESTAMPTZ
+}
+
+entity "categorias" as cat {
+    * id : UUID <<PK>>
+    --
+    * nombre : VARCHAR(80) <<UK>>
+    * descripcion : TEXT
+    * prioridad_base : prioridad_enum <<Alta, Media, Baja>>
+    * icono : VARCHAR(50)
+    * color_hex : VARCHAR(7)
+    * activo : BOOLEAN <<DEFAULT true>>
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+}
+
+entity "departamentos" as dep {
+    * id : UUID <<PK>>
+    --
+    * nombre : VARCHAR(120) <<UK>>
+    * descripcion : TEXT
+    * email_contacto : VARCHAR(255)
+    * telefono : VARCHAR(30)
+    * activo : BOOLEAN <<DEFAULT true>>
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+}
+
+entity "categoria_departamento" as cd {
+    * categoria_id : UUID <<PK, FK>>
+    * departamento_id : UUID <<PK, FK>>
+    * es_principal : BOOLEAN <<DEFAULT true>>
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+}
+
+entity "reportes" as rep {
+    * id : UUID <<PK>>
+    * numero_seguimiento : VARCHAR(30) <<UK>> <<REP-YYYY-NNNNNN>>
+    * usuario_id : UUID <<FK>>
+    * categoria_id : UUID <<FK>>
+    * departamento_id : UUID <<FK>>
+    * descripcion : TEXT
+    * estado : reporte_estado_enum <<Ingresado, EnRevisión, Completado, Descartado>>
+    * prioridad : prioridad_enum <<Alta, Media, Baja>>
+    * ubicacion : GEOGRAPHY(POINT, 4326) <<PostGIS>>
+    * referencia_ubicacion : VARCHAR(300)
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+    * actualizado_en : TIMESTAMPTZ <<DEFAULT now()>>
+    * completado_en : TIMESTAMPTZ
+    * descartado_en : TIMESTAMPTZ
+}
+
+entity "fotografias" as fot {
+    * id : UUID <<PK>>
+    * reporte_id : UUID <<FK>>
+    * url : TEXT <<S3/GCS signed URL>>
+    * tipo_mime : VARCHAR(50) <<image/jpeg, image/png, image/webp>>
+    * tamano_bytes : INTEGER
+    * ancho : INTEGER
+    * alto : INTEGER
+    * hash_sha256 : CHAR(64) <<deduplicación>>
+    * orden : SMALLINT <<DEFAULT 1>>
+    * subida_en : TIMESTAMPTZ <<DEFAULT now()>>
+}
+
+entity "cambios_estado" as ce {
+    * id : UUID <<PK>>
+    * reporte_id : UUID <<FK>>
+    * estado_anterior : reporte_estado_enum
+    * estado_nuevo : reporte_estado_enum
+    * nota : TEXT
+    * usuario_id : UUID <<FK>>
+    * timestamp : TIMESTAMPTZ <<DEFAULT now()>>
+    * ip_origen : INET
+    * user_agent : TEXT
+}
+
+entity "asignaciones" as asig {
+    * id : UUID <<PK>>
+    * reporte_id : UUID <<FK>>
+    * departamento_id : UUID <<FK>>
+    * usuario_id : UUID <<FK, NULL>> <<admin asignado>>
+    * asignado_por : UUID <<FK>> <<admin que asigna>>
+    * confirmada : BOOLEAN <<DEFAULT false>>
+    * confirmada_en : TIMESTAMPTZ
+    * notas : TEXT
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+}
+
+entity "notificaciones" as notif {
+    * id : UUID <<PK>>
+    * reporte_id : UUID <<FK>>
+    * destinatario_id : UUID <<FK>>
+    * tipo : notificacion_tipo_enum <<Push, Email, SMS>>
+    * plantilla : VARCHAR(100)
+    * asunto : VARCHAR(200)
+    * cuerpo : TEXT
+    * estado : notificacion_estado_enum <<Pendiente, Enviada, Fallida>>
+    * proveedor_id : VARCHAR(100) <<FCM message_id, SendGrid id, Twilio SID>>
+    * reintentos : SMALLINT <<DEFAULT 0>>
+    * max_reintentos : SMALLINT <<DEFAULT 3>>
+    * proximo_reintento : TIMESTAMPTZ
+    * enviado_en : TIMESTAMPTZ
+    * error_mensaje : TEXT
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+}
+
+entity "refresh_tokens" as rt {
+    * id : UUID <<PK>>
+    * usuario_id : UUID <<FK>>
+    * token_hash : CHAR(64) <<SHA-256>>
+    * expira_en : TIMESTAMPTZ
+    * revocado : BOOLEAN <<DEFAULT false>>
+    * revocado_en : TIMESTAMPTZ
+    * ip_origen : INET
+    * user_agent : TEXT
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+}
+
+entity "auditoria_login" as al {
+    * id : UUID <<PK>>
+    * usuario_id : UUID <<FK>>
+    * ip : INET
+    * user_agent : TEXT
+    * exitoso : BOOLEAN
+    * metodo : VARCHAR(20) <<password, oauth, refresh>>
+    * creado_en : TIMESTAMPTZ <<DEFAULT now()>>
+}
+
+' Relaciones
+u ||--o{ rep : "reporta"
+cat ||--o{ rep : "clasifica"
+dep ||--o{ rep : "atiende"
+cat }|--o{ cd : "tiene"
+dep ||--o{ cd : "responsable"
+rep ||--o{ fot : "documenta"
+rep ||--o{ ce : "historial"
+rep ||--o{ asig : "asignado"
+rep ||--o{ notif : "genera"
+u ||--o{ ce : "ejecuta"
+u ||--o{ asig : "asignado_a"
+u ||--o{ asig : "asignado_por"
+u ||--o{ notif : "destinatario"
+u ||--o{ rt : "tokens"
+u ||--o{ al : "intentos"
+
+@enduml

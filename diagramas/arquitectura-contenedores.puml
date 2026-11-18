@@ -1,0 +1,55 @@
+@startuml arquitectura-contenedores
+title C4 Nivel 2 — Contenedores: Barrio Conectado
+skinparam shadowing false
+
+Person(vecino, "Vecino", "App móvil / PWA")
+Person(admin, "Administrador\nMunicipal", "Panel web admin")
+Person(moderador, "Moderador\nBarrio", "Panel web moderador")
+
+System_Ext(maps, "Servicio Mapas", "Geolocalización")
+System_Ext(notif, "Servicio Notificaciones", "FCM / Email / SMS")
+System_Ext(auth, "Auth Provider", "OAuth2 / OIDC")
+
+System_Boundary(c1, "Barrio Conectado") {
+    Container(spa_vecino, "App Vecino\n(PWA / Flutter)", "React / Flutter", "Interfaz vecino: reportar, historial, notificaciones")
+    Container(spa_admin, "Panel Admin\n(Web)", "React / Vue", "Interfaz admin: filtros, lista, detalle, acciones")
+    Container(spa_mod, "Panel Moderador\n(Web)", "React / Vue", "Interfaz moderador: validar, canalizar")
+
+    Container(api, "API Gateway\n/ BFF", "Node.js (NestJS/Express)\nTypeScript", "Punto de entrada único: routing, auth, rate-limit, logging")
+
+    Container(svc_reportes, "Servicio\nReportes", "Node.js / Python\nFastAPI", "CRUD reportes, priorización, asignación, estados")
+    Container(svc_usuarios, "Servicio\nUsuarios", "Node.js / Python\nFastAPI", "Gestión usuarios, roles, perfiles, autenticación JWT")
+    Container(svc_notif, "Servicio\nNotificaciones", "Node.js / Python", "Cola notificaciones, reintentos, plantillas, proveedores")
+    Container(svc_geo, "Servicio\nGeografía", "Node.js / Python", "Validación ubicación, caché referencias, límites comuna")
+
+    ContainerDb(db, "Base de Datos\n(PostgreSQL + PostGIS)", "PostgreSQL 16\nPostGIS 3.4", "Persistencia: usuarios, reportes, categorías, deptos, auditoría, notificaciones")
+    ContainerQueue(queue, "Cola de\nMensajes", "Redis / RabbitMQ", "Desacoplamiento: envío notificaciones, tareas asíncronas")
+    ContainerCache(cache, "Caché\n(Redis)", "Redis 7", "Sesiones JWT, rate-limit, caché consultas frecuentes")
+}
+
+Rel(vecino, spa_vecino, "Usa", "HTTPS")
+Rel(admin, spa_admin, "Usa", "HTTPS")
+Rel(moderador, spa_mod, "Usa", "HTTPS")
+
+Rel(spa_vecino, api, "Llamadas API", "HTTPS/REST + JWT")
+Rel(spa_admin, api, "Llamadas API", "HTTPS/REST + JWT")
+Rel(spa_mod, api, "Llamadas API", "HTTPS/REST + JWT")
+
+Rel(api, svc_reportes, "Delega", "gRPC / REST interno")
+Rel(api, svc_usuarios, "Delega", "gRPC / REST interno")
+Rel(api, svc_notif, "Publica eventos", "Async / Cola")
+Rel(api, svc_geo, "Consulta", "gRPC / REST interno")
+
+Rel(svc_reportes, db, "Lee/Escribe", "SQL / Prisma / SQLAlchemy")
+Rel(svc_usuarios, db, "Lee/Escribe", "SQL / Prisma / SQLAlchemy")
+Rel(svc_notif, db, "Lee/Escribe", "SQL / Prisma / SQLAlchemy")
+Rel(svc_geo, db, "Lee (caché)", "SQL / PostGIS")
+
+Rel(svc_notif, queue, "Encola", "AMQP / Redis Streams")
+Rel(svc_usuarios, cache, "Sesiones / Rate-limit", "Redis protocol")
+
+Rel(svc_geo, maps, "Valida coords", "HTTPS/REST")
+Rel(svc_notif, notif, "Envía push/email/SMS", "HTTPS/REST")
+Rel(svc_usuarios, auth, "Valida tokens / Login", "HTTPS/OAuth2")
+
+@enduml

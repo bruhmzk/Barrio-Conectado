@@ -1,0 +1,57 @@
+@startuml arquitectura-componentes-reportes
+title C4 Nivel 3 — Componentes: Servicio Reportes
+skinparam shadowing false
+
+Container_Boundary(svc, "Servicio Reportes") {
+    Component(ctrl_reporte, "ReportesController", "NestJS Controller", "Endpoints REST: POST /reportes, GET /reportes, PATCH /reportes/{id}/estado")
+    Component(ctrl_filtros, "FiltrosController", "NestJS Controller", "Endpoints: GET /reportes/filtros, GET /reportes/estadisticas")
+
+    Component(svc_crear, "CrearReporteService", "Service", "Orquesta: validación, geocoding, prioridad, asignación, persistencia")
+    Component(svc_estado, "CambiarEstadoService", "Service", "Valida transiciones EST-01, registra CambioEstado, dispara notificación")
+    Component(svc_prioridad, "PrioridadService", "Service", "Calcula prioridad automática (categoría + urgencia + heurísticas)")
+    Component(svc_asignacion, "AsignacionService", "Service", "Asigna/reasigna a departamento, gestiona confirmación admin")
+    Component(svc_consulta, "ConsultaReportesService", "Service", "Filtros combinados, paginación, ordenamiento, exportación")
+
+    Component(repo_reporte, "ReporteRepository", "Repository", "Acceso BD: CRUD, queries geoespaciales (PostGIS), índices")
+    Component(repo_categoria, "CategoriaRepository", "Repository", "Catálogo categorías, prioridad base, departamento")
+    Component(repo_depto, "DepartamentoRepository", "Repository", "Catálogo departamentos, capacidades")
+    Component(repo_cambio, "CambioEstadoRepository", "Repository", "Audit trail inmutable de transiciones")
+    Component(repo_asign, "AsignacionRepository", "Repository", "Histórico asignaciones y reasignaciones")
+
+    Component(event_pub, "EventPublisher", "Publisher", "Publica eventos dominio: ReporteCreado, EstadoCambiado, Reasignado")
+}
+
+ContainerDb(db, "PostgreSQL + PostGIS", "Database", "Tablas: reportes, categorias, departamentos, cambios_estado, asignaciones")
+ContainerQueue(queue, "Redis Streams / RabbitMQ", "Queue", "Eventos: reporte.creado, reporte.estado_cambiado, reporte.reasignado")
+ContainerExt(geo, "Servicio Geografía", "External", "Validación coords, reverse geocoding")
+
+Rel(ctrl_reporte, svc_crear, "Llama")
+Rel(ctrl_reporte, svc_estado, "Llama")
+Rel(ctrl_filtros, svc_consulta, "Llama")
+
+Rel(svc_crear, repo_reporte, "Persiste")
+Rel(svc_crear, svc_prioridad, "Calcula prioridad")
+Rel(svc_crear, svc_asignacion, "Asigna depto inicial")
+Rel(svc_crear, geo, "Valida ubicación")
+Rel(svc_crear, event_pub, "Publica ReporteCreado")
+
+Rel(svc_estado, repo_reporte, "Actualiza estado")
+Rel(svc_estado, repo_cambio, "Registra auditoría")
+Rel(svc_estado, event_pub, "Publica EstadoCambiado")
+
+Rel(svc_prioridad, repo_categoria, "Lee prioridad base")
+Rel(svc_asignacion, repo_depto, "Lee departamento")
+Rel(svc_asignacion, repo_asign, "Registra asignación")
+Rel(svc_asignacion, event_pub, "Publica Reasignado")
+
+Rel(svc_consulta, repo_reporte, "Consulta con filtros")
+
+Rel(repo_reporte, db, "SQL / PostGIS")
+Rel(repo_categoria, db, "SQL")
+Rel(repo_depto, db, "SQL")
+Rel(repo_cambio, db, "SQL")
+Rel(repo_asign, db, "SQL")
+
+Rel(event_pub, queue, "Push evento")
+
+@enduml

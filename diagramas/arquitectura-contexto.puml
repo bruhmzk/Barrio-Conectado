@@ -1,0 +1,23 @@
+@startuml arquitectura-contexto
+title C4 Nivel 1 — Contexto del Sistema: Barrio Conectado
+skinparam shadowing false
+
+Person(vecino, "Vecino", "Ciudadano que reporta problemas y consulta estado")
+Person(admin, "Administrador\nMunicipal", "Funcionario que gestiona, prioriza y cierra reportes")
+Person(moderador, "Moderador\nde Barrio", "Dirigente vecinal que valida y canaliza alertas")
+
+System(bc, "Barrio Conectado", "Plataforma de gestión comunitaria\nde alertas y reportes vecinales")
+
+System_Ext(maps, "Servicio de Mapas\n/ Geolocalización", "Validación de coordenadas,\nreferencias geográficas (Google Maps / OSM)")
+System_Ext(notif, "Servicio de\nNotificaciones", "Envío push/email/SMS\n(Firebase Cloud Messaging, SendGrid, Twilio)")
+System_Ext(auth, "Proveedor\nIdentidad", "Autenticación OAuth2/OIDC\n(Google, Microsoft, clave única)")
+
+Rel(vecino, bc, "Reporta problemas\nConsulta sus reportes\nRecibe notificaciones", "HTTPS/REST\nFCM Push")
+Rel(admin, bc, "Filtra y asigna reportes\nCambia estados\nReasigna departamentos", "HTTPS/REST")
+Rel(moderador, bc, "Valida alertas\nCanaliza a municipio", "HTTPS/REST")
+
+Rel(bc, maps, "Valida ubicación\nObtiene referencia", "HTTPS/REST")
+Rel(bc, notif, "Envía notificaciones\npush/email/SMS", "HTTPS/REST")
+Rel(bc, auth, "Autentica usuarios\nValida tokens", "HTTPS/OAuth2")
+
+@enduml

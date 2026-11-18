@@ -1,6 +1,6 @@
 # Barrio Conectado — Sistema de Alerta y Coordinación Vecinal
 
-**Barrio Conectado** es una plataforma de gestión comunitaria orientada a fortalecer la seguridad de los vecindarios mediante la emisión, recepción y seguimiento de problema de infraestructura y alertas en tiempo real. El proyecto busca canalizar y procesar la solicitud directa a la municipalidad de reparaciones, además de notificar incidentes (robos, emergencias médicas, etc.) y coordinar la respuesta rápida entre vecinos, administradores de cuadrante y entidades de apoyo.
+**Barrio Conectado** es una plataforma de gestión comunitaria orientada a fortalecer la seguridad de los vecindarios mediante la emisión, recepción y seguimiento de alertas en tiempo real. El proyecto busca canalizar incidentes (robos, emergencias médicas, sospechas, botones de pánico) y coordinar la respuesta rápida entre vecinos, administradores de cuadrante y entidades de apoyo.
 
 ---
 
@@ -9,10 +9,12 @@
 El sistema combina el uso de servicios de geolocalización, notificaciones *push* de alta prioridad y mapas interactivos para ofrecer un canal directo de comunicación comunitaria. Su diseño prioriza la **simplicidad táctil**, la **fiabilidad del canal de notificaciones** y el **resguardo de los datos sensibles** de los ciudadanos.
 
 ### Características Principales
-* **Emisión de reportes comunitarios y reclamos** en menos de 2 toques.
+
+* **Botón de pánico y emisión rápida de alertas** en menos de 2 toques.
 * **Geolocalización en tiempo real** para la delimitación espacial de incidentes por cuadrante o barrio.
 * **Gestión de roles:** Vecinos, Moderadores de Barrio y Administradores.
-* **Seguridad y privacidad:** Cifrado de extremo a extremo en tráfico de información de los usuarios y reportes.
+* **Notificaciones críticas** de baja latencia mediante Firebase Cloud Messaging (FCM).
+* **Seguridad y privacidad:** Cifrado de extremo a extremo en tráfico y hashing de credenciales.
 
 ---
 
@@ -20,20 +22,20 @@ El sistema combina el uso de servicios de geolocalización, notificaciones *push
 
 A continuación se presenta la documentación técnica estructurada del proyecto, ordenada según las fases de ingeniería de software y arquitectura:
 
-| # | Documento | 
+| # | Documento |
 | :-: | :--- |
 | **01** | [01-proceso-as-is.md](./01-proceso-as-is.md) |
-| **02** | [02-rediseno-to-be.md](./02-rediseno-to-be.md) | 
-| **03** | [03-requisitos.md](./03-requisitos.md) | 
+| **02** | [02-rediseno-to-be.md](./02-rediseno-to-be.md) |
+| **03** | [03-requisitos.md](./03-requisitos.md) |
 | **04** | [04-historias-usuario.md](./04-historias-usuario.md) |
-| **05** | [05-elicitacion.md](./05-elicitacion.md) | 
-| **06** | [06-atributos-calidad.md](./06-atributos-calidad.md) | 
-| **07** | [07-criterios-aceptacion.md](./07-criterios-aceptacion.md) | 
-| **08** | [08-modelo-dominio.md](./08-modelo-dominio.md) | 
-| **09** | [09-casos-de-uso.md](./09-casos-de-uso.md) | 
-| **10** | [10-diagramas-secuencia.md](./10-diagramas-secuencia.md) | 
+| **05** | [05-elicitacion.md](./05-elicitacion.md) |
+| **06** | [06-atributos-calidad.md](./06-atributos-calidad.md) |
+| **07** | [07-criterios-aceptacion.md](./07-criterios-aceptacion.md) |
+| **08** | [08-modelo-dominio.md](./08-modelo-dominio.md) |
+| **09** | [09-casos-de-uso.md](./09-casos-de-uso.md) |
+| **10** | [10-diagramas-secuencia.md](./10-diagramas-secuencia.md) |
 | **11** | [11-diagramas-estado.md](./11-diagramas-estado.md) |
-| **12** | [12-trazabilidad.md](./12-trazabilidad.md) | 
+| **12** | [12-trazabilidad.md](./12-trazabilidad.md) |
 
 ---
 
@@ -60,5 +62,85 @@ El proyecto se rige por tres pilares de calidad fundamentales especificados deta
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone [https://github.com/bruhmzk/Barrio-Conectado.git](https://github.com/bruhmzk/Barrio-Conectado.git)
+   git clone https://github.com/bruhmzk/Barrio-Conectado.git
    cd Barrio-Conectado
+   ```
+
+2. **Instalar dependencias del backend (ejemplo Node.js):**
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. **Configurar variables de entorno:**
+   ```bash
+   cp .env.example .env
+   # Editar .env con credenciales de BD, Firebase, JWT secret, etc.
+   ```
+
+4. **Levantar base de datos (PostgreSQL + PostGIS):**
+   ```bash
+   docker-compose up -d db
+   ```
+
+5. **Ejecutar migraciones:**
+   ```bash
+   npm run migrate
+   ```
+
+6. **Iniciar servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## Estructura del Repositorio
+
+```
+Barrio-Conectado/
+├── README.md
+├── IngReq-Entrega 1.md
+├── IngReq-Entrega 2.md
+├── 01-proceso-as-is.md
+├── 02-rediseno-to-be.md
+├── 03-requisitos.md
+├── 04-historias-usuario.md
+├── 05-elicitacion.md
+├── 06-atributos-calidad.md
+├── 07-criterios-aceptacion.md
+├── 08-modelo-dominio.md
+├── 09-casos-de-uso.md
+├── 10-diagramas-secuencia.md
+├── 11-diagramas-estado.md
+├── 12-trazabilidad.md
+├── diagramas/
+│   ├── as-is.drawio.png
+│   ├── to-be.drawio.png
+│   ├── casos-de-uso.puml / .png
+│   ├── dss-01.puml / .png
+│   ├── dss-02.puml / .png
+│   ├── est-01.puml / .png
+│   ├── est-02.puml / .png
+│   └── modelo-dominio.puml / .png
+└── evidencia/
+    ├── evidencia-1.png
+    ├── evidencia-2.png
+    ├── evidencia-3.png
+    └── evidencia-4.png
+```
+
+---
+
+## Equipo — Entrega 1 y 2
+
+- Bruno Mora
+- Cristóbal Cartagena
+- Jesús Cortés
+- Gabriel Del Castillo
+
+---
+
+## Licencia
+
+Proyecto académico — Metodología de Análisis (CIN 324) — Universidad de Valparaíso, 2026.

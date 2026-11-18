@@ -1,0 +1,73 @@
+@startuml arquitectura-despliegue
+title Despliegue — Barrio Conectado (Producción)
+skinparam shadowing false
+
+Node("Cloud Provider\n(AWS / GCP / Azure / On-prem K8s)") {
+    Node("Kubernetes Cluster\n(Managed EKS/GKE/AKS)") {
+        Node("Namespace: barrio-conectado-prod") {
+            Component("Ingress Controller\n(NGINX / Traefik)", "Ingress", "TLS termination, rate-limit, WAF")
+
+            Component("api-gateway\n(Deployment x3)", "Pod", "NestJS/Express\nCPU: 500m, Mem: 512Mi\nHPA: 3-10 replicas")
+            Component("svc-reportes\n(Deployment x3)", "Pod", "NestJS/FastAPI\nCPU: 1000m, Mem: 1Gi\nHPA: 3-15 replicas")
+            Component("svc-usuarios\n(Deployment x2)", "Pod", "Node/Python\nCPU: 500m, Mem: 512Mi\nHPA: 2-8 replicas")
+            Component("svc-notificaciones\n(Deployment x2)", "Pod", "Node/Python\nCPU: 500m, Mem: 512Mi\nHPA: 2-10 replicas")
+            Component("svc-geografia\n(Deployment x2)", "Pod", "Node/Python\nCPU: 500m, Mem: 512Mi\nHPA: 2-6 replicas")
+
+            Component("redis\n(StatefulSet)", "Pod", "Redis 7 Cluster\n3 masters + 3 replicas\nPersistencia AOF")
+            Component("rabbitmq\n(StatefulSet)", "Pod", "RabbitMQ 3.12\nQuorum queues\nHA policy")
+        }
+    }
+
+    Node("Managed Services") {
+        Database("Cloud SQL\nPostgreSQL + PostGIS", "DB", "PostgreSQL 16\nPostGIS 3.4\nHA: Regional, Auto-failover\nBackups: Diarios + PITR")
+        Component("Cloud Storage\n(S3 / GCS / Blob)", "Storage", "Fotos reportes\nVersionado, Lifecycle, CDN")
+        Component("Secret Manager", "Secrets", "JWT keys, DB pwd, API keys\nRotación automática")
+        Component("Cert Manager\n(Let's Encrypt)", "Certs", "TLS 1.3 automático\nRenovación 30 días")
+    }
+
+    Node("Observabilidad") {
+        Component("Prometheus +\nGrafana", "Monitoring", "Métricas: RED, USE, SLO\nAlertas: PagerDuty/Slack")
+        Component("Loki +\nGrafana", "Logs", "Logs centralizados\nRetención 30d / 1a")
+        Component("Tempo / Jaeger", "Tracing", "Distributed tracing\nMuestreo 10%")
+    }
+}
+
+Node("CDN\n(CloudFront / Cloud CDN)") {
+    Component("Static Assets\n+ Foto Proxy", "CDN", "Cache-Control, Imagen optimizada\nWebP/AVIF auto")
+}
+
+Node("Externos") {
+    Component("Firebase Cloud\nMessaging", "FCM", "Push notifications\nAndroid/iOS/Web")
+    Component("SendGrid /\nMailgun", "Email", "Email transaccional\nTemplates, Tracking")
+    Component("Twilio /\nVonage", "SMS", "SMS fallback\nAlta prioridad")
+    Component("Google Maps /\nOpenStreetMap", "Maps API", "Geocoding, Places\nStatic Maps")
+    Component("Auth Provider\n(Google / Microsoft\n/ ClaveÚnica)", "OIDC", "OAuth2/OIDC\nJWKS validation")
+}
+
+' Relaciones
+Rel("Ingress", "api-gateway", "Route /api/*", "HTTPS/mTLS")
+Rel("api-gateway", "svc-reportes", "gRPC/REST", "Internal mTLS")
+Rel("api-gateway", "svc-usuarios", "gRPC/REST", "Internal mTLS")
+Rel("api-gateway", "svc-notificaciones", "Async", "Redis Streams")
+Rel("api-gateway", "svc-geografia", "gRPC/REST", "Internal mTLS")
+
+Rel("svc-reportes", "Cloud SQL", "SQL/PostGIS", "Pool: PgBouncer")
+Rel("svc-usuarios", "Cloud SQL", "SQL", "Pool: PgBouncer")
+Rel("svc-notificaciones", "Cloud SQL", "SQL", "Pool: PgBouncer")
+Rel("svc-geografia", "Cloud SQL", "SQL (Read)", "Pool: PgBouncer")
+
+Rel("svc-reportes", "redis", "Cache/Sessions", "Redis Protocol")
+Rel("svc-usuarios", "redis", "Sessions/Rate-limit", "Redis Protocol")
+Rel("svc-notificaciones", "rabbitmq", "Queue", "AMQP 1.0")
+
+Rel("svc-notificaciones", "FCM", "Push", "HTTPS/FCMv1")
+Rel("svc-notificaciones", "Email", "Email", "HTTPS/SMTP API")
+Rel("svc-notificaciones", "SMS", "SMS", "HTTPS/REST")
+Rel("svc-geografia", "Maps API", "Geocoding", "HTTPS/REST")
+Rel("svc-usuarios", "OIDC", "Auth", "HTTPS/OIDC")
+
+Rel("App Vecino", "CDN", "Assets/Fotos", "HTTPS")
+Rel("App Vecino", "Ingress", "API", "HTTPS/WSS")
+Rel("Panel Admin", "Ingress", "API", "HTTPS")
+
+@enduml
