@@ -25,11 +25,11 @@ Archivo fuente: [`./diagramas/est-01.puml`](./diagramas/est-01.puml)
 
 ### Notas sobre el ciclo de vida extendido
 
-1. **Descartar desde "Recibido"**: Un administrador puede descartar un reporte directamente sin pasar por "En revisión" (ej. duplicado evidente, fuera de competencia). Requiere motivo obligatorio y genera notificación al vecino (HU-07, CU-07, DSS-03).
+1. **Descartar desde "Recibido"**: Un administrador puede descartar un reporte directamente sin pasar por "EnRevisión" (ej. duplicado evidente, fuera de competencia). Requiere motivo obligatorio y genera notificación al vecino (HU-07, CU-07, DSS-03).
 
-2. **Reapertura desde "En revisión" → "Recibido"**: Si un administrador inicia revisión pero detecta que faltan datos o fue error, puede devolver a "Recibido" para que otro admin lo retome. Queda trazado en `CambioEstado`.
+2. **Reapertura desde "EnRevisión" → "Recibido"**: Si un administrador inicia revisión pero detecta que faltan datos o fue error, puede devolver a "Recibido" para que otro admin lo retome. Queda trazado en `CambioEstado`.
 
-3. **Reapertura desde "Completado" → "En revisión"**: Si el vecino reclama que la solución no fue efectiva (dentro de un plazo configurable, ej. 7 días), un admin puede reabrir el caso. Pasa a "En revisión" directamente para dar prioridad al seguimiento. Queda trazado con nota del motivo.
+3. **Reapertura desde "Completado" → "EnRevisión"**: Si el vecino reclama que la solución no fue efectiva (dentro de un plazo configurable, ej. 7 días), un admin puede reabrir el caso. Pasa a "EnRevisión" directamente para dar prioridad al seguimiento. Queda trazado con nota del motivo.
 
 4. **Prioridad y asignación**: Al entrar a "Recibido", el sistema asigna prioridad automática (regla RP-04/HU-06) y departamento por defecto (RP-05/HU-08). La prioridad manual del admin (CU-06) prevalece y se traza. La reasignación de departamento (CU-08) no cambia el estado, solo actualiza `Asignación`.
 

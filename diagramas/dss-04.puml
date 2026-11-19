@@ -11,7 +11,7 @@ note over Admin, Sistema : Precondición: administrador autenticado y\nreporte e
 
 Admin -> Sistema : Iniciar revisión de reporte\n(número de seguimiento)
 
-Sistema -> Sistema : Cambiar estado: Recibido → En revisión\n/ registrar CambioEstado (fecha, usuario, nota: "Iniciada revisión")
+Sistema -> Sistema : Cambiar estado: Recibido → EnRevisión\n/ registrar CambioEstado (fecha, usuario, nota: "Iniciada revisión")
 
 Sistema -> Notif : Solicitar aviso de cambio de estado al vecino
 

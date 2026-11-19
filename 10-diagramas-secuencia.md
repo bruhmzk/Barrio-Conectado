@@ -48,7 +48,7 @@ Variantes representadas:
 Archivo fuente: [`./diagramas/dss-04.puml`](./diagramas/dss-04.puml)
 
 Variantes representadas:
-- El administrador toma conocimiento de un reporte en estado "Recibido" y lo pasa a "En revisión".
+- El administrador toma conocimiento de un reporte en estado "Recibido" y lo pasa a "EnRevisión".
 - El sistema registra el cambio de estado e invoca al Sistema de Notificaciones.
 - Bloque `alt` para manejo de disponibilidad del servicio de notificaciones.
 

@@ -33,8 +33,8 @@ Los valores entre corchetes ([3] pasos, [X] minutos) son propuestas iniciales.
 
 **Requisito origen:** RP-03 (consultar historial de reportes propios) y RP-08 (notificar cambios de estado al vecino).
 
-**Requisito derivado (RP-12):** El sistema debe permitir al vecino registrarse e iniciar sesión, guardando al menos un medio de contacto (correo o notificación en el dispositivo).
+**Requisito derivado (RP-12):** El sistema debe permitir al vecino registrarse e iniciar sesión mediante **proveedores OAuth2/OIDC (Google, Microsoft, ClaveÚnica)** o credenciales locales (email + contraseña con hash Argon2id), guardando al menos un medio de contacto (correo o token de push notification).
 
-**Justificación:** Para mostrarle a cada vecino solo sus propios reportes y para poder enviarle notificaciones, el sistema necesita saber quién es y cómo contactarlo. Ninguno de los dos requisitos origen se puede cumplir sin esta identificación.
+**Justificación:** Para mostrarle a cada vecino solo sus propios reportes y para poder enviarle notificaciones, el sistema necesita saber quién es y cómo contactarlo. Ninguno de los dos requisitos origen se puede cumplir sin esta identificación. El uso de OAuth2/OIDC reduce fricción de registro y delega la seguridad de contraseñas a proveedores de identidad certificados.
 
 **Actividad TO-BE asociada:** Reporta el problema en la app / Notifica al vecino el descarte / el estado resuelto.

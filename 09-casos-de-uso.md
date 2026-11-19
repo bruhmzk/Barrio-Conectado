@@ -75,9 +75,9 @@ Archivo fuente: [`./diagramas/casos-de-uso.puml`](./diagramas/casos-de-uso.puml)
 
 ### CU-04 — Completar reporte con nota de resolución
 - **Actor principal:** Administrador municipal
-- **Precondición:** El administrador está autenticado; el reporte está en estado "En revisión".
+- **Precondición:** El administrador está autenticado; el reporte está en estado "EnRevisión".
 - **Flujo principal:**
-  1. El administrador selecciona un reporte en "En revisión".
+  1. El administrador selecciona un reporte en "EnRevisión".
   2. El administrador cambia el estado a "Completado" e ingresa la nota de resolución obligatoria.
   3. El sistema valida que la nota no esté vacía.
   4. El sistema actualiza el estado a "Completado", registra el cambio de estado (fecha, hora, usuario, nota).
@@ -114,7 +114,7 @@ Archivo fuente: [`./diagramas/casos-de-uso.puml`](./diagramas/casos-de-uso.puml)
 
 ### CU-07 — Descartar reporte indicando el motivo
 - **Actor principal:** Administrador municipal
-- **Precondición:** El administrador está autenticado; el reporte está en "Recibido" o "En revisión".
+- **Precondición:** El administrador está autenticado; el reporte está en "Recibido" o "EnRevisión".
 - **Flujo principal:**
   1. El administrador selecciona un reporte.
   2. El administrador cambia el estado a "Descartado" e ingresa el motivo obligatorio.

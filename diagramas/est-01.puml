@@ -7,7 +7,7 @@ skinparam state {
 }
 
 state "Recibido" as Recibido
-state "En revisión" as EnRevision
+state "EnRevisión" as EnRevision
 state "Completado" as Completado
 state "Descartado" as Descartado
 

@@ -91,23 +91,23 @@ Historia: Como vecino, quiero recibir una notificación cuando cambie el estado 
 Característica: Notificación de cambios de estado
 
   Escenario: Notificación al completar un reporte
-    Dado que un vecino tiene un reporte en estado "En revisión"
+    Dado que un vecino tiene un reporte en estado "EnRevisión"
     Cuando el administrador cambia el estado a "Completado" con nota de resolución
     Entonces el sistema envía una notificación push al dispositivo del vecino
     Y la notificación incluye el número de seguimiento y el nuevo estado "Completado"
     Y la notificación llega en un máximo de 5 minutos.
 
   Escenario: Notificación al descartar un reporte
-    Dado que un vecino tiene un reporte en estado "En revisión"
+    Dado que un vecino tiene un reporte en estado "EnRevisión"
     Cuando el administrador cambia el estado a "Descartado" con motivo de descarte
     Entonces el sistema envía una notificación push al dispositivo del vecino
     Y la notificación incluye el número de seguimiento, el nuevo estado "Descartado" y el motivo del descarte.
 
   Escenario: Notificación al iniciar revisión
     Dado que un vecino tiene un reporte en estado "Recibido"
-    Cuando el administrador cambia el estado a "En revisión"
+    Cuando el administrador cambia el estado a "EnRevisión"
     Entonces el sistema envía una notificación push al dispositivo del vecino
-    Y la notificación incluye el número de seguimiento y el nuevo estado "En revisión".
+    Y la notificación incluye el número de seguimiento y el nuevo estado "EnRevisión".
 
   Escenario: Fallo en el servicio de notificaciones con reintento
     Dado que el servicio de notificaciones está temporalmente no disponible
@@ -172,20 +172,20 @@ Historia: Como administrador municipal, quiero descartar un reporte indicando el
 Característica: Descarte de reportes con motivo
 
   Escenario: Descarte exitoso con motivo
-    Dado que un reporte se encuentra en estado "En revisión"
+    Dado que un reporte se encuentra en estado "EnRevisión"
     Cuando el administrador cambia el estado a "Descartado" e ingresa el motivo "No corresponde a competencia municipal"
     Entonces el sistema actualiza el estado a "Descartado"
     Y registra la fecha, hora, usuario y motivo del descarte
     Y envía notificación al vecino con el número de seguimiento, estado "Descartado" y el motivo.
 
   Escenario: Intento de descarte sin motivo
-    Dado que un reporte se encuentra en estado "En revisión"
+    Dado que un reporte se encuentra en estado "EnRevisión"
     Cuando el administrador intenta cambiar el estado a "Descartado" dejando el motivo en blanco
     Entonces el sistema impide la actualización del estado
     Y requiere que se ingrese obligatoriamente el motivo del descarte.
 
   Escenario: Descarte directo desde "Recibido"
-    Dado que un reporte se encuentra en estado "Recibido" (sin pasar por "En revisión")
+    Dado que un reporte se encuentra en estado "Recibido" (sin pasar por "EnRevisión")
     Cuando el administrador cambia el estado a "Descartado" con motivo "Duplicado de reporte #12345"
     Entonces el sistema actualiza el estado a "Descartado"
     Y registra la fecha, hora, usuario y motivo

@@ -7,7 +7,7 @@ actor Admin as "Administrador\nmunicipal"
 participant Sistema as "Sistema\nBarrio Conectado"
 participant Notif as "Servicio de\nnotificaciones" <<sistema externo>>
 
-note over Admin, Sistema : Precondición: administrador autenticado y\nreporte en estado "Recibido" o "En revisión"
+note over Admin, Sistema : Precondición: administrador autenticado y\nreporte en estado "Recibido" o "EnRevisión"
 
 Admin -> Sistema : Descartar reporte indicando número\nde seguimiento y motivo de descarte
 
