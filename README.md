@@ -35,10 +35,12 @@ Estado actual (Entrega 3):
 |---|---|
 | HU-01 — Registrar un reporte | Implementada (cambio `hu-01-registrar-reporte`) |
 | HU-02 — Consultar mis reportes | Implementada (cambio `hu-02-consultar-mis-reportes`) |
-| HU-03 — Filtrar reportes para asignar personal | Pendiente |
+| HU-03 — Filtrar reportes para asignar personal | Implementada (cambio `hu-03-filtrar-reportes`) |
 | HU-04 — Completar un reporte con nota de resolución | Pendiente |
 
 La aplicación es web, sencilla y sin autenticación real: se usa un **selector de usuario de demostración** (Vecino Demo, Vecino Demo 2 y Administrador Demo). Los sistemas externos se simulan mediante adaptadores; por ahora, el **Servicio de mapas y geolocalización**.
+
+El panel de administración está en **GET /administracion/reportes** y requiere elegir **Administrador Demo** en el selector. Muestra número de seguimiento, categoría, prioridad, estado, departamento asignado y fecha de registro. Permite filtrar por **categoría**, **prioridad** (Alta / Media / Baja) y **estado** (Recibido / En revisión / Completado / Descartado); los filtros se combinan con **AND** y se conservan al aplicarlos. Sin filtros se muestran todos los reportes. La lista se ordena de **Alta → Media → Baja** y, en empate, por fecha de registro más reciente. Si no hay coincidencias, aparece «No hay resultados. Cambia los criterios de búsqueda» y el formulario sigue visible.
 
 ### Stack
 
@@ -103,7 +105,7 @@ Abre **http://localhost:8000**.
 pytest
 ```
 
-La suite incluye una prueba por cada escenario de HU-01 (registro exitoso, datos incompletos, ubicación válida, ubicación no válida y clasificación automática) y de HU-02 (lista de reportes propios, vecino sin reportes, historial de cambios de estado, más las variantes de reporte ajeno, reporte sin cambios y sin usuario seleccionado), además de pruebas de migraciones, conexión, número de seguimiento, adaptador de mapas y servicio de registro.
+La suite incluye una prueba por cada escenario de HU-01 (registro exitoso, datos incompletos, ubicación válida, ubicación no válida y clasificación automática) y de HU-02 (lista de reportes propios, vecino sin reportes, historial de cambios de estado, más las variantes de reporte ajeno, reporte sin cambios y sin usuario seleccionado), además de pruebas de migraciones, conexión, número de seguimiento, adaptador de mapas y servicio de registro. También incluye las pruebas del cambio HU-03: consulta ordenada y filtrada, control del administrador de demostración y una prueba por cada escenario Gherkin.
 
 > En Windows usa `& ".venv\Scripts\python.exe" -m pytest` si `pytest` no está en el PATH.
 
@@ -162,8 +164,40 @@ La suite incluye una prueba por cada escenario de HU-01 (registro exitoso, datos
 
 ---
 
+## Recorrido manual de HU-03
+
+Abre http://localhost:8000 y elige **Administrador Demo (administrador)** en el selector de la cabecera. En el menú aparece **Panel de administración**; también puedes entrar directamente a `GET /administracion/reportes`.
+
+### Escenario 1 — Filtrado de reportes por categoría y alta prioridad
+
+1. En el panel, selecciona **Microbasural** y **Alta**; deja **Estado** vacío.
+2. Pulsa **Filtrar**.
+3. Debería aparecer solo `BC-2026-000102` (**Microbasural**, **Alta**, **En revisión**, **Aseo**).
+
+### Escenario 2 — Filtrado sin resultados coincidentes
+
+1. Selecciona **Luminaria**, **Alta** y **Completado**.
+2. Pulsa **Filtrar**.
+3. Debería aparecer «No hay resultados. Cambia los criterios de búsqueda»; los tres filtros siguen seleccionados y puedes modificarlos.
+
+### Escenario 3 — Consulta combinada de categoría, prioridad y estado
+
+1. Selecciona **Bache**, **Alta** y **Recibido**.
+2. Pulsa **Filtrar**.
+3. Debería aparecer solo `BC-2026-000103` con **Obras**; los tres valores siguen seleccionados.
+
+### Escenario 4 — Visualización del departamento asignado y del estado en la lista
+
+1. Pulsa **Limpiar filtros**.
+2. Deberían aparecer los tres reportes en este orden: `BC-2026-000103` (Alta/Obras/Recibido), `BC-2026-000102` (Alta/Aseo/En revisión) y `BC-2026-000101` (Media/Alumbrado/Recibido).
+3. Comprueba las columnas **Departamento** y **Estado**; «En revisión» se muestra tal cual, sin cambiar el estado de ningún reporte.
+
+> Si no hay usuario o está seleccionado un vecino, el panel pide elegir un administrador de demostración. HU-03 es de solo lectura: no asigna personal ni cambia estados.
+
+---
+
 ## Notas de la Entrega 3
 
 - Cada historia se implementa en un cambio de OpenSpec (`openspec/changes/hu-xx-...`), revisado antes de escribir código.
 - Los requisitos no funcionales (RP-09, RP-10, RP-11) se leen pero no se implementan.
-- HU-03 y HU-04 se implementarán en los siguientes ciclos, en ese orden.
+- HU-04 se implementará en el siguiente ciclo.

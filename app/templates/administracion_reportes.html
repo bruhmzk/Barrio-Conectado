@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block titulo %}Panel de administración — Barrio Conectado{% endblock %}
+{% block contenido %}
+<h2>Panel de administración</h2>
+{% if sin_administrador %}
+<p class="aviso">{{ mensaje_sin_administrador }}</p>
+{% else %}
+<form method="get" action="/administracion/reportes">
+  <label for="categoria_id">Categoría
+    <select id="categoria_id" name="categoria_id">
+      <option value="" {% if not filtros.categoria_id %}selected{% endif %}>— Todas —</option>
+      {% for categoria in categorias %}
+      <option value="{{ categoria.id }}" {% if filtros.categoria_id|string == categoria.id|string %}selected{% endif %}>{{ categoria.nombre }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label for="prioridad">Prioridad
+    <select id="prioridad" name="prioridad">
+      <option value="" {% if not filtros.prioridad %}selected{% endif %}>— Todas —</option>
+      {% for opcion in prioridades %}
+      <option value="{{ opcion }}" {% if filtros.prioridad == opcion %}selected{% endif %}>{{ opcion }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label for="estado">Estado
+    <select id="estado" name="estado">
+      <option value="" {% if not filtros.estado %}selected{% endif %}>— Todos —</option>
+      {% for opcion in estados %}
+      <option value="{{ opcion }}" {% if filtros.estado == opcion %}selected{% endif %}>{{ opcion }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <button type="submit">Filtrar</button>
+  <a class="boton" href="/administracion/reportes">Limpiar filtros</a>
+</form>
+{% if reportes %}
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>Número de seguimiento</th>
+      <th>Categoría</th>
+      <th>Prioridad</th>
+      <th>Estado</th>
+      <th>Departamento</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reporte in reportes %}
+    <tr>
+      <td>{{ reporte.numero_seguimiento }}</td>
+      <td>{{ reporte.categoria }}</td>
+      <td>{{ reporte.prioridad }}</td>
+      <td>{{ reporte.estado }}</td>
+      <td>{{ reporte.departamento }}</td>
+      <td>{{ reporte.fecha_hora_registro }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="aviso">{{ mensaje_sin_resultados }}</p>
+{% endif %}
+{% endif %}
+{% endblock %}

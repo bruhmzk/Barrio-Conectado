@@ -3,6 +3,7 @@ from datetime import datetime
 
 ESTADO_INICIAL = "Recibido"
 ESTADOS = ("Recibido", "En revisión", "Completado", "Descartado")
+PRIORIDADES = ("Alta", "Media", "Baja")
 
 PRIORIDAD_POR_URGENCIA = {
     "alta": "Alta",
@@ -71,3 +72,37 @@ def listar_cambios_estado(conn, reporte_id):
         "FROM cambios_estado WHERE reporte_id = ? ORDER BY fecha_hora",
         (reporte_id,),
     ).fetchall()
+
+
+def listar_reportes_para_administracion(
+    conn, categoria_id=None, prioridad=None, estado=None
+):
+    sql = (
+        "SELECT r.numero_seguimiento, r.descripcion, r.fecha_hora_registro, "
+        "r.estado, r.prioridad, c.nombre AS categoria, d.nombre AS departamento "
+        "FROM reportes r "
+        "JOIN categorias c ON c.id = r.categoria_id "
+        "LEFT JOIN asignaciones a ON a.id = ("
+        "SELECT MIN(id) FROM asignaciones WHERE reporte_id = r.id"
+        ") "
+        "LEFT JOIN departamentos d ON d.id = a.departamento_id"
+    )
+    condiciones = []
+    valores = []
+    if categoria_id:
+        condiciones.append("r.categoria_id = ?")
+        valores.append(categoria_id)
+    if prioridad:
+        condiciones.append("r.prioridad = ?")
+        valores.append(prioridad)
+    if estado:
+        condiciones.append("r.estado = ?")
+        valores.append(estado)
+    if condiciones:
+        sql += " WHERE " + " AND ".join(condiciones)
+    sql += (
+        " ORDER BY CASE r.prioridad "
+        "WHEN 'Alta' THEN 1 WHEN 'Media' THEN 2 WHEN 'Baja' THEN 3 ELSE 4 END, "
+        "r.fecha_hora_registro DESC"
+    )
+    return conn.execute(sql, valores).fetchall()
