@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo %}Confirmación — Barrio Conectado{% endblock %}
+{% block contenido %}
+{% if reporte %}
+<h2>Reporte registrado</h2>
+<p>Tu reporte fue registrado con el número de seguimiento:</p>
+<p class="folio">{{ reporte.numero_seguimiento }}</p>
+<ul class="datos">
+  <li>Categoría: {{ reporte.categoria }}</li>
+  <li>Estado: {{ reporte.estado }}</li>
+  <li>Prioridad: {{ reporte.prioridad }}</li>
+  <li>Departamento asignado: {{ reporte.departamento }}</li>
+  <li>Fecha y hora: {{ reporte.fecha_hora_registro }}</li>
+</ul>
+<p><a class="boton" href="/reportes/nuevo">Registrar otro reporte</a></p>
+{% else %}
+<h2>Reporte no encontrado</h2>
+<p>No existe un reporte con ese número de seguimiento.</p>
+<p><a href="/">Volver al inicio</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Barrio Conectado{% endblock %}</title>
+  <style>
+    :root { --azul:#1f4e79; --gris:#f4f6f8; --borde:#d6dde4; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:#1c2733; background:var(--gris); }
+    header { background:var(--azul); color:#fff; padding:1rem 1.25rem; display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:space-between; }
+    header h1 { font-size:1.25rem; margin:0; }
+    header h1 a { color:#fff; text-decoration:none; }
+    header form { display:flex; gap:.5rem; align-items:center; font-size:.9rem; }
+    header select { padding:.35rem; border-radius:.35rem; border:0; }
+    header .usuario { margin:0; font-size:.85rem; opacity:.9; }
+    main { max-width:760px; margin:2rem auto; padding:0 1rem 3rem; }
+    section { background:#fff; border:1px solid var(--borde); border-radius:.6rem; padding:1.25rem 1.5rem; }
+    h2 { margin-top:0; color:var(--azul); }
+    label { display:block; margin-bottom:1rem; font-weight:600; }
+    input, select, textarea { display:block; width:100%; margin-top:.35rem; padding:.55rem; border:1px solid var(--borde); border-radius:.4rem; font:inherit; font-weight:400; }
+    button, .boton { display:inline-block; background:var(--azul); color:#fff; border:0; border-radius:.4rem; padding:.6rem 1.1rem; font:inherit; font-weight:600; text-decoration:none; cursor:pointer; }
+    .errores { background:#fdecea; border:1px solid #f5c2c0; color:#8a1f1a; border-radius:.4rem; padding:.8rem 1rem; margin-bottom:1rem; }
+    .errores ul { margin:.4rem 0 0 1.1rem; }
+    .aviso { background:#fff7e0; border:1px solid #f0d78c; padding:.7rem 1rem; border-radius:.4rem; }
+    .folio { font-size:1.6rem; font-weight:700; letter-spacing:.05em; color:var(--azul); }
+    .ayuda { font-size:.85rem; color:#5b6b7a; margin-top:-.5rem; }
+    ul.datos { padding-left:1.1rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><a href="/">Barrio Conectado</a></h1>
+    <form method="post" action="/demo/usuario">
+      <label for="usuario_id" style="margin:0;font-weight:400;">Usuario de demostración</label>
+      <select id="usuario_id" name="usuario_id" onchange="this.form.submit()">
+        <option value="">— Selecciona —</option>
+        {% for u in usuarios %}
+        <option value="{{ u.id }}" {% if usuario and usuario.id == u.id %}selected{% endif %}>{{ u.nombre }} ({{ u.rol }})</option>
+        {% endfor %}
+      </select>
+      <noscript><button type="submit">Cambiar</button></noscript>
+    </form>
+    {% if usuario %}<p class="usuario">Sesión: <strong>{{ usuario.nombre }}</strong></p>{% endif %}
+  </header>
+  <main>
+    <section>
+      {% block contenido %}{% endblock %}
+    </section>
+  </main>
+</body>
+</html>

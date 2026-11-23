@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block titulo %}Registrar reporte — Barrio Conectado{% endblock %}
+{% block contenido %}
+<h2>Registrar un reporte</h2>
+{% if errores %}
+<div class="errores" role="alert">
+  <strong>No se pudo registrar el reporte.</strong> Revisa los datos obligatorios:
+  <ul>{% for e in errores %}<li>{{ e }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+{% if not usuario %}
+<p class="aviso">Selecciona un usuario de demostración en la cabecera para registrar el reporte.</p>
+{% endif %}
+<form method="post" action="/reportes" enctype="multipart/form-data">
+  <label>Categoría *
+    <select name="categoria_id" required>
+      <option value="">— Selecciona —</option>
+      {% for c in categorias %}
+      <option value="{{ c.id }}" {% if valores.categoria_id == c.id|string %}selected{% endif %}>{{ c.nombre }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Descripción *
+    <textarea name="descripcion" rows="4" required>{{ valores.descripcion or "" }}</textarea>
+  </label>
+  <label>Fotografía *
+    <input type="file" name="foto" accept="image/*" required>
+  </label>
+  <label>Latitud *
+    <input type="number" name="latitud" step="any" min="-90" max="90" value="{{ valores.latitud or '' }}" required>
+  </label>
+  <label>Longitud *
+    <input type="number" name="longitud" step="any" min="-180" max="180" value="{{ valores.longitud or '' }}" required>
+  </label>
+  <p class="ayuda">La ubicación se valida con el Servicio de mapas y geolocalización (simulado).</p>
+  <button type="submit">Enviar reporte</button>
+</form>
+{% endblock %}

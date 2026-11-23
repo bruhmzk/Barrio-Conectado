@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo %}Inicio — Barrio Conectado{% endblock %}
+{% block contenido %}
+<h2>Reporta un problema de tu barrio</h2>
+<p>Este es el canal único para informar luminarias rotas, microbasurales, baches y otros problemas de la vía pública.</p>
+{% if usuario %}
+<p><a class="boton" href="/reportes/nuevo">Registrar un reporte</a></p>
+{% else %}
+<p class="aviso">Selecciona un usuario de demostración en la cabecera para comenzar.</p>
+{% endif %}
+{% endblock %}
