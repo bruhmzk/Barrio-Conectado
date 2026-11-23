@@ -43,6 +43,7 @@
       <th>Estado</th>
       <th>Departamento</th>
       <th>Fecha</th>
+      <th>Acción</th>
     </tr>
   </thead>
   <tbody>
@@ -54,6 +55,11 @@
       <td>{{ reporte.estado }}</td>
       <td>{{ reporte.departamento }}</td>
       <td>{{ reporte.fecha_hora_registro }}</td>
+      <td>
+        {% if reporte.estado == "En revisión" %}
+        <a href="/administracion/reportes/{{ reporte.numero_seguimiento }}/completar">Completar</a>
+        {% else %}—{% endif %}
+      </td>
     </tr>
     {% endfor %}
   </tbody>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block titulo %}Completar reporte — Barrio Conectado{% endblock %}
+{% block contenido %}
+<h2>Completar reporte</h2>
+{% if sin_administrador %}
+<p class="aviso">{{ mensaje_sin_administrador }}</p>
+{% elif reporte is none %}
+<h3>Reporte no encontrado</h3>
+<p>No existe un reporte con ese número de seguimiento.</p>
+{% elif resultado and resultado.exito %}
+<p>El reporte <strong>{{ reporte.numero_seguimiento }}</strong> quedó en estado <strong>{{ reporte.estado }}</strong>.</p>
+<p>Historial actualizado con la nota de resolución registrada.</p>
+<p class="aviso">{{ resultado.aviso }}</p>
+{% else %}
+<ul class="datos">
+  <li><strong>Número de seguimiento:</strong> {{ reporte.numero_seguimiento }}</li>
+  <li><strong>Descripción:</strong> {{ reporte.descripcion }}</li>
+  <li><strong>Estado actual:</strong> {{ reporte.estado }}</li>
+</ul>
+{% if resultado and not resultado.exito %}
+<p class="errores">{{ resultado.mensaje }}</p>
+{% elif estado_invalido %}
+<p class="aviso">El reporte no está En revisión</p>
+{% endif %}
+{% if not estado_invalido %}
+<form method="post" action="/administracion/reportes/{{ reporte.numero_seguimiento }}/completar">
+  <label for="nota">Nota de resolución
+    <textarea id="nota" name="nota" rows="4">{{ nota }}</textarea>
+  </label>
+  <button type="submit">Completar reporte</button>
+</form>
+{% endif %}
+{% endif %}
+<p><a href="/administracion/reportes">Volver al panel de administración</a></p>
+{% endblock %}

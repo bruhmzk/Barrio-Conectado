@@ -41,7 +41,7 @@
 | HU-01 | hecha | `hu-01-registrar-reporte` → archivado como `2026-11-23-hu-01-registrar-reporte` | 2026-11-23 | 15/15 tareas; 18 pruebas; validado por el estudiante sin observaciones |
 | HU-02 | hecha | `hu-02-consultar-mis-reportes` → archivado como `2026-11-23-hu-02-consultar-mis-reportes` | 2026-11-23 | 15/15 tareas; 40 pruebas; specs sincronizadas en `openspec/specs/reportes/spec.md`; validado por el estudiante sin observaciones |
 | HU-03 | hecha | `hu-03-filtrar-reportes` → archivado como `2026-11-23-hu-03-filtrar-reportes` | 2026-11-23 | 12/12 tareas; 51 pruebas; specs sincronizadas en `openspec/specs/reportes/spec.md`; ficha y especificaciones confirmadas por el estudiante |
-| HU-04 | pendiente | — | — | Completar reporte con nota de resolución |
+| HU-04 | hecha | `hu-04-completar-reporte` → archivado como `2026-11-23-hu-04-completar-reporte` | 2026-11-23 | 14/14 tareas; 70 pruebas; specs sincronizadas en `openspec/specs/reportes/spec.md`; validado por el estudiante sin observaciones |
 | HU-05 | pendiente | — | — | Sin Gherkin; fuera de esta entrega |
 | HU-06 | pendiente | — | — | Sin Gherkin/CU; fuera de esta entrega |
 | HU-07 | pendiente | — | — | Sin Gherkin/CU; fuera de esta entrega |
@@ -53,6 +53,7 @@
 | HU-01 | — | verificado en el sistema, sin observaciones | 2026-11-23 |
 | HU-02 | — | verificado en el sistema, sin observaciones | 2026-11-23 |
 | HU-03 | — | verificado con 51 pruebas (11 nuevas), sin regresiones | 2026-11-23 |
+| HU-04 | — | verificado en el sistema, sin observaciones | 2026-11-23 |
 
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |

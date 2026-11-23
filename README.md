@@ -36,11 +36,11 @@ Estado actual (Entrega 3):
 | HU-01 — Registrar un reporte | Implementada (cambio `hu-01-registrar-reporte`) |
 | HU-02 — Consultar mis reportes | Implementada (cambio `hu-02-consultar-mis-reportes`) |
 | HU-03 — Filtrar reportes para asignar personal | Implementada (cambio `hu-03-filtrar-reportes`) |
-| HU-04 — Completar un reporte con nota de resolución | Pendiente |
+| HU-04 — Completar un reporte con nota de resolución | Implementada (cambio `hu-04-completar-reporte`) |
 
-La aplicación es web, sencilla y sin autenticación real: se usa un **selector de usuario de demostración** (Vecino Demo, Vecino Demo 2 y Administrador Demo). Los sistemas externos se simulan mediante adaptadores; por ahora, el **Servicio de mapas y geolocalización**.
+La aplicación es web, sencilla y sin autenticación real: se usa un **selector de usuario de demostración** (Vecino Demo, Vecino Demo 2 y Administrador Demo). Los sistemas externos se simulan mediante adaptadores: el **Servicio de mapas y geolocalización** y el **Sistema de Notificaciones**.
 
-El panel de administración está en **GET /administracion/reportes** y requiere elegir **Administrador Demo** en el selector. Muestra número de seguimiento, categoría, prioridad, estado, departamento asignado y fecha de registro. Permite filtrar por **categoría**, **prioridad** (Alta / Media / Baja) y **estado** (Recibido / En revisión / Completado / Descartado); los filtros se combinan con **AND** y se conservan al aplicarlos. Sin filtros se muestran todos los reportes. La lista se ordena de **Alta → Media → Baja** y, en empate, por fecha de registro más reciente. Si no hay coincidencias, aparece «No hay resultados. Cambia los criterios de búsqueda» y el formulario sigue visible.
+El panel de administración está en **GET /administracion/reportes** y requiere elegir **Administrador Demo** en el selector. Muestra número de seguimiento, categoría, prioridad, estado, departamento asignado y fecha de registro. Permite filtrar por **categoría**, **prioridad** (Alta / Media / Baja) y **estado** (Recibido / En revisión / Completado / Descartado); los filtros se combinan con **AND** y se conservan al aplicarlos. Sin filtros se muestran todos los reportes. La lista se ordena de **Alta → Media → Baja** y, en empate, por fecha de registro más reciente. Si no hay coincidencias, aparece «No hay resultados. Cambia los criterios de búsqueda» y el formulario sigue visible. La columna **Acción** muestra el enlace **Completar** solo para los reportes en **En revisión**.
 
 ### Stack
 
@@ -105,7 +105,7 @@ Abre **http://localhost:8000**.
 pytest
 ```
 
-La suite incluye una prueba por cada escenario de HU-01 (registro exitoso, datos incompletos, ubicación válida, ubicación no válida y clasificación automática) y de HU-02 (lista de reportes propios, vecino sin reportes, historial de cambios de estado, más las variantes de reporte ajeno, reporte sin cambios y sin usuario seleccionado), además de pruebas de migraciones, conexión, número de seguimiento, adaptador de mapas y servicio de registro. También incluye las pruebas del cambio HU-03: consulta ordenada y filtrada, control del administrador de demostración y una prueba por cada escenario Gherkin.
+La suite incluye una prueba por cada escenario de HU-01 (registro exitoso, datos incompletos, ubicación válida, ubicación no válida y clasificación automática) y de HU-02 (lista de reportes propios, vecino sin reportes, historial de cambios de estado, más las variantes de reporte ajeno, reporte sin cambios y sin usuario seleccionado), además de pruebas de migraciones, conexión, número de seguimiento, adaptador de mapas y servicio de registro. También incluye las pruebas del cambio HU-03: consulta ordenada y filtrada, control del administrador de demostración y una prueba por cada escenario Gherkin. El cambio HU-04 aporta pruebas del adaptador de notificaciones, de la transición `completar_reporte`, del panel de administración y de los cuatro escenarios Gherkin (cierre exitoso, nota obligatoria, estado inválido y notificaciones no disponibles).
 
 > En Windows usa `& ".venv\Scripts\python.exe" -m pytest` si `pytest` no está en el PATH.
 
@@ -196,8 +196,45 @@ Abre http://localhost:8000 y elige **Administrador Demo (administrador)** en el 
 
 ---
 
+## Recorrido manual de HU-04
+
+Abre http://localhost:8000 y elige **Administrador Demo (administrador)**. En **Panel de administración**, la fila de `BC-2026-000102` muestra el enlace **Completar** porque está **En revisión**. También puedes entrar directamente a `GET /administracion/reportes/BC-2026-000102/completar`.
+
+La **nota de resolución** es obligatoria: se recorta antes de guardarse y no se permite una nota vacía o con solo espacios. El cierre solo se permite desde **En revisión** y escribe `Completado` en `reportes.estado` junto con un `CambioEstado` con la nota y el administrador que realizó la acción. El **Sistema de Notificaciones** se simula: muestra «aviso aceptado» o «aviso pendiente de envío» en la confirmación; para probar la caída, inicia la aplicación con `CIN324_NOTIFICACIONES_DISPONIBLES=0`. No se crea ninguna tabla `Notificación` ni `notificaciones`.
+
+### Escenario 1 — Cierre exitoso de un reporte con justificación
+
+1. Con **Administrador Demo**, pulsa **Completar** en `BC-2026-000102`.
+2. Escribe «Microbasural retirado y verificado» en **Nota de resolución** y pulsa **Completar reporte**.
+3. Deberías ver el reporte en estado **Completado** y el mensaje del aviso simulado: «aviso aceptado».
+4. Cambia a **Vecino Demo**, entra a **Mis reportes** y abre `BC-2026-000102`: el estado actual es **Completado** y el historial muestra la nota registrada.
+
+### Escenario 2 — Intento de cierre sin nota de resolución
+
+1. Si ya completaste el reporte, vuelve a crear la base con `python -m app.db.seed` para recuperar `BC-2026-000102` en **En revisión**.
+2. Con **Administrador Demo**, abre el formulario de `BC-2026-000102`.
+3. Deja el campo **Nota de resolución** vacío o con espacios y pulsa **Completar reporte**.
+4. Deberías ver «La nota de resolución es obligatoria»; el reporte sigue **En revisión** y no aparece un `CambioEstado` nuevo.
+
+### Escenario 3 — Cierre de un reporte que no está En revisión
+
+1. Con **Administrador Demo**, entra directamente a `/administracion/reportes/BC-2026-000101/completar`.
+2. Escribe cualquier nota y pulsa **Completar reporte**.
+3. Deberías ver «El reporte no está En revisión»; `BC-2026-000101` sigue **Recibido** y sin cambios de estado.
+
+### Escenario 4 — Cierre con notificaciones no disponibles
+
+1. Detén el servidor y vuelve a iniciarlo con la variable de entorno `CIN324_NOTIFICACIONES_DISPONIBLES=0`.
+2. Vuelve a crear la base con `python -m app.db.seed` si el reporte ya estaba completado.
+3. Con **Administrador Demo**, completa `BC-2026-000102` con una nota cualquiera.
+4. El cierre queda registrado como **Completado** y la confirmación indica «aviso pendiente de envío». La base sigue sin tabla `notificaciones`.
+
+> Si no hay usuario seleccionado o está elegido un vecino, la pantalla de cierre pide «Selecciona un administrador de demostración para completar el reporte» y no escribe en la base.
+
+---
+
 ## Notas de la Entrega 3
 
 - Cada historia se implementa en un cambio de OpenSpec (`openspec/changes/hu-xx-...`), revisado antes de escribir código.
 - Los requisitos no funcionales (RP-09, RP-10, RP-11) se leen pero no se implementan.
-- HU-04 se implementará en el siguiente ciclo.
+- Las cuatro historias están implementadas; HU-04 quedó registrada en el cambio `hu-04-completar-reporte`, archivado el 2026-11-23, y validada por el estudiante sin observaciones.

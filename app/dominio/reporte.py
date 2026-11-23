@@ -1,9 +1,24 @@
 import random
+from dataclasses import dataclass
 from datetime import datetime
+
+from app.integraciones.notificaciones import (
+    NotificacionesSimuladas,
+    ResultadoAviso,
+    SolicitudAviso,
+)
 
 ESTADO_INICIAL = "Recibido"
 ESTADOS = ("Recibido", "En revisión", "Completado", "Descartado")
 PRIORIDADES = ("Alta", "Media", "Baja")
+
+
+@dataclass
+class ResultadoCierre:
+    exito: bool
+    mensaje: str
+    aviso: str = ""
+
 
 PRIORIDAD_POR_URGENCIA = {
     "alta": "Alta",
@@ -106,3 +121,60 @@ def listar_reportes_para_administracion(
         "r.fecha_hora_registro DESC"
     )
     return conn.execute(sql, valores).fetchall()
+
+
+def completar_reporte(conn, numero_seguimiento, nota, usuario_id, notificador=None):
+    fila = conn.execute(
+        "SELECT r.id, r.estado, u.nombre AS destinatario "
+        "FROM reportes r JOIN usuarios u ON u.id = r.usuario_id "
+        "WHERE r.numero_seguimiento = ?",
+        (numero_seguimiento,),
+    ).fetchone()
+    if fila is None:
+        return ResultadoCierre(False, "No existe un reporte con ese número de seguimiento")
+    if fila["estado"] != "En revisión":
+        return ResultadoCierre(False, "El reporte no está En revisión")
+
+    nota_limpia = nota.strip() if nota else ""
+    if not nota_limpia:
+        return ResultadoCierre(False, "La nota de resolución es obligatoria")
+
+    fecha_hora = datetime.now().isoformat(timespec="seconds")
+    with conn:
+        actualizado = conn.execute(
+            "UPDATE reportes SET estado = ? WHERE id = ? AND estado = ?",
+            ("Completado", fila["id"], "En revisión"),
+        )
+        if actualizado.rowcount != 1:
+            return ResultadoCierre(False, "El reporte no está En revisión")
+        conn.execute(
+            "INSERT INTO cambios_estado "
+            "(reporte_id, fecha_hora, estado_anterior, estado_nuevo, nota, usuario_id) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (
+                fila["id"],
+                fecha_hora,
+                "En revisión",
+                "Completado",
+                nota_limpia,
+                usuario_id,
+            ),
+        )
+
+    if notificador is None:
+        notificador = NotificacionesSimuladas()
+    try:
+        resultado_aviso = notificador.solicitar_aviso(
+            SolicitudAviso(
+                numero_seguimiento=numero_seguimiento,
+                destinatario=fila["destinatario"],
+                estado_nuevo="Completado",
+                nota=nota_limpia,
+            )
+        )
+    except Exception:
+        resultado_aviso = ResultadoAviso(False, "aviso pendiente de envío")
+
+    return ResultadoCierre(
+        True, "Reporte completado correctamente", resultado_aviso.mensaje
+    )
