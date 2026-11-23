@@ -3,7 +3,12 @@ from fastapi.responses import RedirectResponse
 
 from app.db.conexion import obtener_db
 from app.dominio.categoria import listar_categorias
-from app.dominio.reporte import obtener_reporte_por_numero
+from app.dominio.reporte import (
+    listar_cambios_estado,
+    listar_reportes_de_usuario,
+    obtener_reporte_por_numero,
+    obtener_reporte_para_usuario,
+)
 from app.dominio.usuario import listar_usuarios
 from app.rutas.comun import render
 from app.rutas.demo import usuario_actual
@@ -20,6 +25,24 @@ def _contexto(conn, usuario, errores, valores):
         "errores": errores,
         "valores": valores,
     }
+
+
+@router.get("")
+def mis_reportes(
+    request: Request, conn=Depends(obtener_db), usuario=Depends(usuario_actual)
+):
+    reportes = (
+        listar_reportes_de_usuario(conn, usuario["id"]) if usuario is not None else []
+    )
+    return render(
+        request,
+        "mis_reportes.html",
+        {
+            "usuarios": listar_usuarios(conn),
+            "usuario": usuario,
+            "reportes": reportes,
+        },
+    )
 
 
 @router.get("/nuevo")
@@ -90,6 +113,43 @@ def confirmacion(
             "usuarios": listar_usuarios(conn),
             "usuario": usuario,
             "reporte": reporte,
+        },
+        status_code=estado,
+    )
+
+
+@router.get("/{numero_seguimiento}")
+def detalle(
+    numero_seguimiento: str,
+    request: Request,
+    conn=Depends(obtener_db),
+    usuario=Depends(usuario_actual),
+):
+    if usuario is None:
+        return render(
+            request,
+            "detalle_reporte.html",
+            {
+                "usuarios": listar_usuarios(conn),
+                "usuario": usuario,
+                "reporte": None,
+                "cambios": [],
+                "sin_usuario": True,
+            },
+        )
+
+    reporte = obtener_reporte_para_usuario(conn, numero_seguimiento, usuario["id"])
+    estado = 200 if reporte is not None else 404
+    cambios = listar_cambios_estado(conn, reporte["id"]) if reporte is not None else []
+    return render(
+        request,
+        "detalle_reporte.html",
+        {
+            "usuarios": listar_usuarios(conn),
+            "usuario": usuario,
+            "reporte": reporte,
+            "cambios": cambios,
+            "sin_usuario": False,
         },
         status_code=estado,
     )

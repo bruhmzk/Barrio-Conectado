@@ -39,7 +39,7 @@
 | Historia | Estado | Cambio de OpenSpec | Fecha | Observaciones |
 |----------|--------|--------------------|-------|----------------|
 | HU-01 | hecha | `hu-01-registrar-reporte` → archivado como `2026-11-23-hu-01-registrar-reporte` | 2026-11-23 | 15/15 tareas; 18 pruebas; validado por el estudiante sin observaciones |
-| HU-02 | en curso | — | 2026-11-23 | Validación de la historia en curso |
+| HU-02 | hecha | `hu-02-consultar-mis-reportes` → archivado como `2026-11-23-hu-02-consultar-mis-reportes` | 2026-11-23 | 15/15 tareas; 40 pruebas; specs sincronizadas en `openspec/specs/reportes/spec.md`; validado por el estudiante sin observaciones |
 | HU-03 | pendiente | — | — | Filtrar reportes para asignar personal |
 | HU-04 | pendiente | — | — | Completar reporte con nota de resolución |
 | HU-05 | pendiente | — | — | Sin Gherkin; fuera de esta entrega |
@@ -51,6 +51,7 @@
 | Historia | Informe | Estado | Fecha |
 |----------|---------|--------|-------|
 | HU-01 | — | verificado en el sistema, sin observaciones | 2026-11-23 |
+| HU-02 | — | verificado en el sistema, sin observaciones | 2026-11-23 |
 
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |

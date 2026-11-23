@@ -33,13 +33,15 @@ def test_registro_exitoso_con_todos_los_datos(client, conexion, datos, elegir_us
 
 def test_intento_de_registro_con_datos_incompletos(client, conexion, elegir_usuario):
     elegir_usuario()
+    antes = conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"]
     respuesta = client.post(
         "/reportes",
         data={"categoria_id": "", "descripcion": "", "latitud": "", "longitud": ""},
     )
     assert respuesta.status_code == 400
     assert "datos obligatorios" in respuesta.text.lower()
-    assert conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"] == 0
+    despues = conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"]
+    assert despues == antes
 
 
 def test_ubicacion_valida(client, conexion, datos, elegir_usuario):
@@ -63,12 +65,14 @@ def test_ubicacion_valida(client, conexion, datos, elegir_usuario):
 
 def test_ubicacion_no_valida(client, conexion, datos, elegir_usuario):
     elegir_usuario()
+    antes = conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"]
     respuesta = client.post(
         "/reportes", data=_datos_formulario(datos, latitud="120"), files=_foto()
     )
     assert respuesta.status_code == 400
     assert "no es válida" in respuesta.text
-    assert conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"] == 0
+    despues = conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"]
+    assert despues == antes
 
 
 def test_clasificacion_automatica(client, conexion, datos, elegir_usuario):

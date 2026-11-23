@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}Mis reportes — Barrio Conectado{% endblock %}
+{% block contenido %}
+<h2>Mis reportes</h2>
+{% if not usuario %}
+<p class="aviso">Selecciona un vecino de demostración para consultar tus reportes.</p>
+{% elif reportes %}
+<table class="tabla">
+  <thead>
+    <tr><th>Número de seguimiento</th><th>Fecha</th><th>Categoría</th><th>Estado</th></tr>
+  </thead>
+  <tbody>
+    {% for reporte in reportes %}
+    <tr>
+      <td><a href="/reportes/{{ reporte.numero_seguimiento }}">{{ reporte.numero_seguimiento }}</a></td>
+      <td>{{ reporte.fecha_hora_registro }}</td>
+      <td>{{ reporte.categoria }}</td>
+      <td>{{ reporte.estado }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="aviso">No existen reportes asociados a tu cuenta.</p>
+{% endif %}
+{% endblock %}
