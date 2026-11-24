@@ -80,3 +80,26 @@ Característica: Resolución de reportes de incidentes
     Entonces el sistema impide la actualización del estado
     Y requiere que se ingrese obligatoriamente la constancia del trabajo realizado.
 ```
+
+## HU-09 — Registrar reporte de emergencia
+
+Historia: Como usuario, quiero enviar un nuevo tipo de reporte, para reportar emergencias de estado crítico.
+
+```gherkin
+Característica: Registro de reportes de emergencia
+
+  Escenario: Registro exitoso de un reporte de emergencia con interfaz simplificada
+    Dado que un usuario autenticado se encuentra en la plataforma
+    Y accede al apartado de emergencias visible desde el menú principal
+    Cuando envía el reporte de emergencia con los datos mínimos requeridos (ubicación y tipo)
+    Entonces el sistema registra el reporte con estado "Recibido" y prioridad "Máxima"
+    Y asigna un número de seguimiento único
+    Y deriva automáticamente el reporte al Gestor de emergencias
+    Y notifica al Gestor de emergencias para atención inmediata
+
+  Escenario: Acceso directo a reporte de emergencia desde menú principal
+    Dado que un usuario autenticado se encuentra en la pantalla principal
+    Cuando pulsa el botón de emergencia visible en el menú principal
+    Entonces el sistema muestra el formulario simplificado de reporte de emergencia
+    Y el formulario requiere la menor cantidad de toques posible para su envío
+```

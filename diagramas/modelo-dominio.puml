@@ -18,11 +18,13 @@ class Reporte {
   fechaHoraRegistro
   estado
   prioridad
+  esEmergencia
 }
 
 class Categoria as "Categoría" {
   nombre
   urgenciaBase
+  esEmergencia
 }
 
 class Departamento {

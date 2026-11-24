@@ -15,14 +15,14 @@ CA 2: Dado el poco tiempo en el que se debe operar el reporte, cuando se requier
 
 En los casos de usos agregar un nuevo actor llamado **Gestor de emergencias** de tipo humano y que se encargue de analizar el reporte y comunicarse con la municipalidad o alguna autoridad respectivamente.
 
-Nuevo caso de uso para el vecino para que mande un reporte tipo emergencia.
-El sexto caso de uso del administrador principal, ligarlo al nuevo actor; El gestor de emergencia.
+Nuevo caso de uso para el vecino para que mande un reporte tipo emergencia (CU-09).
+Nuevo caso de uso para el Gestor de emergencias para gestionar el reporte de emergencia (CU-10).
 
 # Modelo de dominio
 
-En el modelo de dominio: Hay 2 opciones, modificar la entidad de _Reporte_ añadiendo un atributo de **"Máxima prioridad"**, contrastando con el de prioridad, o modificar la entidad de _Categoría_, añadiendo un atributo de **"Emergencia"**.
+En el modelo de dominio: Se opta por modificar la entidad de **Categoría** añadiendo un atributo de **"esEmergencia"** (boolean), y la entidad **Reporte** también recibe el atributo **"esEmergencia"** para identificación rápida.
 
-En la entidad de departamento, ahora esta puede llevar de nombre Gestor de emergencias.
+En la entidad de departamento, ahora esta puede llevar de nombre "Gestor de emergencias".
 
 # Diagrama AS-IS y TO-BE
 
@@ -33,5 +33,29 @@ En el diagrama, en la fila de _Vecino_, agregar una nueva bifurcación que deter
 ## TO-BE
 
 En la fila de la plataforma _Barrio Conectado_, agregar una bifurcación que derive a la nueva fila de Gestor de emergencia.
+
+---
+
+### Implementación completada - 2026-11-24
+
+Se han implementado todos los cambios para la HU-09:
+
+**Documentos actualizados:**
+- 04-historias-usuario.md: Agregada HU-09 con CA1 y CA2
+- 09-casos-de-uso.md: Agregado actor "Gestor de emergencias", CU-09 y CU-10
+- 08-modelo-dominio.md: Atributos esEmergencia en Reporte y Categoría, Departamento actualizado
+- 01-proceso-as-is.md: Participante Gestor de emergencias agregado, bifurcación en fila Vecino
+- 02-rediseno-to-be.md: Bifurcación en fila Plataforma Barrio Conectado
+- 07-criterios-aceptacion.md: Gherkin para HU-09 (2 escenarios)
+- 10-diagramas-secuencia.md: Agregado DSS-03
+- 11-diagramas-estado.md: Agregado EST-03
+- 12-trazabilidad.md: Agregada fila RP-13
+- 03-requisitos.md: Agregado RP-13
+
+**Diagramas creados/actualizados:**
+- diagramas/casos-de-uso.puml: Actor humano Emer, CU-09, CU-10, conexiones
+- diagramas/modelo-dominio.puml: Atributos esEmergencia en Reporte y Categoría
+- diagramas/dss-03.puml: Nuevo diagrama de secuencia para emergencias
+- diagramas/est-03.puml: Nuevo diagrama de estado para ciclo de vida de emergencia
 
 

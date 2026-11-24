@@ -24,3 +24,17 @@ Archivo fuente: [`./diagramas/dss-02.puml`](./diagramas/dss-02.puml)
 
 Variantes representadas: 
 -Bloque `alt`: Verifica si el administrador ingresó la nota de resolución. Si la nota no está vacía, el sistema cambia el estado, invoca al Sistema de Notificaciones para avisar al vecino y confirma el éxito al administrador. Si la nota está vacía (escenario de error), el sistema rechaza el cambio de estado y solicita el ingreso de la nota.
+
+## DSS-03 — Registro de reporte de emergencia
+- Caso de uso: [CU-09](./09-casos-de-uso.md), [CU-10](./09-casos-de-uso.md)
+- Historia: [HU-09](./04-historias-usuario.md#hu-09)
+- Sistemas externos que participan: Sistema de Geolocalización, Sistema de Notificaciones
+
+![DSS-03](./diagramas/dss-03.png)
+
+Archivo fuente: [`./diagramas/dss-03.puml`](./diagramas/dss-03.puml)
+
+Variantes representadas: 
+-Bloque `alt` (datos): Verifica si se ingresaron los datos mínimos (ubicación y tipo). Si están completos, valida la ubicación; si no, solicita los datos obligatorios.
+-Bloque `alt` (ubicación): Si la ubicación es válida, confirma el registro con prioridad Máxima y deriva al Gestor de emergencias; si no, solicita ubicación válida.
+-Bloque `alt` (notificación): Si el servicio de notificaciones está disponible, confirma envío y alerta al Gestor; si no, usa canal alternativo.

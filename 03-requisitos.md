@@ -17,6 +17,7 @@ Las actividades del TO-BE citadas en la última columna corresponden a la tabla 
 | RP-09 | Un vecino sin capacitación previa debe poder completar un reporte en un máximo de [3] pasos desde la pantalla principal. | No funcional (usabilidad) | Reporta el problema en la app |
 | RP-10 | Solo el personal municipal autenticado y con rol de administrador debe poder ver el panel de gestión y modificar estados de reportes. | No funcional (seguridad) | Actualiza estado en la app |
 | RP-11 | La notificación de un cambio de estado debe llegar al vecino en un máximo de [X] minutos desde que el administrador lo registra. | No funcional (rendimiento) | Notifica al vecino el descarte / el estado resuelto |
+| RP-13 | El sistema debe permitir al usuario reportar emergencias de estado crítico mediante una interfaz simplificada (mínimos toques), accesible directamente desde el menú principal, con prioridad máxima automática y derivación inmediata al Gestor de emergencias. | Funcional | Reporta el problema en la app / Registra el reporte automáticamente / Deriva a Gestor de emergencias |
 
 Los valores entre corchetes ([3] pasos, [X] minutos) son propuestas iniciales.
 

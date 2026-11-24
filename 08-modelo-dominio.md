@@ -11,9 +11,9 @@ Archivo fuente: [`./diagramas/modelo-dominio.puml`](./diagramas/modelo-dominio.p
 | Clase | Qué representa en el negocio | Atributos |
 |---|---|---|
 | Usuario | Persona registrada en la plataforma. Puede ser un vecino que reporta problemas o un funcionario municipal que los gestiona. | nombre, medioContacto |
-| Reporte | Aviso de un problema en la vía pública hecho por un vecino. Avanza por distintos estados hasta quedar completado o descartado. | numeroSeguimiento, descripcion, fechaHoraRegistro, estado, prioridad |
-| Categoría | Tipo de problema que se puede reportar (luminaria, microbasural, bache u otro) y su urgencia habitual. | nombre, urgenciaBase |
-| Departamento | Unidad del municipio responsable de atender cierto tipo de problemas (por ejemplo alumbrado, obras o aseo). | nombre |
+| Reporte | Aviso de un problema en la vía pública hecho por un vecino. Avanza por distintos estados hasta quedar completado o descartado. | numeroSeguimiento, descripcion, fechaHoraRegistro, estado, prioridad, esEmergencia |
+| Categoría | Tipo de problema que se puede reportar (luminaria, microbasural, bache u otro) y su urgencia habitual. | nombre, urgenciaBase, esEmergencia |
+| Departamento | Unidad del municipio responsable de atender cierto tipo de problemas (por ejemplo alumbrado, obras, aseo o gestión de emergencias). | nombre |
 | Ubicación | Lugar de la vía pública donde ocurre el problema. | latitud, longitud, referencia |
 | Fotografía | Imagen que muestra el problema reportado. | archivoImagen |
 | CambioEstado | Registro de cada vez que cambia el estado de un reporte, con la nota de resolución o el motivo del descarte. | fechaHora, estadoAnterior, estadoNuevo, nota |
@@ -40,8 +40,9 @@ Archivo fuente: [`./diagramas/modelo-dominio.puml`](./diagramas/modelo-dominio.p
 
 ## Decisiones de modelado
 
-- "Vecino" y "administrador municipal" se modelaron como roles y no como clases. Ambos son personas registradas (Usuario) que cumplen un papel distinto: el vecino es el *autor* de un reporte y el *destinatario* de sus notificaciones, y el administrador es un *funcionario* que trabaja en un Departamento. Así se evita duplicar atributos y se refleja que lo que cambia es el papel, no el tipo de persona.
+- "Vecino", "administrador municipal" y "gestor de emergencias" se modelaron como roles y no como clases. Todos son personas registradas (Usuario) que cumplen un papel distinto: el vecino es el *autor* de un reporte y el *destinatario* de sus notificaciones, el administrador es un *funcionario* que trabaja en un Departamento, y el gestor de emergencias es un funcionario especializado en atender reportes críticos. Así se evita duplicar atributos y se refleja que lo que cambia es el papel, no el tipo de persona.
 - Se usó composición para Ubicación, Fotografía, CambioEstado y Asignación, porque no existen sin el reporte al que pertenecen: si el reporte desaparece, también su ubicación, sus fotos y su historial. El resto de las relaciones son asociaciones simples. No se usó herencia, porque no hay conceptos del negocio que sean un caso particular de otro.
 - El estado (Recibido, En revisión, Descartado, Completado) y la prioridad (alta, media, baja) se modelaron como atributos de Reporte. El detalle de cómo cambia el estado se explica en el diagrama de estado EST-01 del documento 11.
+- Se añadió el atributo `esEmergencia` tanto en Reporte como en Categoría para distinguir los reportes de emergencia (estado crítico) que requieren atención inmediata y derivación al Gestor de emergencias.
 - La Junta de Vecinos del AS-IS no aparece en el modelo, porque en el TO-BE de la Entrega 1 deja de ser intermediaria del proceso.
 - Los sistemas externos (mapas o geolocalización y envío de notificaciones) no son conceptos del negocio, así que no se modelan aquí. Aparecen como actores en los casos de uso y como participantes en los diagramas de secuencia.

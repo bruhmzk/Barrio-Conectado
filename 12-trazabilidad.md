@@ -16,6 +16,7 @@
 | RP-10 | HU-03, HU-04 | [CU-03, CU-04] | [DSS-02] | [EST-01] | Usuario, Reporte, Categoría |
 | RP-11 | HU-05 | [---] | [---] | [EST-02] | Notificación, Usuario |
 | RP-12 | --- | --- | --- | --- | --- |
+| RP-13 | HU-09 | [CU-09, CU-10] | [DSS-03] | [EST-03] | Usuario, Reporte, Categoría, Departamento, Ubicación, Notificación |
 
 ## Observaciones
 

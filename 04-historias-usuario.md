@@ -98,3 +98,14 @@ Como administrador municipal, quiero que el sistema asigne cada reporte al depar
 - CA1: Al registrarse un reporte, el sistema lo asigna al departamento que corresponde a su categoría.
 - CA2: El administrador puede cambiar el departamento asignado.
 - CA3: Cada reasignación queda registrada con fecha y usuario.
+
+## HU-09 — Registrar reporte de emergencia
+
+Como usuario, quiero enviar un nuevo tipo de reporte, para reportar emergencias de estado crítico.
+
+**Actividad TO-BE asociada:** Reporta el problema en la app / Registra el reporte automáticamente / Deriva a Gestor de emergencias
+
+**Criterios de aceptación:**
+
+- CA1: Dado la brevedad en la que se necesita actuar, cuando se requiere publicar una emergencia se necesita reportarla con la menor cantidad de toques posibles. Entonces, se busca hacer la interfaz lo más simple posible.
+- CA2: Dado el poco tiempo en el que se debe operar el reporte, cuando se requiere publicar una emergencia se necesita localizar el apartado sin mucho esfuerzo. Entonces, se tiene que agregar el apartado visible desde el menú principal.

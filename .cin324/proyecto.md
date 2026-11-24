@@ -8,14 +8,14 @@
 ## Mapa de artefactos (rutas detectadas)
 | Artefacto | Ruta(s) | Estado |
 |-----------|---------|--------|
-| BPMN AS-IS | `01-proceso-as-is.md`, `diagramas/as-is.drawio.png` | completo |
-| BPMN TO-BE | `02-rediseno-to-be.md`, `diagramas/to-be.drawio.png` | completo |
-| Historias de usuario | `04-historias-usuario.md` (HU-01…HU-08) | completo |
-| Criterios Gherkin | `07-criterios-aceptacion.md` (HU-01…HU-04) | parcial (HU-05…HU-08 sin Gherkin) |
+| BPMN AS-IS | `01-proceso-as-is.md`, `diagramas/as-is.puml`, `diagramas/as-is.drawio.png` | completo |
+| BPMN TO-BE | `02-rediseno-to-be.md`, `diagramas/to-be.puml`, `diagramas/to-be.drawio.png` | completo |
+| Historias de usuario | `04-historias-usuario.md` (HU-01…HU-09) | completo |
+| Criterios Gherkin | `07-criterios-aceptacion.md` (HU-01…HU-04, HU-09) | parcial (HU-05…HU-08 sin Gherkin) |
 | Modelo de dominio | `diagramas/modelo-dominio.puml`, `08-modelo-dominio.md` | completo |
-| Casos de uso | `09-casos-de-uso.md`, `diagramas/casos-de-uso.puml` | parcial (la tabla lista CU-01…CU-04; el `.puml` incluye CU-01…CU-08) |
-| Diagramas de estado | `11-diagramas-estado.md`, `diagramas/est-01.puml`, `diagramas/est-02.puml` | completo |
-| Diagramas de secuencia | `10-diagramas-secuencia.md`, `diagramas/dss-01.puml`, `diagramas/dss-02.puml` | completo |
+| Casos de uso | `09-casos-de-uso.md`, `diagramas/casos-de-uso.puml` | completo (CU-01…CU-10) |
+| Diagramas de estado | `11-diagramas-estado.md`, `diagramas/est-01.puml`, `diagramas/est-02.puml`, `diagramas/est-03.puml` | completo |
+| Diagramas de secuencia | `10-diagramas-secuencia.md`, `diagramas/dss-01.puml`, `diagramas/dss-02.puml`, `diagramas/dss-03.puml` | completo |
 | Requisitos y atributos de calidad | `03-requisitos.md`, `06-atributos-calidad.md` | completo |
 
 ## Supuestos acordados (por elementos faltantes o dudosos)
@@ -25,6 +25,8 @@
 - 2026-11-23, confirmado por el estudiante: el texto de `06-atributos-calidad.md` sobre «botón de pánico», «mapa de incidentes», «contactos de emergencia» y «delincuencia» es heredado de otro proyecto; se ignora y no se implementa (los no funcionales no se implementan).
 - 2026-11-23, confirmado por el estudiante: para esta Entrega 3 se implementan solo HU-01, HU-02, HU-03 y HU-04, en ese orden (son las que tienen Gherkin y caso de uso). HU-05…HU-08 quedan pendientes.
 - 2026-11-23, observación de auditoría: los BPMN solo están como PNG; no hay `.bpmn`/`.drawio` editable. No bloquea la generación.
+- 2026-11-23, confirmado por el estudiante: **Entrega 3 cerrada** con HU-01…HU-04 implementadas, validadas y archivadas. HU-05…HU-08 no se abordan por falta de Gherkin y caso de uso.
+- 2026-11-23, nota de entorno: en la sesión de cierre no hay `.venv` ni `pytest` instalados; para ejecutar pruebas hay que recrear el entorno (`python -m venv .venv`, activarlo, `pip install -r requirements.txt`, `pytest`).
 
 ## Stack (se define una sola vez)
 - Lenguaje y framework: Python 3.12 + FastAPI + Jinja2
@@ -46,6 +48,7 @@
 | HU-06 | pendiente | — | — | Sin Gherkin/CU; fuera de esta entrega |
 | HU-07 | pendiente | — | — | Sin Gherkin/CU; fuera de esta entrega |
 | HU-08 | pendiente | — | — | Sin Gherkin/CU; fuera de esta entrega |
+| HU-09 | en análisis | — | 2026-11-24 | Documentación y diagramas completados; pendiente implementación |
 
 ## Validaciones
 | Historia | Informe | Estado | Fecha |
@@ -58,4 +61,4 @@
 ## Cambios posteriores
 | Cambio | Historia afectada | Motivo | Fecha |
 |--------|-------------------|--------|-------|
-| — | — | — | — |
+| HU-09: Reporte de emergencias | HU-09 | Nueva funcionalidad para reportar emergencias de estado crítico con interfaz simplificada, prioridad máxima y derivación a Gestor de emergencias | 2026-11-24 |

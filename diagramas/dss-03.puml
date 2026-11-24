@@ -1,0 +1,36 @@
+@startuml dss-03
+title DSS-03 — Registrar reporte de emergencia (CU-09, HU-09)
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+
+actor Vecino
+participant Sistema as "Sistema\nBarrio Conectado"
+participant Mapas as "Servicio de mapas y\ngeolocalización" <<sistema externo>>
+participant Notif as "Servicio de\nnotificaciones" <<sistema externo>>
+actor Emer as "Gestor de\nemergencias" <<humano>>
+
+note over Vecino, Sistema : Precondición: el usuario está autenticado\naccede al botón de emergencia en menú principal
+
+Vecino -> Sistema : Registrar emergencia\n(ubicación + tipo mínimo)
+
+alt datos mínimos completos
+  Sistema -> Mapas : Validar ubicación de la emergencia
+  alt ubicación válida
+    Mapas --> Sistema : Informar ubicación válida con referencia
+    Sistema --> Vecino : Confirmar registro con número de seguimiento\n(prioridad Máxima)
+    Sistema -> Notif : Solicitar aviso urgente a Gestor de emergencias
+    alt notificación aceptada
+      Notif --> Sistema : Confirmar envío de aviso urgente
+      Sistema --> Emer : Notificar emergencia crítica\n(datos del reporte + ubicación)
+    else servicio no disponible
+      Notif --> Sistema : Informar servicio no disponible
+      Sistema -> Emer : Alertar por canal alternativo\n(registro pendiente de notificación)
+    end
+  else ubicación no válida
+    Mapas --> Sistema : Informar ubicación no válida
+    Sistema --> Vecino : Solicitar ubicación válida\n(interfaz simplificada)
+  end
+else datos incompletos
+  Sistema --> Vecino : Solicitar datos mínimos obligatorios
+end
+@enduml

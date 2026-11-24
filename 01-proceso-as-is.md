@@ -16,13 +16,16 @@ Canalizar los reportes de los vecinos sobre problemas en la vía pública (lumin
 | Junta de vecinos / dirigente | Canalizar y representar los reclamos de su sector ante el municipio |
 | Municipio — Oficina de Partes | Registrar formalmente la solicitud del vecino |
 | Departamento Técnico Municipal (obras, aseo, alumbrado, etc.) | Evaluar, priorizar y ejecutar la reparación con los recursos disponibles |
+| Gestor de emergencias | Analizar reportes de estado crítico y coordinar respuesta inmediata con autoridades |
 
 ## Diagrama AS-IS
 
 ![Proceso AS-IS](./diagramas/as-is.drawio.png)
-Archivo fuente: [`./diagramas/as-is.drawio`](./diagramas/as-is.drawio.png)
+Archivo fuente: [`./diagramas/as-is.puml`](./diagramas/as-is.puml)
 
 El diagrama distingue tareas manuales (anotar en cuaderno, llenar formulario en papel, ejecutar en terreno) de una tarea de usuario (registrar la solicitud en una planilla o sistema interno), reflejando que hoy casi todo el proceso es manual y sin apoyo tecnológico.
+
+En la fila de **Vecino**, se agrega una nueva bifurcación que determina si el caso corresponde a una emergencia; en caso de serlo, se deriva a una nueva fila asociada al **Gestor de emergencias**. En caso que no lo sea, continúa su ciclo normal a través de la Junta de Vecinos y la Oficina de Partes.
 
 ## Problemas identificados
 

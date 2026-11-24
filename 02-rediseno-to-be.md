@@ -36,9 +36,11 @@
 
 ![Proceso TO-BE](./diagramas/to-be.drawio.png)
 
-Archivo fuente: [`./diagramas/to-be.drawio`](./diagramas/to-be.drawio.png)
+Archivo fuente: [`./diagramas/to-be.puml`](./diagramas/to-be.puml)
 
 El diagrama incorpora la lane "Plataforma BarrioConectado", que concentra las tareas de servicio (registro, priorización, asignación y notificación automáticas), reemplazando gran parte del trabajo manual del AS-IS. La ejecución física de la reparación en terreno se mantiene como tarea manual, ya que sigue requiriendo intervención humana.
+
+En la fila de la plataforma **Barrio Conectado**, se agrega una bifurcación que deriva a la nueva fila de **Gestor de emergencias** cuando el reporte es de tipo emergencia (estado crítico).
 
 | Actividad en el AS-IS | Actividad en el TO-BE | Qué cambia |
 |---|---|---|

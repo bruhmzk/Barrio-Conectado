@@ -1,0 +1,31 @@
+@startuml est-03
+title EST-03 — Ciclo de vida de Reporte de Emergencia
+hide empty description
+skinparam shadowing false
+skinparam state {
+  BackgroundColor White
+}
+
+state "Recibido (Máxima prioridad)" as RecibidoEmergencia #LightPink
+state "En atención por Gestor" as EnAtencionGestor #LightYellow
+state "Derivado a Autoridad" as DerivadoAutoridad #LightBlue
+state "Resuelto" as ResueltoEmergencia #LightGreen
+state "Descartado" as DescartadoEmergencia #LightGray
+
+[*] --> RecibidoEmergencia : Registrar emergencia\n[datos mínimos + ubicación válida]\n/ asignar número de seguimiento,\nprioridad Máxima, derivar a Gestor
+
+RecibidoEmergencia --> EnAtencionGestor : Gestor toma conocimiento\n/ registrar cambio de estado y\nnotificar a Gestor
+
+EnAtencionGestor --> DerivadoAutoridad : Derivar a autoridad competente\n[autoridad seleccionada]\n/ registrar derivación y\nnotificar a autoridad
+
+EnAtencionGestor --> ResueltoEmergencia : Resolver emergencia\n[nota de resolución ingresada]\n/ registrar nota y\nnotificar a vecino
+
+EnAtencionGestor --> DescartadoEmergencia : Descartar emergencia\n[motivo de descarte ingresado]\n/ registrar motivo y\nnotificar a vecino
+
+DerivadoAutoridad --> ResueltoEmergencia : Autoridad resuelve\n[confirmación de resolución]\n/ registrar resolución y\nnotificar a vecino
+
+DerivadoAutoridad --> EnAtencionGestor : Autoridad rechaza/retorna\n[motivo de retorno]\n/ registrar retorno y\nnotificar a Gestor
+
+ResueltoEmergencia --> [*]
+DescartadoEmergencia --> [*]
+@enduml

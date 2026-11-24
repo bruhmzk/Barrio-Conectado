@@ -1,0 +1,36 @@
+@startuml as-is
+title Proceso AS-IS — Gestión municipal de infraestructura urbana
+skinparam shadowing false
+skinparam swimlane {
+  BackgroundColor White
+  BorderColor Gray
+}
+
+|Vecino|
+start
+:Reporta el problema
+(llamada, WhatsApp, redes sociales o presencial);
+if (¿Es emergencia?) then (sí)
+  |Gestor de emergencias|
+  :Analiza emergencia
+  y coordina respuesta;
+  stop
+else (no)
+  |Junta de vecinos / dirigente|
+  :Recibe y anota el reclamo;
+  |Municipio — Oficina de Partes|
+  :Recibe formulario en papel
+  y registra la solicitud;
+  |Departamento Técnico Municipal|
+  :Revisa y prioriza reclamos
+  acumulados (criterio propio);
+  if (¿Descartar?) then (sí)
+    :Descarta o posterga el reclamo;
+    stop
+  else (no)
+    :Ejecuta la reparación
+    sin registro del cierre;
+    stop
+  endif
+endif
+@enduml

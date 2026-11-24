@@ -1,0 +1,41 @@
+@startuml to-be
+title Proceso TO-BE — Gestión municipal de infraestructura urbana
+skinparam shadowing false
+skinparam swimlane {
+  BackgroundColor White
+  BorderColor Gray
+}
+
+|Vecino|
+start
+:Reporta el problema en la app
+(foto + ubicación georreferenciada);
+|Plataforma BarrioConectado|
+:Registra el reporte automáticamente;
+:Prioriza automáticamente
+según urgencia e impacto;
+if (¿Es emergencia?) then (sí)
+  |Gestor de emergencias|
+  :Analiza emergencia crítica;
+  :Deriva a autoridad competente;
+  :Notifica al vecino;
+  stop
+else (no)
+  :Asigna al departamento
+  correspondiente;
+  |Administrador municipal|
+  :Revisa y confirma la asignación;
+  if (¿Descartar?) then (sí)
+    :Actualiza estado: descartado
+    con nota y notifica al vecino;
+    stop
+  else (no)
+    |Departamento Técnico Municipal|
+    :Ejecuta la reparación en terreno;
+    |Plataforma BarrioConectado|
+    :Actualiza estado en la app: resuelto
+    con nota y notifica al vecino;
+    stop
+  endif
+endif
+@enduml
