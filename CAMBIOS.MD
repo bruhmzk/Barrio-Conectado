@@ -16,3 +16,5 @@ En los casos de usos agregar un nuevo actor llamado gestor de emergencias de tip
 
 Nuevo caso de uso para el vecino para que mande un reporte tipo emergencia.
 El sexto caso de uso del administrador principal, ligarlo al nuevo actor; El gestor de emergencia.
+
+En el modelo de dominio: Hay 2 opciones, modificar la entidad de _Reporte_ añadiendo un atributo de **"Máxima prioridad"**, contrastando con el de prioridad, o modificar la entidad de _Categoría_, añadiendo un atributo de **"Emergencia"**.
