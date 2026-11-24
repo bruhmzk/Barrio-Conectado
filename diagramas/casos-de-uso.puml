@@ -8,6 +8,7 @@ actor Vecino
 actor Admin as "Administrador\nmunicipal"
 actor Mapas as "Servicio de mapas y\ngeolocalización" <<sistema externo>>
 actor Notif as "Servicio de\nnotificaciones" <<sistema externo>>
+actor Emer as "Gestor de\nemergencias" <<sistema externo>>
 
 rectangle "Barrio Conectado" {
   usecase CU01 as "CU-01\nRegistrar reporte\nde un problema"
@@ -18,6 +19,7 @@ rectangle "Barrio Conectado" {
   usecase CU06 as "CU-06\nAjustar prioridad\nde un reporte"
   usecase CU07 as "CU-07\nDescartar reporte\nindicando el motivo"
   usecase CU08 as "CU-08\nReasignar reporte\na otro departamento"
+  usecase CU09 as "CU-09\nAutorizar procesamiento\nde emergencia"
 }
 
 Vecino -- CU01
@@ -28,6 +30,7 @@ Admin -- CU04
 Admin -- CU06
 Admin -- CU07
 Admin -- CU08
+Emer -- CU09
 
 CU01 -- Mapas
 CU05 -- Notif
