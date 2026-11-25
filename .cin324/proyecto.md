@@ -48,7 +48,7 @@
 | HU-06 | pendiente | — | — | Sin Gherkin/CU; fuera de esta entrega |
 | HU-07 | pendiente | — | — | Sin Gherkin/CU; fuera de esta entrega |
 | HU-08 | pendiente | — | — | Sin Gherkin/CU; fuera de esta entrega |
-| HU-09 | en análisis | — | 2026-11-24 | Documentación y diagramas completados; pendiente implementación |
+| HU-09 | lista para especificar | — | 2026-11-25 | Ficha confirmada en `.cin324/historias/HU-09.md`; 5 escenarios Gherkin (3 de error agregados el 25/11); EST-03 + prioridad Máxima; CU-10 mínimo (bandeja + tomar conocimiento) |
 
 ## Validaciones
 | Historia | Informe | Estado | Fecha |

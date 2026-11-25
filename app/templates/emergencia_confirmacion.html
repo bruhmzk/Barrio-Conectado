@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titulo %}Emergencia registrada — Barrio Conectado{% endblock %}
+{% block contenido %}
+{% if reporte %}
+<h2>Emergencia registrada</h2>
+<p>Tu emergencia fue registrada y derivada con el número de seguimiento:</p>
+<p class="folio">{{ reporte.numero_seguimiento }}</p>
+<ul class="datos">
+  <li>Tipo: {{ reporte.categoria }}</li>
+  <li>Estado: {{ reporte.estado }}</li>
+  <li>Prioridad: {{ reporte.prioridad }}</li>
+  <li>Departamento asignado: {{ reporte.departamento }}</li>
+  <li>Ubicación: {{ reporte.referencia or "Sin referencia" }}</li>
+  <li>Fecha y hora: {{ reporte.fecha_hora_registro }}</li>
+</ul>
+{% if reporte.aviso_pendiente %}
+<p class="aviso">El aviso al Gestor de emergencias quedó pendiente de envío; la emergencia ya está derivada.</p>
+{% else %}
+<p>El Gestor de emergencias fue notificado para atención inmediata.</p>
+{% endif %}
+<p><a class="boton" href="/emergencias/nueva">Registrar otra emergencia</a></p>
+{% else %}
+<h2>Emergencia no encontrada</h2>
+<p>No existe una emergencia con ese número de seguimiento.</p>
+<p><a href="/">Volver al inicio</a></p>
+{% endif %}
+{% endblock %}

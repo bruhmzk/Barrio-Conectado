@@ -37,8 +37,9 @@ Estado actual (Entrega 3):
 | HU-02 — Consultar mis reportes | Implementada (cambio `hu-02-consultar-mis-reportes`) |
 | HU-03 — Filtrar reportes para asignar personal | Implementada (cambio `hu-03-filtrar-reportes`) |
 | HU-04 — Completar un reporte con nota de resolución | Implementada (cambio `hu-04-completar-reporte`) |
+| HU-09 — Registrar reporte de emergencia | Implementada (cambio `hu-09-registrar-emergencia`) |
 
-La aplicación es web, sencilla y sin autenticación real: se usa un **selector de usuario de demostración** (Vecino Demo, Vecino Demo 2 y Administrador Demo). Los sistemas externos se simulan mediante adaptadores: el **Servicio de mapas y geolocalización** y el **Sistema de Notificaciones**.
+La aplicación es web, sencilla y sin autenticación real: se usa un **selector de usuario de demostración** (Vecino Demo, Vecino Demo 2, Vecina Emergencias, Administrador Demo y Gestor Emergencias Demo). Los sistemas externos se simulan mediante adaptadores: el **Servicio de mapas y geolocalización** y el **Sistema de Notificaciones**.
 
 El panel de administración está en **GET /administracion/reportes** y requiere elegir **Administrador Demo** en el selector. Muestra número de seguimiento, categoría, prioridad, estado, departamento asignado y fecha de registro. Permite filtrar por **categoría**, **prioridad** (Alta / Media / Baja) y **estado** (Recibido / En revisión / Completado / Descartado); los filtros se combinan con **AND** y se conservan al aplicarlos. Sin filtros se muestran todos los reportes. La lista se ordena de **Alta → Media → Baja** y, en empate, por fecha de registro más reciente. Si no hay coincidencias, aparece «No hay resultados. Cambia los criterios de búsqueda» y el formulario sigue visible. La columna **Acción** muestra el enlace **Completar** solo para los reportes en **En revisión**.
 
@@ -81,13 +82,16 @@ python -m app.db.seed
 
 Esto crea `data/app.db`, aplica las migraciones y carga:
 
-- **Departamentos:** Alumbrado, Aseo, Obras.
-- **Categorías:** Luminaria (urgencia media → Alumbrado), Microbasural (alta → Aseo), Bache (alta → Obras).
-- **Usuarios de demostración:** Vecino Demo, Vecino Demo 2 y Administrador Demo.
+- **Departamentos:** Alumbrado, Aseo, Obras y Gestor de emergencias.
+- **Categorías:** Luminaria (urgencia media → Alumbrado), Microbasural (alta → Aseo), Bache (alta → Obras), Incendio, Emergencia médica y Accidente (las tres últimas con `esEmergencia` → Gestor de emergencias).
+- **Usuarios de demostración:** Vecino Demo, Vecino Demo 2, Vecina Emergencias, Administrador Demo y Gestor Emergencias Demo (rol `gestor_emergencias`).
 - **Reportes de ejemplo para HU-02:**
   - `BC-2026-000101` — *Vecino Demo*, Luminaria, **Recibido**, sin cambios de estado.
   - `BC-2026-000102` — *Vecino Demo*, Microbasural, **En revisión**, con el cambio `Recibido → En revisión` del `2026-11-20T10:15:00` registrado por *Administrador Demo*.
   - `BC-2026-000103` — *Vecino Demo 2*, Bache, **Recibido** (sirve para comprobar que un vecino no ve los reportes del otro).
+- **Emergencias de ejemplo para HU-09:**
+  - `BC-2026-000104` — *Vecina Emergencias*, Incendio, **Recibido**, prioridad **Máxima**, derivada al Gestor de emergencias.
+  - `BC-2026-000105` — *Vecina Emergencias*, Accidente, **En atención por Gestor**, prioridad **Máxima**, con el cambio `Recibido → En atención por Gestor` registrado por *Gestor Emergencias Demo*.
 
 El comando es idempotente: puedes ejecutarlo varias veces sin duplicar datos.
 
@@ -105,7 +109,7 @@ Abre **http://localhost:8000**.
 pytest
 ```
 
-La suite incluye una prueba por cada escenario de HU-01 (registro exitoso, datos incompletos, ubicación válida, ubicación no válida y clasificación automática) y de HU-02 (lista de reportes propios, vecino sin reportes, historial de cambios de estado, más las variantes de reporte ajeno, reporte sin cambios y sin usuario seleccionado), además de pruebas de migraciones, conexión, número de seguimiento, adaptador de mapas y servicio de registro. También incluye las pruebas del cambio HU-03: consulta ordenada y filtrada, control del administrador de demostración y una prueba por cada escenario Gherkin. El cambio HU-04 aporta pruebas del adaptador de notificaciones, de la transición `completar_reporte`, del panel de administración y de los cuatro escenarios Gherkin (cierre exitoso, nota obligatoria, estado inválido y notificaciones no disponibles).
+La suite incluye una prueba por cada escenario de HU-01 (registro exitoso, datos incompletos, ubicación válida, ubicación no válida y clasificación automática) y de HU-02 (lista de reportes propios, vecino sin reportes, historial de cambios de estado, más las variantes de reporte ajeno, reporte sin cambios y sin usuario seleccionado), además de pruebas de migraciones, conexión, número de seguimiento, adaptador de mapas y servicio de registro. También incluye las pruebas del cambio HU-03: consulta ordenada y filtrada, control del administrador de demostración y una prueba por cada escenario Gherkin. El cambio HU-04 aporta pruebas del adaptador de notificaciones, de la transición `completar_reporte`, del panel de administración y de los cuatro escenarios Gherkin (cierre exitoso, nota obligatoria, estado inválido y notificaciones no disponibles). El cambio HU-09 aporta una prueba por cada uno de los cinco escenarios Gherkin de emergencia, las pruebas de la migración `003_emergencias.sql`, del servicio de registro, del dominio y de la bandeja y toma de conocimiento del Gestor de emergencias.
 
 > En Windows usa `& ".venv\Scripts\python.exe" -m pytest` si `pytest` no está en el PATH.
 
@@ -230,6 +234,51 @@ La **nota de resolución** es obligatoria: se recorta antes de guardarse y no se
 4. El cierre queda registrado como **Completado** y la confirmación indica «aviso pendiente de envío». La base sigue sin tabla `notificaciones`.
 
 > Si no hay usuario seleccionado o está elegido un vecino, la pantalla de cierre pide «Selecciona un administrador de demostración para completar el reporte» y no escribe en la base.
+
+---
+
+## Recorrido manual de HU-09
+
+El apartado **Emergencia** está en el menú y como botón rojo en la pantalla de inicio: un toque abre el formulario y otro lo envía. Cualquier usuario de demostración puede reportar una emergencia; solo **Gestor Emergencias Demo** ve la bandeja y puede tomar conocimiento. La ubicación viene precargada con coordenadas de demostración y se valida con el Servicio de mapas simulado.
+
+### Escenario 1 — Registro exitoso de una emergencia con interfaz simplificada
+
+1. Elige **Vecino Demo** y pulsa **Emergencia** en Inicio.
+2. El formulario solo pide **tipo** y **ubicación** (precargada); la descripción es opcional. Elige **Incendio** y pulsa **Enviar emergencia**.
+3. Deberías ver la confirmación con el número de seguimiento, estado **Recibido**, prioridad **Máxima**, departamento **Gestor de emergencias** y el mensaje de que el gestor fue notificado.
+4. Cambia a **Gestor Emergencias Demo** y abre **Bandeja de emergencias**: la nueva emergencia aparece al inicio, en estado **Recibido**.
+
+### Escenario 2 — Acceso directo desde el menú principal
+
+1. En la pantalla principal, el botón **Emergencia** y el enlace del menú llevan directamente a `/emergencias/nueva`, sin pasos intermedios.
+2. El formulario no ofrece las categorías normales (Luminaria, Microbasural, Bache) ni pide fotografía: solo los datos mínimos.
+
+### Escenario 3 — Datos mínimos incompletos
+
+1. En el formulario de emergencia deja el tipo sin seleccionar y borra la latitud.
+2. Pulsa **Enviar emergencia**.
+3. Deberías ver «Falta el tipo de emergencia.» y «Falta la ubicación.»; no se crea ningún reporte.
+
+### Escenario 4 — Ubicación no válida
+
+1. Selecciona un tipo y escribe `999` en latitud.
+2. Pulsa **Enviar emergencia**.
+3. Deberías ver «La ubicación no es válida. Ingresa una nueva ubicación.» y el reporte no se registra.
+
+### Escenario 5 — Derivación con notificaciones no disponibles
+
+1. Detén el servidor y vuelve a iniciarlo con `CIN324_NOTIFICACIONES_DISPONIBLES=0`.
+2. Registra una emergencia con datos completos.
+3. La confirmación indica «El aviso al Gestor de emergencias quedó pendiente de envío»; la emergencia igual queda derivada y en la bandeja del gestor aparece la columna **Aviso** como «Pendiente de envío».
+
+### Toma de conocimiento del Gestor
+
+1. Elige **Gestor Emergencias Demo** y abre **Bandeja de emergencias**.
+2. Abre `BC-2026-000104` (Incendio, **Recibido**) y pulsa **Tomar conocimiento**.
+3. El estado pasa a **En atención por Gestor** y el historial muestra el cambio con la fecha y el gestor responsable.
+4. Si lo intentas sobre `BC-2026-000105` (ya en atención), verás «La emergencia no está en estado Recibido» y no se registra un cambio nuevo.
+
+> El panel de administración también muestra las emergencias: la prioridad **Máxima** aparece primero en el orden y las nuevas opciones se agregan a los filtros de prioridad y estado.
 
 ---
 

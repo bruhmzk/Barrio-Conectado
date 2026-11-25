@@ -102,4 +102,23 @@ Característica: Registro de reportes de emergencia
     Cuando pulsa el botón de emergencia visible en el menú principal
     Entonces el sistema muestra el formulario simplificado de reporte de emergencia
     Y el formulario requiere la menor cantidad de toques posible para su envío
+
+  Escenario: Registro de emergencia con datos mínimos incompletos
+    Dado que un usuario autenticado abrió el formulario simplificado de emergencia
+    Cuando intenta enviar el reporte sin indicar el tipo de emergencia o la ubicación
+    Entonces el sistema rechaza el registro
+    Y solicita completar la ubicación y el tipo antes de continuar
+
+  Escenario: Registro de emergencia con ubicación no válida
+    Dado que un usuario autenticado completó el tipo y la ubicación de una emergencia
+    Cuando envía el reporte y el Sistema de Geolocalización informa que la ubicación no es válida
+    Entonces el sistema no registra el reporte
+    Y solicita una ubicación válida en el formulario simplificado
+
+  Escenario: Derivación al Gestor cuando la notificación no está disponible
+    Dado que un usuario autenticado envía una emergencia con datos completos y ubicación válida
+    Y el Sistema de Notificaciones no está disponible
+    Cuando el sistema registra el reporte
+    Entonces el reporte queda derivado al Gestor de emergencias con prioridad "Máxima"
+    Y el aviso al Gestor queda pendiente de envío y visible en su bandeja
 ```

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %}Emergencia — Barrio Conectado{% endblock %}
+{% block contenido %}
+<h2>Reportar una emergencia</h2>
+{% if errores %}
+<div class="errores" role="alert">
+  <strong>No se pudo registrar la emergencia.</strong> Revisa los datos mínimos:
+  <ul>{% for e in errores %}<li>{{ e }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+{% if not usuario %}
+<p class="aviso">Selecciona un usuario de demostración en la cabecera para registrar la emergencia.</p>
+{% endif %}
+<p>Este formulario es el más corto posible: indica el tipo de emergencia y la ubicación, y envía.</p>
+<form method="post" action="/emergencias">
+  <label>Tipo de emergencia *
+    <select name="categoria_id" required>
+      <option value="">— Selecciona —</option>
+      {% for c in categorias %}
+      <option value="{{ c.id }}" {% if valores.categoria_id == c.id|string %}selected{% endif %}>{{ c.nombre }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Latitud *
+    <input type="number" name="latitud" step="any" min="-90" max="90" value="{{ valores.latitud or latitud_demo }}" required>
+  </label>
+  <label>Longitud *
+    <input type="number" name="longitud" step="any" min="-180" max="180" value="{{ valores.longitud or longitud_demo }}" required>
+  </label>
+  <label>Descripción (opcional)
+    <textarea name="descripcion" rows="2">{{ valores.descripcion or "" }}</textarea>
+  </label>
+  <p class="ayuda">La ubicación se valida con el Servicio de mapas y geolocalización (simulado). Los datos vienen precargados para la demostración.</p>
+  <button type="submit">Enviar emergencia</button>
+</form>
+<p><a href="/">Volver al inicio</a></p>
+{% endblock %}

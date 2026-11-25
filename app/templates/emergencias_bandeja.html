@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %}Bandeja de emergencias — Barrio Conectado{% endblock %}
+{% block contenido %}
+<h2>Bandeja de emergencias</h2>
+{% if sin_gestor %}
+<p class="aviso">{{ mensaje_sin_gestor }}.</p>
+{% elif emergencias %}
+<table class="tabla">
+  <thead>
+    <tr><th>N.º seguimiento</th><th>Tipo</th><th>Fecha</th><th>Estado</th><th>Prioridad</th><th>Aviso</th></tr>
+  </thead>
+  <tbody>
+    {% for e in emergencias %}
+    <tr>
+      <td><a href="/emergencias/{{ e.numero_seguimiento }}">{{ e.numero_seguimiento }}</a></td>
+      <td>{{ e.categoria }}</td>
+      <td>{{ e.fecha_hora_registro }}</td>
+      <td>{{ e.estado }}</td>
+      <td>{{ e.prioridad }}</td>
+      <td>{% if e.aviso_pendiente %}Pendiente de envío{% else %}Enviado{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No hay emergencias derivadas al Gestor de emergencias.</p>
+{% endif %}
+{% endblock %}

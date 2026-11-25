@@ -8,16 +8,24 @@ def id_categoria(conexion, nombre):
     return fila["id"]
 
 
-def test_sin_filtros_devuelve_tres_reportes_en_orden_de_prioridad(conexion):
+def test_sin_filtros_devuelve_los_reportes_en_orden_de_prioridad(conexion):
     filas = listar_reportes_para_administracion(conexion)
 
-    assert len(filas) == 3
+    assert len(filas) == 5
     assert [fila["numero_seguimiento"] for fila in filas] == [
+        "BC-2026-000104",
+        "BC-2026-000105",
         "BC-2026-000103",
         "BC-2026-000102",
         "BC-2026-000101",
     ]
-    assert [fila["prioridad"] for fila in filas] == ["Alta", "Alta", "Media"]
+    assert [fila["prioridad"] for fila in filas] == [
+        "Máxima",
+        "Máxima",
+        "Alta",
+        "Alta",
+        "Media",
+    ]
 
 
 def test_filtro_por_categoria_incluye_departamento_asignado(conexion):

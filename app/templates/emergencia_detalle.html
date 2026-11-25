@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block titulo %}Detalle de la emergencia — Barrio Conectado{% endblock %}
+{% block contenido %}
+{% if sin_gestor %}
+<h2>Detalle de la emergencia</h2>
+<p class="aviso">{{ mensaje_sin_gestor }}.</p>
+{% elif reporte is none %}
+<h2>Emergencia no encontrada</h2>
+<p>No existe una emergencia con ese número de seguimiento.</p>
+{% else %}
+<h2>Emergencia {{ reporte.numero_seguimiento }}</h2>
+{% if resultado %}
+<p class="{{ 'aviso' if not resultado.exito else '' }}">{{ resultado.mensaje }}</p>
+{% endif %}
+<ul class="datos">
+  <li><strong>Tipo:</strong> {{ reporte.categoria }}</li>
+  <li><strong>Estado actual:</strong> {{ reporte.estado }}</li>
+  <li><strong>Prioridad:</strong> {{ reporte.prioridad }}</li>
+  <li><strong>Fecha de registro:</strong> {{ reporte.fecha_hora_registro }}</li>
+  <li><strong>Departamento asignado:</strong> {{ reporte.departamento or "Sin asignar" }}</li>
+  <li><strong>Ubicación:</strong> {{ reporte.latitud }}, {{ reporte.longitud }}</li>
+  <li><strong>Referencia:</strong> {{ reporte.referencia or "Sin referencia" }}</li>
+  {% if reporte.descripcion %}<li><strong>Descripción:</strong> {{ reporte.descripcion }}</li>{% endif %}
+  <li><strong>Autor:</strong> {{ reporte.autor }}{% if reporte.contacto_autor %} ({{ reporte.contacto_autor }}){% endif %}</li>
+  <li><strong>Aviso al Gestor:</strong> {% if reporte.aviso_pendiente %}Pendiente de envío{% else %}Enviado{% endif %}</li>
+</ul>
+{% if reporte.estado == "Recibido" %}
+<form method="post" action="/emergencias/{{ reporte.numero_seguimiento }}/tomar-conocimiento">
+  <button type="submit">Tomar conocimiento</button>
+</form>
+{% endif %}
+<h3>Historial de cambios de estado</h3>
+{% if cambios %}
+<table class="tabla">
+  <thead>
+    <tr><th>Fecha</th><th>Estado anterior</th><th>Estado nuevo</th><th>Nota</th></tr>
+  </thead>
+  <tbody>
+    {% for cambio in cambios %}
+    <tr>
+      <td>{{ cambio.fecha_hora }}</td>
+      <td>{{ cambio.estado_anterior }}</td>
+      <td>{{ cambio.estado_nuevo }}</td>
+      <td>{% if cambio.nota %}{{ cambio.nota }}{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Sin cambios de estado registrados</p>
+{% endif %}
+{% endif %}
+<p><a href="/emergencias">Volver a la bandeja</a></p>
+{% endblock %}

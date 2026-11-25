@@ -17,8 +17,23 @@ class ResultadoAviso:
     mensaje: str
 
 
+@dataclass
+class SolicitudAvisoUrgente:
+    numero_seguimiento: str
+    tipo: str
+    ubicacion: str
+    destinatario: str
+
+
 class Notificador(Protocol):
     def solicitar_aviso(self, solicitud: SolicitudAviso) -> ResultadoAviso:
+        ...
+
+
+class NotificadorUrgente(Protocol):
+    def solicitar_aviso_urgente(
+        self, solicitud: SolicitudAvisoUrgente
+    ) -> ResultadoAviso:
         ...
 
 
@@ -41,3 +56,19 @@ class NotificacionesSimuladas:
             f"{solicitud.estado_nuevo}"
         )
         return ResultadoAviso(True, "aviso aceptado")
+
+    def solicitar_aviso_urgente(
+        self, solicitud: SolicitudAvisoUrgente
+    ) -> ResultadoAviso:
+        if not self.disponible:
+            print(
+                "[NotificacionesSimuladas] Aviso urgente pendiente para "
+                f"{solicitud.destinatario} ({solicitud.numero_seguimiento})"
+            )
+            return ResultadoAviso(False, "aviso urgente pendiente de envío")
+        print(
+            "[NotificacionesSimuladas] Aviso urgente aceptado para "
+            f"{solicitud.destinatario} ({solicitud.numero_seguimiento}): "
+            f"{solicitud.tipo} en {solicitud.ubicacion}"
+        )
+        return ResultadoAviso(True, "aviso urgente aceptado")

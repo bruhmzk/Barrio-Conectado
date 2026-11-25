@@ -28,4 +28,8 @@ def test_datos_de_ejemplo_idempotentes(conexion):
     antes = conexion.execute("SELECT COUNT(*) AS n FROM categorias").fetchone()["n"]
     sembrar(conexion)
     despues = conexion.execute("SELECT COUNT(*) AS n FROM categorias").fetchone()["n"]
-    assert antes == despues == 3
+    emergencias = conexion.execute(
+        "SELECT COUNT(*) AS n FROM categorias WHERE es_emergencia = 1"
+    ).fetchone()["n"]
+    assert antes == despues
+    assert emergencias == 3

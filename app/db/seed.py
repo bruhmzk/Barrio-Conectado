@@ -1,17 +1,22 @@
 from app.db.conexion import aplicar_migraciones, obtener_conexion
 
-DEPARTAMENTOS = ["Alumbrado", "Aseo", "Obras"]
+DEPARTAMENTOS = ["Alumbrado", "Aseo", "Obras", "Gestor de emergencias"]
 
 CATEGORIAS = [
-    ("Luminaria", "media", "Alumbrado"),
-    ("Microbasural", "alta", "Aseo"),
-    ("Bache", "alta", "Obras"),
+    ("Luminaria", "media", "Alumbrado", 0),
+    ("Microbasural", "alta", "Aseo", 0),
+    ("Bache", "alta", "Obras", 0),
+    ("Incendio", "alta", "Gestor de emergencias", 1),
+    ("Emergencia médica", "alta", "Gestor de emergencias", 1),
+    ("Accidente", "alta", "Gestor de emergencias", 1),
 ]
 
 USUARIOS = [
     ("Vecino Demo", "vecino@demo.cl", "vecino"),
     ("Administrador Demo", "admin@demo.cl", "administrador"),
     ("Vecino Demo 2", "vecino2@demo.cl", "vecino"),
+    ("Gestor Emergencias Demo", "emergencias@demo.cl", "gestor_emergencias"),
+    ("Vecina Emergencias", "vecina.emergencias@demo.cl", "vecino"),
 ]
 
 REPORTES_EJEMPLO = [
@@ -54,6 +59,36 @@ REPORTES_EJEMPLO = [
         "longitud": -70.68,
         "referencia": "Av. Principal",
     },
+    {
+        "numero": "BC-2026-000104",
+        "descripcion": "",
+        "estado": "Recibido",
+        "prioridad": "Máxima",
+        "autor": "Vecina Emergencias",
+        "categoria": "Incendio",
+        "fecha": "2026-11-21T08:05:00",
+        "foto": None,
+        "latitud": -33.455,
+        "longitud": -70.665,
+        "referencia": "Pasaje Los Aromos",
+        "es_emergencia": 1,
+        "aviso_pendiente": 0,
+    },
+    {
+        "numero": "BC-2026-000105",
+        "descripcion": "Colisión menor en la esquina",
+        "estado": "En atención por Gestor",
+        "prioridad": "Máxima",
+        "autor": "Vecina Emergencias",
+        "categoria": "Accidente",
+        "fecha": "2026-11-20T18:40:00",
+        "foto": None,
+        "latitud": -33.459,
+        "longitud": -70.662,
+        "referencia": "Esquina Av. Central con Los Aromos",
+        "es_emergencia": 1,
+        "aviso_pendiente": 0,
+    },
 ]
 
 CAMBIOS_EJEMPLO = [
@@ -64,6 +99,14 @@ CAMBIOS_EJEMPLO = [
         "estado_nuevo": "En revisión",
         "nota": "",
         "usuario": "Administrador Demo",
+    },
+    {
+        "numero": "BC-2026-000105",
+        "fecha": "2026-11-20T19:10:00",
+        "estado_anterior": "Recibido",
+        "estado_nuevo": "En atención por Gestor",
+        "nota": "",
+        "usuario": "Gestor Emergencias Demo",
     },
 ]
 
@@ -80,14 +123,15 @@ def sembrar(conn) -> None:
             conn.execute(
                 "INSERT OR IGNORE INTO departamentos (nombre) VALUES (?)", (nombre,)
             )
-        for nombre, urgencia, departamento in CATEGORIAS:
+        for nombre, urgencia, departamento, es_emergencia in CATEGORIAS:
             fila = conn.execute(
                 "SELECT id FROM departamentos WHERE nombre = ?", (departamento,)
             ).fetchone()
             conn.execute(
-                "INSERT OR IGNORE INTO categorias (nombre, urgencia_base, departamento_id) "
-                "VALUES (?, ?, ?)",
-                (nombre, urgencia, fila["id"]),
+                "INSERT OR IGNORE INTO categorias "
+                "(nombre, urgencia_base, departamento_id, es_emergencia) "
+                "VALUES (?, ?, ?, ?)",
+                (nombre, urgencia, fila["id"], es_emergencia),
             )
         for nombre, contacto, rol in USUARIOS:
             conn.execute(
@@ -104,14 +148,17 @@ def sembrar(conn) -> None:
             ).fetchone()
             conn.execute(
                 "INSERT OR IGNORE INTO reportes (numero_seguimiento, descripcion, "
-                "fecha_hora_registro, estado, prioridad, usuario_id, categoria_id) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "fecha_hora_registro, estado, prioridad, es_emergencia, aviso_pendiente, "
+                "usuario_id, categoria_id) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     datos["numero"],
                     datos["descripcion"],
                     datos["fecha"],
                     datos["estado"],
                     datos["prioridad"],
+                    datos.get("es_emergencia", 0),
+                    datos.get("aviso_pendiente", 0),
                     usuario_id,
                     categoria["id"],
                 ),
@@ -125,12 +172,13 @@ def sembrar(conn) -> None:
                 "VALUES (?, ?, ?, ?)",
                 (reporte_id, datos["latitud"], datos["longitud"], datos["referencia"]),
             )
-            conn.execute(
-                "INSERT INTO fotografias (reporte_id, archivo_imagen) "
-                "SELECT ?, ? WHERE NOT EXISTS "
-                "(SELECT 1 FROM fotografias WHERE reporte_id = ? AND archivo_imagen = ?)",
-                (reporte_id, datos["foto"], reporte_id, datos["foto"]),
-            )
+            if datos.get("foto"):
+                conn.execute(
+                    "INSERT INTO fotografias (reporte_id, archivo_imagen) "
+                    "SELECT ?, ? WHERE NOT EXISTS "
+                    "(SELECT 1 FROM fotografias WHERE reporte_id = ? AND archivo_imagen = ?)",
+                    (reporte_id, datos["foto"], reporte_id, datos["foto"]),
+                )
             conn.execute(
                 "INSERT INTO asignaciones (reporte_id, departamento_id, usuario_id, fecha_hora) "
                 "SELECT ?, ?, NULL, ? WHERE NOT EXISTS "

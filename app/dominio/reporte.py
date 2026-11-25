@@ -9,8 +9,16 @@ from app.integraciones.notificaciones import (
 )
 
 ESTADO_INICIAL = "Recibido"
-ESTADOS = ("Recibido", "En revisión", "Completado", "Descartado")
-PRIORIDADES = ("Alta", "Media", "Baja")
+ESTADOS = (
+    "Recibido",
+    "En revisión",
+    "Completado",
+    "Descartado",
+    "En atención por Gestor",
+    "Derivado a Autoridad",
+    "Resuelto",
+)
+PRIORIDADES = ("Máxima", "Alta", "Media", "Baja")
 
 
 @dataclass
@@ -117,7 +125,8 @@ def listar_reportes_para_administracion(
         sql += " WHERE " + " AND ".join(condiciones)
     sql += (
         " ORDER BY CASE r.prioridad "
-        "WHEN 'Alta' THEN 1 WHEN 'Media' THEN 2 WHEN 'Baja' THEN 3 ELSE 4 END, "
+        "WHEN 'Máxima' THEN 0 WHEN 'Alta' THEN 1 WHEN 'Media' THEN 2 "
+        "WHEN 'Baja' THEN 3 ELSE 4 END, "
         "r.fecha_hora_registro DESC"
     )
     return conn.execute(sql, valores).fetchall()
