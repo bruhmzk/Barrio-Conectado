@@ -58,6 +58,9 @@ class Notificacion as "Notificación" {
   estado
 }
 
+class Gestor {
+}
+
 Usuario "1" -- "0..*" Reporte : reporta >
 Reporte "0..*" -- "1" Categoria : se clasifica en >
 Categoria "1..*" -- "1" Departamento : corresponde a >
@@ -71,4 +74,6 @@ Asignacion "0..*" -- "0..1" Usuario : realizada por >
 CambioEstado "0..*" -- "1" Usuario : realizado por >
 CambioEstado "1" -- "1" Notificacion : genera >
 Notificacion "0..*" -- "1" Usuario : dirigida a >
+Gestor "1" -- "0..*" Reporte : gestiona >
+Gestor "1" -- "0..*" Notificacion : genera >
 @enduml
