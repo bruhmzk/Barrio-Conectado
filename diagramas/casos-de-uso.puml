@@ -36,7 +36,7 @@ Emer -- CU10
 
 CU01 -- Mapas
 CU05 -- Notif
-CU09 -- Mapas
+CU09 -- Emer
 CU10 -- Notif
 
 CU04 ..> CU05 : <<include>>
