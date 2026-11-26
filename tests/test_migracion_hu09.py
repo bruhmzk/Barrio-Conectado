@@ -110,3 +110,21 @@ def test_migracion_emergencias_acepta_estados_prioridad_y_rol_nuevos(tmp_path):
         assert indice is not None
     finally:
         conn.close()
+
+
+def test_migracion_direccion_conserva_las_ubicaciones_previas(tmp_path):
+    conn = _base_anterior(tmp_path / "direccion.db")
+    try:
+        conn.execute("PRAGMA foreign_keys = ON")
+        conn.executescript((DIR_MIGRACIONES / "003_emergencias.sql").read_text("utf-8"))
+        conn.executescript((DIR_MIGRACIONES / "004_direccion.sql").read_text("utf-8"))
+
+        columnas = {
+            fila["name"] for fila in conn.execute("PRAGMA table_info(ubicaciones)")
+        }
+        assert {"direccion", "referencia"} <= columnas
+        ubicacion = conn.execute("SELECT * FROM ubicaciones").fetchone()
+        assert ubicacion["direccion"] == "Av. Central"
+        assert conn.execute("PRAGMA foreign_key_check").fetchall() == []
+    finally:
+        conn.close()

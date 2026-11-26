@@ -26,8 +26,6 @@ MENSAJE_SIN_GESTOR = (
 MENSAJE_SIN_USUARIO = (
     "Selecciona un usuario de demostración antes de registrar la emergencia"
 )
-LATITUD_DEMO = "-33.4500"
-LONGITUD_DEMO = "-70.6600"
 
 
 def _es_gestor(usuario):
@@ -41,8 +39,6 @@ def _contexto_formulario(conn, usuario, errores, valores):
         "categorias": listar_categorias_emergencia(conn),
         "errores": errores,
         "valores": valores,
-        "latitud_demo": LATITUD_DEMO,
-        "longitud_demo": LONGITUD_DEMO,
     }
 
 
@@ -69,7 +65,7 @@ def bandeja(
 def formulario(
     request: Request, conn=Depends(obtener_db), usuario=Depends(usuario_actual)
 ):
-    valores = {"latitud": LATITUD_DEMO, "longitud": LONGITUD_DEMO}
+    valores = {}
     return render(
         request,
         "emergencia_nueva.html",
@@ -82,16 +78,14 @@ def crear(
     request: Request,
     categoria_id: str = Form(""),
     descripcion: str = Form(""),
-    latitud: str = Form(""),
-    longitud: str = Form(""),
+    direccion: str = Form(""),
     conn=Depends(obtener_db),
     usuario=Depends(usuario_actual),
 ):
     valores = {
         "categoria_id": categoria_id,
         "descripcion": descripcion,
-        "latitud": latitud,
-        "longitud": longitud,
+        "direccion": direccion,
     }
 
     if usuario is None:
@@ -104,7 +98,7 @@ def crear(
 
     try:
         resultado = registrar_emergencia(
-            conn, usuario["id"], categoria_id, descripcion, latitud, longitud
+            conn, usuario["id"], categoria_id, descripcion, direccion
         )
     except ErrorValidacionEmergencia as exc:
         return render(

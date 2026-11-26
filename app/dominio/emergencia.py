@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from app.dominio.categoria import asegurar_categorias
+
 PRIORIDAD_MAXIMA = "Máxima"
 ESTADO_RECIBIDO = "Recibido"
 ESTADO_EN_ATENCION = "En atención por Gestor"
@@ -13,6 +15,7 @@ class ResultadoToma:
 
 
 def listar_categorias_emergencia(conn):
+    asegurar_categorias(conn)
     return conn.execute(
         "SELECT id, nombre FROM categorias WHERE es_emergencia = 1 ORDER BY nombre"
     ).fetchall()
@@ -48,7 +51,7 @@ def obtener_emergencia(conn, numero_seguimiento):
     return conn.execute(
         "SELECT r.*, c.nombre AS categoria, u.nombre AS autor, "
         "u.medio_contacto AS contacto_autor, "
-        "ub.latitud, ub.longitud, ub.referencia, d.nombre AS departamento "
+        "ub.direccion, ub.referencia, d.nombre AS departamento "
         "FROM reportes r "
         "JOIN categorias c ON c.id = r.categoria_id "
         "JOIN usuarios u ON u.id = r.usuario_id "

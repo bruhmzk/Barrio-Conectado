@@ -10,7 +10,7 @@
   <li>Estado: {{ reporte.estado }}</li>
   <li>Prioridad: {{ reporte.prioridad }}</li>
   <li>Departamento asignado: {{ reporte.departamento }}</li>
-  <li>Ubicación: {{ reporte.referencia or "Sin referencia" }}</li>
+  <li>Dirección: {{ reporte.direccion or reporte.referencia or "Sin dirección" }}</li>
   <li>Fecha y hora: {{ reporte.fecha_hora_registro }}</li>
 </ul>
 {% if reporte.aviso_pendiente %}

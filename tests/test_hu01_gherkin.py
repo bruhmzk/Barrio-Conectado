@@ -3,8 +3,7 @@ def _datos_formulario(datos, **extra):
     valores = {
         "categoria_id": str(categoria),
         "descripcion": "Bache en la esquina",
-        "latitud": "-33.45",
-        "longitud": "-70.66",
+        "direccion": "Av. Central 123",
     }
     valores.update(extra)
     return valores
@@ -36,7 +35,7 @@ def test_intento_de_registro_con_datos_incompletos(client, conexion, elegir_usua
     antes = conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"]
     respuesta = client.post(
         "/reportes",
-        data={"categoria_id": "", "descripcion": "", "latitud": "", "longitud": ""},
+        data={"categoria_id": "", "descripcion": "", "direccion": ""},
     )
     assert respuesta.status_code == 400
     assert "datos obligatorios" in respuesta.text.lower()
@@ -44,33 +43,34 @@ def test_intento_de_registro_con_datos_incompletos(client, conexion, elegir_usua
     assert despues == antes
 
 
-def test_ubicacion_valida(client, conexion, datos, elegir_usuario):
+def test_direccion_guardada(client, conexion, datos, elegir_usuario):
     elegir_usuario()
     respuesta = client.post(
         "/reportes",
-        data=_datos_formulario(datos, latitud="-33.4", longitud="-70.6"),
+        data=_datos_formulario(datos, direccion="Pasaje Los Aromos 45"),
         files=_foto(),
         follow_redirects=False,
     )
     assert respuesta.status_code == 303
     numero = respuesta.headers["location"].split("/")[2]
     ubicacion = conexion.execute(
-        "SELECT u.referencia FROM ubicaciones u "
+        "SELECT u.direccion, u.referencia FROM ubicaciones u "
         "JOIN reportes r ON r.id = u.reporte_id "
         "WHERE r.numero_seguimiento = ?",
         (numero,),
     ).fetchone()
-    assert ubicacion["referencia"]
+    assert ubicacion["direccion"] == "Pasaje Los Aromos 45"
+    assert ubicacion["referencia"] == "Pasaje Los Aromos 45"
 
 
-def test_ubicacion_no_valida(client, conexion, datos, elegir_usuario):
+def test_direccion_vacia_no_registra(client, conexion, datos, elegir_usuario):
     elegir_usuario()
     antes = conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"]
     respuesta = client.post(
-        "/reportes", data=_datos_formulario(datos, latitud="120"), files=_foto()
+        "/reportes", data=_datos_formulario(datos, direccion="   "), files=_foto()
     )
     assert respuesta.status_code == 400
-    assert "no es válida" in respuesta.text
+    assert "Falta la dirección." in respuesta.text
     despues = conexion.execute("SELECT COUNT(*) AS n FROM reportes").fetchone()["n"]
     assert despues == antes
 
@@ -110,8 +110,10 @@ def test_formulario_muestra_campos_obligatorios(client, elegir_usuario):
     elegir_usuario()
     respuesta = client.get("/reportes/nuevo")
     assert respuesta.status_code == 200
-    for texto in ("Categoría", "Descripción", "Fotografía", "Latitud", "Longitud"):
+    for texto in ("Categoría", "Descripción", "Fotografía", "Dirección"):
         assert texto in respuesta.text
+    assert "Latitud" not in respuesta.text
+    assert "Longitud" not in respuesta.text
 
 
 def test_confirmacion_muestra_numero_de_seguimiento(client, datos, elegir_usuario):
@@ -126,3 +128,12 @@ def test_confirmacion_muestra_numero_de_seguimiento(client, datos, elegir_usuari
     confirmacion = client.get(f"/reportes/{numero}/confirmacion")
     assert confirmacion.status_code == 200
     assert numero in confirmacion.text
+
+
+def test_selector_muestra_todas_las_categorias_disponibles(client, elegir_usuario):
+    elegir_usuario()
+    respuesta = client.get("/reportes/nuevo")
+    opciones = respuesta.text.count('<option value="')
+    for categoria in ("Luminaria", "Microbasural", "Bache", "Incendio"):
+        assert f">{categoria}</option>" in respuesta.text
+    assert opciones >= 5

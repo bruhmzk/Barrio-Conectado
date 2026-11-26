@@ -31,7 +31,7 @@ def test_detalle_muestra_ubicacion_e_historial(client, elegir_usuario):
 
     assert respuesta.status_code == 200
     assert "Pasaje Los Aromos" in respuesta.text
-    assert "-33.455" in respuesta.text
+    assert "Dirección:" in respuesta.text
     assert "Incendio" in respuesta.text
     assert "Recibido" in respuesta.text
     assert "Tomar conocimiento" in respuesta.text

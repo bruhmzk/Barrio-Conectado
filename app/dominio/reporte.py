@@ -53,11 +53,13 @@ def generar_numero_seguimiento(conn) -> str:
 
 def obtener_reporte_por_numero(conn, numero_seguimiento: str):
     return conn.execute(
-        "SELECT r.*, c.nombre AS categoria, d.nombre AS departamento "
+        "SELECT r.*, c.nombre AS categoria, d.nombre AS departamento, "
+        "ub.direccion, ub.referencia "
         "FROM reportes r "
         "JOIN categorias c ON c.id = r.categoria_id "
         "LEFT JOIN asignaciones a ON a.reporte_id = r.id "
         "LEFT JOIN departamentos d ON d.id = a.departamento_id "
+        "LEFT JOIN ubicaciones ub ON ub.reporte_id = r.id "
         "WHERE r.numero_seguimiento = ? "
         "ORDER BY a.id LIMIT 1",
         (numero_seguimiento,),
@@ -78,11 +80,13 @@ def listar_reportes_de_usuario(conn, usuario_id):
 
 def obtener_reporte_para_usuario(conn, numero_seguimiento: str, usuario_id):
     return conn.execute(
-        "SELECT r.*, c.nombre AS categoria, d.nombre AS departamento "
+        "SELECT r.*, c.nombre AS categoria, d.nombre AS departamento, "
+        "ub.direccion, ub.referencia "
         "FROM reportes r "
         "JOIN categorias c ON c.id = r.categoria_id "
         "LEFT JOIN asignaciones a ON a.reporte_id = r.id "
         "LEFT JOIN departamentos d ON d.id = a.departamento_id "
+        "LEFT JOIN ubicaciones ub ON ub.reporte_id = r.id "
         "WHERE r.numero_seguimiento = ? AND r.usuario_id = ? "
         "ORDER BY a.id LIMIT 1",
         (numero_seguimiento, usuario_id),

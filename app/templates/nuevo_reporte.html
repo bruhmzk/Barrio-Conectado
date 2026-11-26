@@ -26,13 +26,10 @@
   <label>Fotografía *
     <input type="file" name="foto" accept="image/*" required>
   </label>
-  <label>Latitud *
-    <input type="number" name="latitud" step="any" min="-90" max="90" value="{{ valores.latitud or '' }}" required>
+  <label>Dirección *
+    <input type="text" name="direccion" value="{{ valores.direccion or '' }}" placeholder="Ej.: Av. Central 123" required>
   </label>
-  <label>Longitud *
-    <input type="number" name="longitud" step="any" min="-180" max="180" value="{{ valores.longitud or '' }}" required>
-  </label>
-  <p class="ayuda">La ubicación se valida con el Servicio de mapas y geolocalización (simulado).</p>
+  <p class="ayuda">Escribe la dirección o referencia del lugar del problema.</p>
   <button type="submit">Enviar reporte</button>
 </form>
 {% endblock %}

@@ -57,8 +57,7 @@ def crear(
     request: Request,
     categoria_id: str = Form(""),
     descripcion: str = Form(""),
-    latitud: str = Form(""),
-    longitud: str = Form(""),
+    direccion: str = Form(""),
     foto: UploadFile | None = File(None),
     conn=Depends(obtener_db),
     usuario=Depends(usuario_actual),
@@ -66,8 +65,7 @@ def crear(
     valores = {
         "categoria_id": categoria_id,
         "descripcion": descripcion,
-        "latitud": latitud,
-        "longitud": longitud,
+        "direccion": direccion,
     }
 
     if usuario is None:
@@ -82,7 +80,7 @@ def crear(
     archivo = foto.filename if foto is not None else ""
     try:
         resultado = registrar_reporte(
-            conn, usuario["id"], categoria_id, descripcion, archivo, latitud, longitud
+            conn, usuario["id"], categoria_id, descripcion, archivo, direccion
         )
     except ErrorValidacion as exc:
         return render(

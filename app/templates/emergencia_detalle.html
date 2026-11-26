@@ -18,8 +18,7 @@
   <li><strong>Prioridad:</strong> {{ reporte.prioridad }}</li>
   <li><strong>Fecha de registro:</strong> {{ reporte.fecha_hora_registro }}</li>
   <li><strong>Departamento asignado:</strong> {{ reporte.departamento or "Sin asignar" }}</li>
-  <li><strong>Ubicación:</strong> {{ reporte.latitud }}, {{ reporte.longitud }}</li>
-  <li><strong>Referencia:</strong> {{ reporte.referencia or "Sin referencia" }}</li>
+  <li><strong>Dirección:</strong> {{ reporte.direccion or reporte.referencia or "Sin dirección" }}</li>
   {% if reporte.descripcion %}<li><strong>Descripción:</strong> {{ reporte.descripcion }}</li>{% endif %}
   <li><strong>Autor:</strong> {{ reporte.autor }}{% if reporte.contacto_autor %} ({{ reporte.contacto_autor }}){% endif %}</li>
   <li><strong>Aviso al Gestor:</strong> {% if reporte.aviso_pendiente %}Pendiente de envío{% else %}Enviado{% endif %}</li>

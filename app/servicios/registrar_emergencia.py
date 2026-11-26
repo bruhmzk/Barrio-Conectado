@@ -9,7 +9,6 @@ from app.dominio.emergencia import (
     obtener_departamento_emergencias,
 )
 from app.dominio.reporte import generar_numero_seguimiento
-from app.integraciones.mapas import MapasSimulados, ValidadorUbicacion
 from app.integraciones.notificaciones import (
     NotificacionesSimuladas,
     NotificadorUrgente,
@@ -32,20 +31,13 @@ class ResultadoRegistroEmergencia:
     mensaje_aviso: str
 
 
-def validar_datos(categoria_id, latitud, longitud) -> list[str]:
+def validar_datos(categoria_id, direccion: str) -> list[str]:
     errores = []
     if not categoria_id:
         errores.append("Falta el tipo de emergencia.")
-    if latitud in (None, "") or longitud in (None, ""):
-        errores.append("Falta la ubicación.")
+    if not (direccion or "").strip():
+        errores.append("Falta la dirección.")
     return errores
-
-
-def _a_float(valor):
-    try:
-        return float(valor)
-    except (TypeError, ValueError):
-        return None
 
 
 def registrar_emergencia(
@@ -53,12 +45,10 @@ def registrar_emergencia(
     usuario_id: int,
     categoria_id,
     descripcion: str,
-    latitud,
-    longitud,
-    validador: ValidadorUbicacion | None = None,
+    direccion: str,
     notificador: NotificadorUrgente | None = None,
 ) -> ResultadoRegistroEmergencia:
-    errores = validar_datos(categoria_id, latitud, longitud)
+    errores = validar_datos(categoria_id, direccion)
     if errores:
         raise ErrorValidacionEmergencia(errores)
 
@@ -71,20 +61,7 @@ def registrar_emergencia(
     if categoria is None or not categoria["es_emergencia"]:
         raise ErrorValidacionEmergencia(["El tipo de emergencia no es válido."])
 
-    lat = _a_float(latitud)
-    lon = _a_float(longitud)
-    if lat is None or lon is None:
-        raise ErrorValidacionEmergencia(
-            ["La ubicación no es válida. Ingresa una nueva ubicación."]
-        )
-
-    validador = validador or MapasSimulados()
-    ubicacion = validador.validar(lat, lon)
-    if not ubicacion.valida:
-        raise ErrorValidacionEmergencia(
-            ["La ubicación no es válida. Ingresa una nueva ubicación."]
-        )
-
+    direccion_limpia = direccion.strip()
     departamento = obtener_departamento_emergencias(conn)
     departamento_id = (
         departamento["id"] if departamento is not None else categoria["departamento_id"]
@@ -111,9 +88,9 @@ def registrar_emergencia(
         )
         reporte_id = cursor.lastrowid
         conn.execute(
-            "INSERT INTO ubicaciones (reporte_id, latitud, longitud, referencia) "
-            "VALUES (?, ?, ?, ?)",
-            (reporte_id, lat, lon, ubicacion.referencia),
+            "INSERT INTO ubicaciones (reporte_id, direccion, referencia) "
+            "VALUES (?, ?, ?)",
+            (reporte_id, direccion_limpia, direccion_limpia),
         )
         conn.execute(
             "INSERT INTO asignaciones (reporte_id, departamento_id, usuario_id, "
@@ -128,7 +105,7 @@ def registrar_emergencia(
             SolicitudAvisoUrgente(
                 numero_seguimiento=numero,
                 tipo=categoria["nombre"],
-                ubicacion=ubicacion.referencia,
+                ubicacion=direccion_limpia,
                 destinatario=DEPARTAMENTO_EMERGENCIAS,
             )
         )

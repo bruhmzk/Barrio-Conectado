@@ -32,7 +32,7 @@ def test_registro_exitoso_con_datos_minimos(conexion):
     antes = _total_reportes(conexion)
 
     resultado = registrar_emergencia(
-        conexion, vecino, categoria, "", "-33.4500", "-70.6600"
+        conexion, vecino, categoria, "", "Av. Central 123"
     )
 
     assert _total_reportes(conexion) == antes + 1
@@ -52,7 +52,8 @@ def test_registro_exitoso_con_datos_minimos(conexion):
     ubicacion = conexion.execute(
         "SELECT * FROM ubicaciones WHERE reporte_id = ?", (fila["id"],)
     ).fetchone()
-    assert ubicacion["latitud"] == -33.45
+    assert ubicacion["direccion"] == "Av. Central 123"
+    assert ubicacion["referencia"] == "Av. Central 123"
 
 
 def test_rechaza_datos_minimos_incompletos(conexion):
@@ -60,10 +61,10 @@ def test_rechaza_datos_minimos_incompletos(conexion):
     antes = _total_reportes(conexion)
 
     with pytest.raises(ErrorValidacionEmergencia) as exc:
-        registrar_emergencia(conexion, vecino, "", "", "", "")
+        registrar_emergencia(conexion, vecino, "", "", "")
 
     assert "Falta el tipo de emergencia." in exc.value.errores
-    assert "Falta la ubicación." in exc.value.errores
+    assert "Falta la dirección." in exc.value.errores
     assert _total_reportes(conexion) == antes
 
 
@@ -72,20 +73,20 @@ def test_rechaza_una_categoria_que_no_es_emergencia(conexion):
     antes = _total_reportes(conexion)
 
     with pytest.raises(ErrorValidacionEmergencia) as exc:
-        registrar_emergencia(conexion, vecino, normal, "", "-33.45", "-70.66")
+        registrar_emergencia(conexion, vecino, normal, "", "Av. Central 123")
 
     assert "El tipo de emergencia no es válido." in exc.value.errores
     assert _total_reportes(conexion) == antes
 
 
-def test_rechaza_una_ubicacion_no_valida(conexion):
+def test_rechaza_una_direccion_vacia(conexion):
     categoria, vecino, _ = _ids(conexion)
     antes = _total_reportes(conexion)
 
     with pytest.raises(ErrorValidacionEmergencia) as exc:
-        registrar_emergencia(conexion, vecino, categoria, "", "999", "-70.66")
+        registrar_emergencia(conexion, vecino, categoria, "", "   ")
 
-    assert "La ubicación no es válida. Ingresa una nueva ubicación." in exc.value.errores
+    assert "Falta la dirección." in exc.value.errores
     assert _total_reportes(conexion) == antes
 
 
@@ -97,8 +98,7 @@ def test_notificacion_no_disponible_deja_el_aviso_pendiente(conexion):
         vecino,
         categoria,
         "",
-        "-33.45",
-        "-70.66",
+        "Av. Central 123",
         notificador=NotificacionesSimuladas(disponible=False),
     )
 

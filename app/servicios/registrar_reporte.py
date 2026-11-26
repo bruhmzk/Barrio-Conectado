@@ -7,7 +7,6 @@ from app.dominio.reporte import (
     generar_numero_seguimiento,
     prioridad_desde_urgencia,
 )
-from app.integraciones.mapas import MapasSimulados, ValidadorUbicacion
 
 
 class ErrorValidacion(Exception):
@@ -26,8 +25,7 @@ def validar_datos(
     categoria_id,
     descripcion: str,
     archivo_foto: str,
-    latitud,
-    longitud,
+    direccion: str,
 ) -> list[str]:
     errores = []
     if not categoria_id:
@@ -36,16 +34,9 @@ def validar_datos(
         errores.append("Falta la descripción.")
     if not (archivo_foto or "").strip():
         errores.append("Falta la fotografía.")
-    if latitud in (None, "") or longitud in (None, ""):
-        errores.append("Falta la ubicación.")
+    if not (direccion or "").strip():
+        errores.append("Falta la dirección.")
     return errores
-
-
-def _a_float(valor):
-    try:
-        return float(valor)
-    except (TypeError, ValueError):
-        return None
 
 
 def registrar_reporte(
@@ -54,29 +45,22 @@ def registrar_reporte(
     categoria_id,
     descripcion: str,
     archivo_foto: str,
-    latitud,
-    longitud,
-    validador: ValidadorUbicacion | None = None,
+    direccion: str,
 ) -> ResultadoRegistro:
-    errores = validar_datos(categoria_id, descripcion, archivo_foto, latitud, longitud)
+    errores = validar_datos(categoria_id, descripcion, archivo_foto, direccion)
     if errores:
         raise ErrorValidacion(errores)
 
-    cat_id = int(categoria_id)
+    try:
+        cat_id = int(categoria_id)
+    except (TypeError, ValueError):
+        raise ErrorValidacion(["La categoría seleccionada no existe."])
+
     categoria = obtener_categoria(conn, cat_id)
     if categoria is None:
         raise ErrorValidacion(["La categoría seleccionada no existe."])
 
-    lat = _a_float(latitud)
-    lon = _a_float(longitud)
-    if lat is None or lon is None:
-        raise ErrorValidacion(["La ubicación no es válida. Ingresa una nueva ubicación."])
-
-    validador = validador or MapasSimulados()
-    ubicacion = validador.validar(lat, lon)
-    if not ubicacion.valida:
-        raise ErrorValidacion(["La ubicación no es válida. Ingresa una nueva ubicación."])
-
+    direccion_limpia = direccion.strip()
     numero = generar_numero_seguimiento(conn)
     prioridad = prioridad_desde_urgencia(categoria["urgencia_base"])
     fecha = datetime.now().isoformat(timespec="seconds")
@@ -97,9 +81,9 @@ def registrar_reporte(
         )
         reporte_id = cursor.lastrowid
         conn.execute(
-            "INSERT INTO ubicaciones (reporte_id, latitud, longitud, referencia) "
-            "VALUES (?, ?, ?, ?)",
-            (reporte_id, lat, lon, ubicacion.referencia),
+            "INSERT INTO ubicaciones (reporte_id, direccion, referencia) "
+            "VALUES (?, ?, ?)",
+            (reporte_id, direccion_limpia, direccion_limpia),
         )
         conn.execute(
             "INSERT INTO fotografias (reporte_id, archivo_imagen) VALUES (?, ?)",

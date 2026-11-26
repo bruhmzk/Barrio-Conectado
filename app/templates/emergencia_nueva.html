@@ -11,7 +11,7 @@
 {% if not usuario %}
 <p class="aviso">Selecciona un usuario de demostración en la cabecera para registrar la emergencia.</p>
 {% endif %}
-<p>Este formulario es el más corto posible: indica el tipo de emergencia y la ubicación, y envía.</p>
+<p>Este formulario es el más corto posible: indica el tipo de emergencia, la dirección y envía.</p>
 <form method="post" action="/emergencias">
   <label>Tipo de emergencia *
     <select name="categoria_id" required>
@@ -21,16 +21,13 @@
       {% endfor %}
     </select>
   </label>
-  <label>Latitud *
-    <input type="number" name="latitud" step="any" min="-90" max="90" value="{{ valores.latitud or latitud_demo }}" required>
-  </label>
-  <label>Longitud *
-    <input type="number" name="longitud" step="any" min="-180" max="180" value="{{ valores.longitud or longitud_demo }}" required>
+  <label>Dirección *
+    <input type="text" name="direccion" value="{{ valores.direccion or '' }}" placeholder="Ej.: Av. Central 123" required>
   </label>
   <label>Descripción (opcional)
     <textarea name="descripcion" rows="2">{{ valores.descripcion or "" }}</textarea>
   </label>
-  <p class="ayuda">La ubicación se valida con el Servicio de mapas y geolocalización (simulado). Los datos vienen precargados para la demostración.</p>
+  <p class="ayuda">El reporte se registra con prioridad Máxima y se deriva al Gestor de emergencias.</p>
   <button type="submit">Enviar emergencia</button>
 </form>
 <p><a href="/">Volver al inicio</a></p>

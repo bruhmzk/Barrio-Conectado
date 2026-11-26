@@ -29,9 +29,7 @@ REPORTES_EJEMPLO = [
         "categoria": "Luminaria",
         "fecha": "2026-11-18T09:30:00",
         "foto": "luminaria.jpg",
-        "latitud": -33.45,
-        "longitud": -70.66,
-        "referencia": "Esquina Av. Central",
+        "direccion": "Esquina Av. Central",
     },
     {
         "numero": "BC-2026-000102",
@@ -42,9 +40,7 @@ REPORTES_EJEMPLO = [
         "categoria": "Microbasural",
         "fecha": "2026-11-19T14:10:00",
         "foto": "microbasural.jpg",
-        "latitud": -33.46,
-        "longitud": -70.67,
-        "referencia": "Plaza central",
+        "direccion": "Plaza central",
     },
     {
         "numero": "BC-2026-000103",
@@ -55,9 +51,7 @@ REPORTES_EJEMPLO = [
         "categoria": "Bache",
         "fecha": "2026-11-20T11:00:00",
         "foto": "bache.jpg",
-        "latitud": -33.47,
-        "longitud": -70.68,
-        "referencia": "Av. Principal",
+        "direccion": "Av. Principal",
     },
     {
         "numero": "BC-2026-000104",
@@ -68,9 +62,7 @@ REPORTES_EJEMPLO = [
         "categoria": "Incendio",
         "fecha": "2026-11-21T08:05:00",
         "foto": None,
-        "latitud": -33.455,
-        "longitud": -70.665,
-        "referencia": "Pasaje Los Aromos",
+        "direccion": "Pasaje Los Aromos",
         "es_emergencia": 1,
         "aviso_pendiente": 0,
     },
@@ -83,9 +75,7 @@ REPORTES_EJEMPLO = [
         "categoria": "Accidente",
         "fecha": "2026-11-20T18:40:00",
         "foto": None,
-        "latitud": -33.459,
-        "longitud": -70.662,
-        "referencia": "Esquina Av. Central con Los Aromos",
+        "direccion": "Esquina Av. Central con Los Aromos",
         "es_emergencia": 1,
         "aviso_pendiente": 0,
     },
@@ -168,9 +158,9 @@ def sembrar(conn) -> None:
                 (datos["numero"],),
             ).fetchone()["id"]
             conn.execute(
-                "INSERT OR IGNORE INTO ubicaciones (reporte_id, latitud, longitud, referencia) "
-                "VALUES (?, ?, ?, ?)",
-                (reporte_id, datos["latitud"], datos["longitud"], datos["referencia"]),
+                "INSERT OR IGNORE INTO ubicaciones (reporte_id, direccion, referencia) "
+                "VALUES (?, ?, ?)",
+                (reporte_id, datos["direccion"], datos["direccion"]),
             )
             if datos.get("foto"):
                 conn.execute(
